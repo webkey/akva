@@ -48,70 +48,65 @@ function printShow() {
 function mainSlider() {
 	'use strict';
 
-	var $locate = $('.locate-js');
-	if (!$locate.length) return false;
+	var $container = $('.main-slider-js');
+	if (!$container.length) return false;
 
 	var activeClass = 'active',
 		hideClass = 'hide',
-		tabEvent = true,
 		index = 0;
 
 	var $tab = [
-		'.locate-bg-js',
-		'.locate-adr-js',
-		'.locate-cont-js'
+		'.main-slider-bg-js',
+		'.main-slider-img-js',
+		'.main-slider-desks-js',
+		'.main-slider-title-js',
+		'.main-slider-dots-js button'
 	];
 
-	var $map = $('.local-map-js');
-
-	$('.locate-controls-js').on('click', 'a', function (e) {
+	$('.main-slider-dots-js').on('click', 'button', function (e) {
 		e.preventDefault();
 
 		var $currentBtn = $(this);
 
 		if ($currentBtn.hasClass(activeClass)) return false;
 
-		var $currentWrapper = $currentBtn.closest($locate);
+		var $currentWrapper = $currentBtn.closest($container);
 		index = $currentBtn.index();
 
-		$('.locate-controls-js a').removeClass(activeClass);
-		$currentBtn.addClass(activeClass);
+		// $('.main-slider-dots-js button').removeClass(activeClass);
+		// $currentBtn.addClass(activeClass);
 
-		if (tabEvent){
-			switchStateTab($currentWrapper,$tab);
-			switchStateTab($currentWrapper,$tab,index);
-		}
-
-		if (!tabEvent){
-			switchStateTab($currentWrapper,$map);
-			switchStateTab($currentWrapper,$map,index);
-		}
+		switchStateTab($currentWrapper,$tab);
+		switchStateTab($currentWrapper,$tab,index);
 
 		return index;
 	});
 
-	$('.see-map-js').on('click', function (e) {
+	$('.main-slider-arrow-js').on('click', function (e) {
 		e.preventDefault();
 
-		var $currentBtn = $(this),
-			$currentWrapper = $currentBtn.closest('.locate-js');
+		var $currentBtn = $(this);
+		var $currentWrapper = $currentBtn.closest($container);
+		var length = $currentBtn.closest($container).find('.main-slider-img-js').length;
 
-		$currentBtn.toggleClass(activeClass, tabEvent);
-		$currentWrapper.toggleClass('map-show', tabEvent);
-		$currentWrapper.find('.locate-tabs-js').toggleClass(hideClass, tabEvent);
-
-		if (!tabEvent) {
-			tabEvent = true;
-
-			switchStateTab($currentWrapper,$tab,index);
-			switchStateTab($currentWrapper,$map);
-
+		if ($currentBtn.data('direction') === "prev") {
+			if (index <= 0) {
+				index = index - 1 + length;
+			} else {
+				index = index - 1;
+			}
 		} else {
-			tabEvent = false;
-
-			switchStateTab($currentWrapper,$tab);
-			switchStateTab($currentWrapper,$map,index);
+			if (index >= length - 1) {
+				index = index + 1 - length;
+			} else {
+				index = index + 1;
+			}
 		}
+
+		switchStateTab($currentWrapper,$tab);
+		switchStateTab($currentWrapper,$tab,index);
+
+		return index;
 	});
 
 	function switchStateTab(content,tab,index) {
@@ -133,6 +128,8 @@ function mainSlider() {
 			}
 		}
 	}
+	
+	
 }
 /*main slider end*/
 
@@ -241,6 +238,8 @@ jQuery(document).ready(function(){
 					if( $('.no-csstransitions').length > 0 ) {
 						resetAfterAnimation(section);
 					}
+
+					mainSlider();
 
 					var url = newSection+'.html';
 
