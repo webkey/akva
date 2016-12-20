@@ -44,11 +44,104 @@ function printShow() {
 }
 /*print end*/
 
+/*main slider*/
+function mainSlider() {
+	'use strict';
+
+	var $locate = $('.locate-js');
+	if (!$locate.length) return false;
+
+	var activeClass = 'active',
+		hideClass = 'hide',
+		tabEvent = true,
+		index = 0;
+
+	var $tab = [
+		'.locate-bg-js',
+		'.locate-adr-js',
+		'.locate-cont-js'
+	];
+
+	var $map = $('.local-map-js');
+
+	$('.locate-controls-js').on('click', 'a', function (e) {
+		e.preventDefault();
+
+		var $currentBtn = $(this);
+
+		if ($currentBtn.hasClass(activeClass)) return false;
+
+		var $currentWrapper = $currentBtn.closest($locate);
+		index = $currentBtn.index();
+
+		$('.locate-controls-js a').removeClass(activeClass);
+		$currentBtn.addClass(activeClass);
+
+		if (tabEvent){
+			switchStateTab($currentWrapper,$tab);
+			switchStateTab($currentWrapper,$tab,index);
+		}
+
+		if (!tabEvent){
+			switchStateTab($currentWrapper,$map);
+			switchStateTab($currentWrapper,$map,index);
+		}
+
+		return index;
+	});
+
+	$('.see-map-js').on('click', function (e) {
+		e.preventDefault();
+
+		var $currentBtn = $(this),
+			$currentWrapper = $currentBtn.closest('.locate-js');
+
+		$currentBtn.toggleClass(activeClass, tabEvent);
+		$currentWrapper.toggleClass('map-show', tabEvent);
+		$currentWrapper.find('.locate-tabs-js').toggleClass(hideClass, tabEvent);
+
+		if (!tabEvent) {
+			tabEvent = true;
+
+			switchStateTab($currentWrapper,$tab,index);
+			switchStateTab($currentWrapper,$map);
+
+		} else {
+			tabEvent = false;
+
+			switchStateTab($currentWrapper,$tab);
+			switchStateTab($currentWrapper,$map,index);
+		}
+	});
+
+	function switchStateTab(content,tab,index) {
+		// if property "index" length class added
+		// else class removed
+		if (Array.isArray(tab)){
+			for(var i = 0; i < tab.length; i++) {
+				if (index !== undefined) {
+					content.find(tab[i]).eq(index).addClass(activeClass);
+				} else {
+					content.find(tab[i]).removeClass(activeClass);
+				}
+			}
+		} else {
+			if (index !== undefined) {
+				content.find(tab).eq(index).addClass(activeClass);
+			} else {
+				content.find(tab).removeClass(activeClass);
+			}
+		}
+	}
+}
+/*main slider end*/
+
 /** ready/load/resize document **/
 
 jQuery(document).ready(function(){
-	// placeholderInit();
-	// printShow();
+	placeholderInit();
+	printShow();
+	mainSlider();
 
 	//set some variables
 	var isAnimating = false,
@@ -130,7 +223,7 @@ jQuery(document).ready(function(){
 			loadingBarAnimation();
 
 			//create a new section element and insert it into the DOM
-			var section = $('<section class="main cd-section overflow-hidden '+newSection+'"></section>').appendTo(mainContent);
+			var section = $('<section class="main cd-section overflow-hidden '+newSection+'"></section>').prependTo(mainContent);
 			//load the new content from the proper html file
 			section.load(newSection+'.html .cd-section > *', function(event){
 				//finish up the animation and then make the new section visible
@@ -177,7 +270,7 @@ jQuery(document).ready(function(){
 
 	function resetAfterAnimation(newSection) {
 		//once the new section animation is over, remove the old section and make the new one scrollable
-		newSection.removeClass('overflow-hidden').prev('.cd-section').remove();
+		newSection.removeClass('overflow-hidden').siblings('.cd-section').remove();
 		isAnimating =  false;
 		//reset your loading bar
 		resetLoadingBar();
