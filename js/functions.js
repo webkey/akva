@@ -133,12 +133,28 @@ function mainSlider() {
 }
 /*main slider end*/
 
+/*info bar toggle*/
+function infoBarToggle() {
+	$('body').on('click', '.info-btn-js a', function (e) {
+		var activeClass = "info-bar-show";
+		if ($('.info-bar-js').length) {
+			e.preventDefault();
+
+			var $html = $('html');
+
+			$html.toggleClass(activeClass, !$html.hasClass(activeClass));
+		}
+	})
+}
+/*info bar toggle end*/
+
 /** ready/load/resize document **/
 
 jQuery(document).ready(function(){
 	placeholderInit();
 	printShow();
 	mainSlider();
+	infoBarToggle();
 
 	//set some variables
 	var isAnimating = false,
@@ -239,7 +255,11 @@ jQuery(document).ready(function(){
 						resetAfterAnimation(section);
 					}
 
+					//init main slider
 					mainSlider();
+
+					//init toggle info bar
+					infoBarToggle();
 
 					var url = newSection+'.html';
 
