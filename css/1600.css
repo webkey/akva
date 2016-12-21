@@ -1,0 +1,59 @@
+@media only screen and (max-width: 1599px){}
+/*main slider*/
+.main-slider{
+	height: calc(100vh - 100px);
+}
+.main-slider-caption,
+.main-slider-title__item{
+	font-size: 3.2rem;
+}
+.main-slider-caption{
+	right: 450px;
+}
+
+.main-slider-img{
+	right: 850px;
+}
+/*main slider end*/
+
+/*SIDEBAR*/
+/*main navigation*/
+.main-nav{
+	height: calc(100% - 100px);
+}
+.main-nav a{
+	/*font-size: 1.2rem;*/
+	padding: 3.8em 0 1.2em;
+}
+.main-nav a svg{
+	width: 2.4em;
+	height: 2.4em;
+	top: 1em;
+}
+/*main navigation end*/
+.info-btn{
+	height: 100px;
+}
+/*SIDEBAR end*/
+
+/*guide*/
+.guide{
+	height: calc(100% - 100px);
+}
+/*guide end*/
+
+/*ASIDE*/
+.aside{
+	height: 100px;
+}
+/*add menu*/
+.add-menu__inner{
+	-webkit-transform: translateY(calc(100% - 100px));
+	-ms-transform: translateY(calc(100% - 100px));
+	transform: translateY(calc(100% - 100px));
+}
+.add-menu__title:before {
+	height: 100px;
+}
+/*add menu end*/
+/*ASIDE end*/

@@ -1,0 +1,46 @@
+@media only screen and (max-width: 1439px){}
+/*main slider*/
+.main-slider{ }
+/*main slider end*/
+
+/*SIDEBAR*/
+/*main navigation*/
+.main-nav a{
+	/*font-size: 1.2rem;*/
+	padding: 3.2em 0 0.8em;
+}
+.main-nav a svg{
+	width: 2.0em;
+	height: 2.0em;
+	top: 0.8em;
+}
+/*main navigation end*/
+.info-btn a{
+	width: 44px;
+	height: 44px;
+}
+/*SIDEBAR end*/
+
+/*guide*/
+.guide{
+	right: 40px;
+}
+.guide__align{
+	padding-top: 40px;
+	padding-bottom: 40px;
+	min-height: calc(100% - 40px*2);
+}
+.guide__before, .guide__after{
+	padding: 0.6em 0;
+}
+.guide__foot{
+	bottom: 40px;
+}
+/*guide end*/
+
+/*ASIDE*/
+.aside{ }
+/*add menu*/
+.add-menu__inner{ }
+/*add menu end*/
+/*ASIDE end*/
