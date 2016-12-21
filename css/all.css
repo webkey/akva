@@ -1122,7 +1122,8 @@ label{
 .main-slider{
 	position: relative;
 	overflow: hidden;
-	height: 100vh;
+	/*height: 100vh;*/
+	height: calc(100vh - 120px);
 	box-sizing: border-box;
 	background: #27303b;
 }
@@ -1179,9 +1180,10 @@ label{
 	position: absolute;
 	right: 510px;
 	height: calc(5em + 40px);
-	top: calc(50% - 120px - (5em + 40px)/2);
+	top: calc(50% - (5em + 40px) / 2);
 	/*50% - bottom panel - half of this element's height*/
-	width: 480px;
+	/*width: 480px;*/
+	width: 11.4em;
 	z-index: 2;
 }
 .main-slider-caption__holder{
@@ -1402,10 +1404,10 @@ label{
 
 .main-slider-img{
 	position: absolute;
-	bottom: 192px;
+	bottom: 72px;
 	right: 1000px;
 	width: 315px;
-	height: calc(100vh - 192px - 65px);
+	height: calc(100% - 65px*2);
 }
 .main-slider-img__item{
 	position: absolute;
@@ -1417,14 +1419,14 @@ label{
 
 	opacity: 0;
 	visibility: hidden;
-	-webkit-transform: translateX(-20%) scale(0.96, 0.96);
-	-ms-transform: translateX(-20%) scale(0.96, 0.96);
-	transform: translateX(-20%) scale(0.96, 0.96);
+	-webkit-transform: translateX(-40%) scale(0.96, 0.96);
+	-ms-transform: translateX(-40%) scale(0.96, 0.96);
+	transform: translateX(-40%) scale(0.96, 0.96);
 	will-change: transform;
 	-webkit-transition-property: -webkit-transform, opacity, visibility;
 	transition-property: transform, opacity, visibility;
-	-webkit-transition-duration: 0.7s, 0.5s, 0.5s;
-	transition-duration: 0.7s, 0.5s, 0.5s;
+	-webkit-transition-duration: 0.7s, 0.35s, 0.35s;
+	transition-duration: 0.7s, 0.35s, 0.35s;
 }
 .main-slider-img__item:before{
 	content: '';
@@ -1452,11 +1454,13 @@ label{
 	-webkit-transform: translateX(0) scale(1, 1);
 	-ms-transform: translateX(0) scale(1, 1);
 	transform: translateX(0) scale(1, 1);
+	-webkit-transition-duration: 0.7s, 0.5s, 0.5s;
+	transition-duration: 0.7s, 0.5s, 0.5s;
 }
 
 .main-slider-desks{
 	position: absolute;
-	bottom: 108px;
+	bottom: -12px;
 	left: -3%;
 	width: 106%;
 	height: 190px;
@@ -1473,9 +1477,12 @@ label{
 
 	opacity: 0;
 	visibility: hidden;
-	/*-webkit-transform: translate(-20px, -10px);*/
-	/*-ms-transform: translate(-20px, -10px);*/
-	/*transform: translate(-20px, -10px);*/
+	/*-webkit-transform: translate(-20px, -5px);*/
+	/*-ms-transform: translate(-20px, -5px);*/
+	/*transform: translate(-20px, -5px);*/
+	-webkit-transform: scale(1.04, 1.04);
+	-ms-transform: scale(1.04, 1.04);
+	transform: scale(1.04, 1.04);
 	will-change: transform;
 	-webkit-transition-property: -webkit-transform, opacity, visibility;
 	transition-property: transform, opacity, visibility;
@@ -1485,9 +1492,12 @@ label{
 .main-slider-desks__item.active{
 	opacity: 1;
 	visibility: visible;
-	-webkit-transform: translate(0, 0);
-	-ms-transform: translate(0, 0);
-	transform: translate(0, 0);
+	/*-webkit-transform: translate(0, 0);*/
+	/*-ms-transform: translate(0, 0);*/
+	/*transform: translate(0, 0);*/
+	-webkit-transform: scale(1, 1);
+	-ms-transform: scale(1, 1);
+	transform: scale(1, 1);
 }
 
 .main-slider__counter{
@@ -1506,6 +1516,7 @@ label{
 
 /*info bar*/
 .info-bar{
+	overflow: hidden;
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -1514,7 +1525,6 @@ label{
 	font-size: 1.4rem;
 	line-height: 1.2;
 	color: #fff;
-	overflow: hidden;
 	background: #023466;
 	z-index: 10;
 	-webkit-transform: translate(-260px, 0);
@@ -1526,6 +1536,23 @@ label{
 	transition-property: transform;
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
+}
+.info-bar:before,
+.info-bar:after{
+	content: '';
+	position: absolute;
+	left: 0;
+	height: 30px;
+	width: 100%;
+	box-shadow: 0 0 15px 5px #023466;
+	z-index: 3;
+	pointer-events: none;
+}
+.info-bar:before{
+	bottom: 100%;
+}
+.info-bar:after{
+	top: 100%;
 }
 .info-bar-show .info-bar{
 	-webkit-transform: translate(0, 0);
@@ -1841,6 +1868,7 @@ label{
 	width: calc(100% + 20px);
 }
 
+/*main navigation*/
 .main-nav{
 	height: calc(100% - 120px);
 	display: table;
@@ -1892,8 +1920,8 @@ label{
 	display: block;
 }
 .main-nav a svg {
-	width: 40px;
-	height: 40px;
+	width: 2.8em;
+	height: 2.8em;
 	position: absolute;
 	left: 50%;
 	right: auto;
@@ -2020,6 +2048,7 @@ label{
 .info-btn{
 	width: 120px;
 }
+/*main navigation end*/
 /*SIDEBAR end*/
 
 /*guide*/
@@ -2100,6 +2129,8 @@ label{
 	line-height: 1.4;
 	text-transform: uppercase;
 	color: #fff;
+	overflow: hidden;
+	max-height: 4em;
 }
 
 .guide__content{
