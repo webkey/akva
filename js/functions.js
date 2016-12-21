@@ -44,50 +44,184 @@ function printShow() {
 }
 /*print end*/
 
-/*main slider*/
+/**
+ * parallax on mousemove
+ * */
+(function () {
+	var ParallaxJs = function (setting){
+		var options = $.extend({
+			parallaxElement: null,
+			parallaxArea: null,
+			parallaxDelta: 20
+		}, setting || {});
+
+		this.parallaxElement = document.querySelector(options.parallaxElement);
+		this.parallaxArea = document.querySelector(options.parallaxArea);
+		this.parallaxDelta = options.parallaxDelta;
+		this.win = {
+			width: window.innerWidth,
+			height: window.innerHeight
+		};
+
+		this.bindEvents();
+	};
+
+	// from http://www.sberry.me/articles/javascript-event-throttling-debouncing
+	ParallaxJs.prototype.throttle = function(fn, delay) {
+		var allowSample = true;
+
+		return function(e) {
+			if (allowSample) {
+				allowSample = false;
+				setTimeout(function() { allowSample = true; }, delay);
+				fn(e);
+			}
+		};
+	};
+
+	ParallaxJs.prototype.bindEvents = function () {
+		var self = this;
+		var parallaxElement = self.parallaxElement;
+		var win = self.win;
+		var area = self.parallaxArea;
+		var delta = self.parallaxDelta;
+
+		parallaxElement.style.WebkitTransform = "-webkit-transform 0.4s";
+		parallaxElement.style.transition = "transform 0.4s";
+		// parallaxElement.style.WebkitbackfaceVisibility = "-webkit-hidden";
+		// parallaxElement.style.backfaceVisibility = "hidden";
+
+		//parallaxElement.style.WebkitTransition = '-webkit-transform 0.4s';
+		//parallaxElement.style.transition = 'transform 0.4s';
+
+		area.addEventListener('mousemove', self.throttle(function(ev) {
+			var offsetLeftArea = area.getBoundingClientRect().left;
+			var transX = - (120 + ev.clientX - offsetLeftArea - area.offsetWidth / 2) / delta;
+			// var transX = 50/(win.width) * ev.clientX - 0;
+			// xVal = -1/(win.height/2)*ev.clientY + 1,
+			// yVal = 1/(win.width/2)*ev.clientX - 1,
+			// transY = 20/(win.height)*ev.clientY,
+			// transZ = 100/(win.height)*ev.clientY;
+
+			parallaxElement.style.WebkitTransform = 'translateX(' + transX + 'px)';
+			parallaxElement.style.transform = 'translateX(' + transX + 'px)';
+			// parallaxElement.style.WebkitTransform = 'perspective(1000px) translate3d(' + transX + 'px,' + transY + 'px,' + transZ + 'px) rotate3d(' + xVal + ',' + yVal + ',0,2deg)';
+			// parallaxElement.style.transform = 'perspective(1000px) translate3d(' + transX + 'px,' + transY + 'px,' + transZ + 'px) rotate3d(' + xVal + ',' + yVal + ',0,2deg)';
+		}, 100));
+	};
+
+	window.ParallaxJs = ParallaxJs;
+}());
+
+function parallaxMainSlider() {
+	var delta = 30;
+	var img = '.main-slider-img';
+
+	if (document.querySelector(img)) {
+		new ParallaxJs({
+			parallaxElement: img,
+			parallaxArea: '.wrapper',
+			parallaxDelta: delta
+		});
+	}
+
+	var caption = '.main-slider-caption__holder';
+
+	if (document.querySelector(caption)) {
+		new ParallaxJs({
+			parallaxElement: '.main-slider-caption__holder',
+			parallaxArea: '.wrapper',
+			parallaxDelta: delta
+		});
+	}
+
+	var desk = '.main-slider-desks';
+
+	if (document.querySelector(desk)) {
+		new ParallaxJs({
+			parallaxElement: desk,
+			parallaxArea: '.wrapper',
+			parallaxDelta: delta
+		});
+	}
+
+	var bg = '.main-slider-bg';
+
+	if (document.querySelector(bg)) {
+		new ParallaxJs({
+			parallaxElement: bg,
+			parallaxArea: '.wrapper',
+			parallaxDelta: delta + 30
+		});
+	}
+}
+/**
+ * parallax on mousemove end
+ * */
+
+/**
+ * main slider
+ * */
 function mainSlider() {
 	'use strict';
 
-	var $container = $('.main-slider-js');
+	var $container = $('.ms-js');
 	if (!$container.length) return false;
 
 	var activeClass = 'active',
 		hideClass = 'hide',
 		index = 0;
 
+	var images = '.ms-img-js';
+
 	var $tab = [
-		'.main-slider-bg-js',
-		'.main-slider-img-js',
-		'.main-slider-desks-js',
-		'.main-slider-title-js',
-		'.main-slider-dots-js button'
+		images,
+		'.ms-bg-js',
+		'.ms-desks-js',
+		'.main-slider-title-js'
+		// '.ms-dots-js button'
 	];
 
-	$('.main-slider-dots-js').on('click', 'button', function (e) {
+	/* html */
+	// <div class="ms-dots-js">
+	// <button class="active">1</button>
+	// <button>2</button>
+	// <button>3</button>
+	// <button>4</button>
+	// </div>
+	/* html end */
+
+	$.each($container, function () {
+		var currentSlider = $(this);
+
+		var currentSlideIndex = index;
+		var totalLength = $(images, currentSlider).length;
+
+		slidesCounter(currentSlider, currentSlideIndex, totalLength);
+	});
+
+	$('.ms-dots-js').on('click', 'button', function (e) {
 		e.preventDefault();
 
 		var $currentBtn = $(this);
 
 		if ($currentBtn.hasClass(activeClass)) return false;
 
-		var $currentWrapper = $currentBtn.closest($container);
+		var $currentSlider = $currentBtn.closest($container);
 		index = $currentBtn.index();
 
-		// $('.main-slider-dots-js button').removeClass(activeClass);
-		// $currentBtn.addClass(activeClass);
-
-		switchStateTab($currentWrapper,$tab);
-		switchStateTab($currentWrapper,$tab,index);
+		switchStateTab($currentSlider,$tab);
+		switchStateTab($currentSlider,$tab,index);
 
 		return index;
 	});
 
-	$('.main-slider-arrow-js').on('click', function (e) {
+	$('.ms-arrow-js').on('click', function (e) {
 		e.preventDefault();
 
 		var $currentBtn = $(this);
-		var $currentWrapper = $currentBtn.closest($container);
-		var length = $currentBtn.closest($container).find('.main-slider-img-js').length;
+		var $currentSlider = $currentBtn.closest($container);
+		var length = $currentBtn.closest($container).find(images).length;
 
 		if ($currentBtn.data('direction') === "prev") {
 			if (index <= 0) {
@@ -103,8 +237,10 @@ function mainSlider() {
 			}
 		}
 
-		switchStateTab($currentWrapper,$tab);
-		switchStateTab($currentWrapper,$tab,index);
+		switchStateTab($currentSlider,$tab);
+		switchStateTab($currentSlider,$tab,index);
+		
+		slidesCounter($currentSlider,index,length);
 
 		return index;
 	});
@@ -128,14 +264,19 @@ function mainSlider() {
 			}
 		}
 	}
-	
-	
+
+	function slidesCounter(slider, currentSlideIndex, totalLength) {
+		$('.ms-current-slide-js', slider).text(currentSlideIndex + 1);
+		$('.ms-total-js', slider).text(totalLength);
+	}
 }
 /*main slider end*/
 
-/*info bar toggle*/
+/**
+ * info bar toggle
+ * */
 function infoBarToggle() {
-	$('body').on('click', '.info-btn-js a', function (e) {
+	$('body').on('click', '.info-btn-js a, .info-bar__overlay', function (e) {
 		var activeClass = "info-bar-show";
 		if ($('.info-bar-js').length) {
 			e.preventDefault();
@@ -148,14 +289,10 @@ function infoBarToggle() {
 }
 /*info bar toggle end*/
 
-/** ready/load/resize document **/
-
-jQuery(document).ready(function(){
-	placeholderInit();
-	printShow();
-	mainSlider();
-	infoBarToggle();
-
+/**
+ * walk pages
+ * */
+function walkPages() {
 	//set some variables
 	var isAnimating = false,
 		firstLoad = false,
@@ -300,4 +437,16 @@ jQuery(document).ready(function(){
 			scaleY: 1
 		}, 1);
 	}
+}
+/*walk pages end*/
+
+/** ready/load/resize document **/
+
+jQuery(document).ready(function(){
+	placeholderInit();
+	printShow();
+	mainSlider();
+	infoBarToggle();
+	// parallaxMainSlider();
+	walkPages();
 });
