@@ -1,0 +1,17 @@
+@media only screen and (max-width: 1919px){}
+/*info bar*/
+
+/*info bar end*/
+.info-bar__item {
+	padding: 1.5em 15px 1.5em 35px;
+}
+.info-bar__list dd{
+	padding-bottom: 1em;
+}
+/*SIDEBAR*/
+/*main navigation*/
+.main-nav a{
+	padding: 4.4em 0 1em;
+}
+/*main navigation end*/
+/*SIDEBAR end*/
