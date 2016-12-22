@@ -276,9 +276,22 @@ function mainSlider() {
  * info bar toggle
  * */
 function infoBarToggle() {
+	// info bar toggle
 	$('body').on('click', '.info-btn-js a, .info-bar__overlay', function (e) {
 		var activeClass = "info-bar-show";
 		if ($('.info-bar-js').length) {
+			e.preventDefault();
+
+			var $html = $('html');
+
+			$html.toggleClass(activeClass, !$html.hasClass(activeClass));
+		}
+	});
+
+	// guide toggle
+	$('body').on('click', '.guide-opener-js', function (e) {
+		var activeClass = "guide-show";
+		if ($('.guide').length) {
 			e.preventDefault();
 
 			var $html = $('html');
