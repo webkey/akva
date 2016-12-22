@@ -1,1 +1,74 @@
 @media only screen and (max-width: 991px){}
+/*MAIN BLOCKS*/
+.wrapper {
+
+}
+/*MAIN BLOCKS end*/
+
+/*MAIN*/
+.main.index{
+	overflow-y: auto;
+}
+
+/*main slider*/
+.main-slider {
+	min-height: 920px;
+}
+.main-slider-img {
+	width: 300px;
+	margin-right: 10px;
+}
+.main-slider-caption{
+	right: auto;
+	left: 50%;
+	margin-left: 10px;
+}
+.main-slider-caption,
+.main-slider-title__item {
+	font-size: 2.6rem;
+}
+/*main slider end*/
+/*MAIN end*/
+
+/*guide*/
+.guide{
+	padding-top: 40px;
+}
+.guide__align{
+	vertical-align: top;
+	background: rgba(36, 46, 56, 0.44);
+}
+.guide-opener{
+	top: 20px;
+	margin-top: 0;
+	background: rgba(36, 46, 56, 0.44);
+}
+/*guide end*/
+
+/*ASIDE*/
+.aside {
+	height: auto;
+}
+.aside .add-menu {
+	float: none;
+	height: 100px;
+	width: auto;
+}
+/*ASIDE end*/
+
+/*FOOTER*/
+.aside .footer{
+	position: relative;
+	float: none;
+	width: auto;
+	height: auto;
+	/*padding: 12px 20px;*/
+	padding: 202px 20px;
+}
+.copyright{
+	padding: 0 0 0.5em;
+}
+.copyright:before{
+	content: none;
+}
+/*FOOTER end*/

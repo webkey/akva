@@ -275,7 +275,7 @@ function mainSlider() {
 /**
  * info bar toggle
  * */
-function infoBarToggle() {
+function classToggle() {
 	// info bar toggle
 	$('body').on('click', '.info-btn-js a, .info-bar__overlay', function (e) {
 		var activeClass = "info-bar-show";
@@ -297,10 +297,207 @@ function infoBarToggle() {
 			var $html = $('html');
 
 			$html.toggleClass(activeClass, !$html.hasClass(activeClass));
+
+			e.stopPropagation();
+		}
+	});
+
+	$(document).on('click', function (e) {
+		if ($('html').hasClass('guide-show') && !$(e.target).hasClass('guide__align') && !$(e.target).parents().hasClass('guide__align')) {
+			$('html').removeClass('guide-show');
 		}
 	})
 }
 /*info bar toggle end*/
+
+/**
+ * jquery.toggleHoverClass
+ * */
+(function ($) {
+	var HoverClass = function (settings) {
+		var options = $.extend({
+			container: 'ul',
+			item: 'li',
+			drop: 'ul',
+			alwaysForTouch: false // always add hover class for touch devices
+		},settings || {});
+
+		var self = this;
+		self.options = options;
+
+		var container = $(options.container);
+		self.$container = container;
+		self.$item = $(options.item, container);
+		self.$drop = $(options.drop, container);
+		self._alwaysForTouch = options.alwaysForTouch;
+
+		self.modifiers = {
+			hover: 'hover',
+			hoverNext: 'hover_next',
+			hoverPrev: 'hover_prev'
+		};
+
+		self.addClassHover();
+
+		if (!DESKTOP) {
+			$(window).on('debouncedresize', function () {
+				self.removeClassHover();
+			});
+		}
+	};
+
+	HoverClass.prototype.addClassHover = function () {
+		var self = this,
+			_hover = this.modifiers.hover,
+			_hoverNext = this.modifiers.hoverNext,
+			_hoverPrev = this.modifiers.hoverPrev,
+			$item = self.$item,
+			item = self.options.item,
+			$container = self.$container;
+
+		if (!DESKTOP) {
+
+			$container.on('click', ''+item+'', function (e) {
+				var $currentAnchor = $(this);
+				var currentItem = $currentAnchor.closest($item);
+
+				if (currentItem.has(self.$drop).length && !self._alwaysForTouch){ return; }
+
+				e.stopPropagation();
+
+				if (currentItem.hasClass(_hover)){
+					currentItem.removeClass(_hover).find('.'+_hover+'').removeClass(_hover);
+					return;
+				}
+
+				$('.'+_hover+'').not($currentAnchor.parents('.'+_hover+''))
+					.removeClass(_hover)
+					.find('.'+_hover+'')
+					.removeClass(_hover);
+				currentItem.addClass(_hover);
+
+				e.preventDefault();
+			});
+
+			$container.on('click', ''+self.options.drop+'', function (e) {
+				e.stopPropagation();
+			});
+
+			$(document).on('click', function () {
+				$item.removeClass(_hover);
+			});
+
+		} else {
+			$container.on('mouseenter', ''+item+'', function () {
+
+				var currentItem = $(this);
+
+				if (currentItem.prop('hoverTimeout')) {
+					currentItem.prop('hoverTimeout', clearTimeout(currentItem.prop('hoverTimeout')));
+				}
+
+				currentItem.prop('hoverIntent', setTimeout(function () {
+					currentItem.addClass(_hover);
+					currentItem.next().addClass(_hoverNext);
+					currentItem.prev().addClass(_hoverPrev);
+				}, 50));
+
+			}).on('mouseleave', ''+ item+'', function () {
+
+				var currentItem = $(this);
+
+				if (currentItem.prop('hoverIntent')) {
+					currentItem.prop('hoverIntent', clearTimeout(currentItem.prop('hoverIntent')));
+				}
+
+				currentItem.prop('hoverTimeout', setTimeout(function () {
+					currentItem.removeClass(_hover);
+					currentItem.next().removeClass(_hoverNext);
+					currentItem.prev().removeClass(_hoverPrev);
+				}, 50));
+
+			});
+
+		}
+	};
+
+	HoverClass.prototype.removeClassHover = function () {
+		var self = this;
+		self.$item.removeClass(self.modifiers.hover );
+	};
+
+	window.HoverClass = HoverClass;
+
+}(jQuery));
+/*jquery.toggleHoverClass end*/
+
+/**
+ * toggle hover class
+ * */
+function hoverClassInit(){
+	if($('.add-menu').length){
+		new HoverClass({
+			container: '.add-menu',
+			item: '.add-menu__item',
+			alwaysForTouch: true
+		});
+	}
+}
+/*toggle hover class end*/
+
+/**
+ * fixed header on scroll
+ * */
+function fixedHeader() {
+	var $bar = $('.header');
+	var barHeight = $bar.outerHeight();
+	var scrollPrev = -1;
+	var scrollTopFlag = false;
+	var initValue = 0;
+	var timeout;
+
+	$bar.css({
+		position: 'fixed'
+	});
+
+	$('.main').on('scroll', function () {
+		console.log(1);
+
+		var scrollTop = $('.main').scrollTop();
+
+		console.log("scrollPrev: ", scrollPrev);
+		console.log("scrollTop: ", scrollTop);
+
+		if (timeout) {
+			clearTimeout(timeout);
+		}
+
+		if (scrollTop > scrollPrev) {
+			scrollTopFlag = false;
+		} else {
+			scrollTopFlag = true;
+		}
+
+		if (scrollTopFlag) {
+			console.log("scrollTopFlag: ", initValue++);
+		} else {
+			console.log("scrollTopFlag: ", initValue--);
+		}
+
+		$bar.css({
+			top: -scrollTop
+		});
+
+		timeout = setTimeout(function() {
+
+		}, 400);
+
+
+
+		scrollPrev = scrollTop;
+	})
+}
+/* fixed header on scroll*/
 
 /**
  * walk pages
@@ -409,7 +606,7 @@ function walkPages() {
 					mainSlider();
 
 					//init toggle info bar
-					infoBarToggle();
+					classToggle();
 
 					var url = newSection+'.html';
 
@@ -459,7 +656,9 @@ jQuery(document).ready(function(){
 	placeholderInit();
 	printShow();
 	mainSlider();
-	infoBarToggle();
+	classToggle();
 	// parallaxMainSlider();
-	walkPages();
+	hoverClassInit();
+	fixedHeader();
+	// walkPages();
 });

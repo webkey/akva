@@ -1057,6 +1057,21 @@ label{
 /*view print end*/
 /*USER CONTENT end*/
 
+/*HEADER*/
+.header{
+	box-sizing: border-box;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	width: 100%;
+	padding: 10px;
+	text-align: center;
+	background: rgba(0, 0, 0, 0.8);
+	color: #fff;
+}
+/*HEADER end*/
+
 /*MAIN*/
 .main{
 	position: absolute;
@@ -1098,6 +1113,10 @@ label{
 	-webkit-transition: -webkit-transform 0.5s 0s;
 	-moz-transition: -moz-transform 0.5s 0s;
 	transition: transform 0.5s 0s;
+}
+
+.main__holder{
+	overflow: hidden;
 }
 
 .main header {
@@ -2248,12 +2267,12 @@ label{
 
 /*ASIDE*/
 .aside{
-	position: fixed;
-	left: 120px;
-	bottom: 0;
+	position: relative;
+	/*left: 120px;*/
+	/*bottom: 0;*/
 	height: 120px;
-	width: calc(100% - 120px);
-	max-width: calc(1920px - 120px);
+	/*width: calc(100% - 120px);*/
+	/*max-width: calc(1920px - 120px);*/
 	background-color: #023466;
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
@@ -2269,7 +2288,7 @@ label{
 	transition-duration: 0.2s;
 	z-index: 6;
 }
-.main.index ~ .aside{
+.main.index .aside{
 	-webkit-transform: translateY(0);
 	-ms-transform: translateY(0);
 	transform: translateY(0);
@@ -2306,7 +2325,7 @@ label{
 	-ms-transform: translateY(calc(100% - 120px));
 	transform: translateY(calc(100% - 120px));
 }
-.no-touchevents .add-menu__inner:hover{
+.add-menu__item.hover .add-menu__inner{
 	background: #045bb3;
 	-webkit-transform: translateY(0);
 	-ms-transform: translateY(0);
