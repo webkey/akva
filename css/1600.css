@@ -3,16 +3,17 @@
 .main-slider{
 	height: calc(100vh - 100px);
 }
+
+.main-slider-img{
+	right: 850px;
+}
+
 .main-slider-caption,
 .main-slider-title__item{
 	font-size: 3.2rem;
 }
 .main-slider-caption{
 	right: 450px;
-}
-
-.main-slider-img{
-	right: 850px;
 }
 /*main slider end*/
 
@@ -56,4 +57,11 @@
 	height: 100px;
 }
 /*add menu end*/
+
+.copyright {
+	padding: 0 0 1.6em;
+}
+.copyright:before {
+	bottom: 0.75em;
+}
 /*ASIDE end*/
