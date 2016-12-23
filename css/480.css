@@ -1,1 +1,17 @@
 @media only screen and (max-width: 479px){}
+/*MAIN*/
+/*main slider*/
+.main-slider {
+	height: 480px;
+}
+
+.main-slider__foot{
+	height: 60px;
+}
+.main-slider__foot .main-slider-arrow{
+	height: 40em;
+	width: 40em;
+	margin-top: -20em;
+}
+/*main slider end*/
+/*MAIN end*/

@@ -1068,7 +1068,6 @@ label{
 	height: 50px;
 	text-align: center;
 	background: #024383;
-	box-shadow: 0 1px 0 #2b52a1;
 	color: #fff;
 	display: none;
 }
@@ -1086,6 +1085,8 @@ label{
 	height: 100%;
 	text-indent: -9999px;
 	overflow: hidden;
+	-webkit-backface-visibility: visible;
+	backface-visibility: visible;
 	-webkit-transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
@@ -1611,17 +1612,25 @@ label{
 	width: calc(100% - 4px);
 	max-height: 5em;
 	margin-left: calc(-100% + 4px);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 
 	opacity: 0;
 	visibility: hidden;
-	-webkit-transform: translate(15%, 0) scale(0.96, 0.96);
-	-ms-transform: translate(15%, 0) scale(0.96, 0.96);
-	transform: translate(15%, 0) scale(0.96, 0.96);
+	-webkit-transform: translate(40%, 0) scale(0.96, 0.96);
+	-ms-transform: translate(40%, 0) scale(0.96, 0.96);
+	transform: translate(40%, 0) scale(0.96, 0.96);
 	will-change: transform;
 	-webkit-transition-property: -webkit-transform, opacity, visibility;
 	transition-property: transform, opacity, visibility;
-	-webkit-transition-duration: 0.7s;
-	transition-duration: 0.7s;
+	-webkit-transition-duration: 0.7s, 0.5s, 0.5s;
+	transition-duration: 0.7s, 0.5s, 0.5s;
 }
 .main-slider-title__item:first-child{ margin-left: 0; }
 .main-slider-title__item.active{
@@ -1761,9 +1770,14 @@ label{
 	font-family: 'arnopro-regular', sans-serif;
 	font-size: 1.8rem;
 	line-height: 1.2;
+	color: #fff;
 	text-align: center;
 	width: 70px;
 	margin: 15px 0 0 -35px;
+}
+
+.main-slider__foot{
+	display: none;
 }
 /*main slider end*/
 /*CONTENT end*/
