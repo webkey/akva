@@ -12,7 +12,8 @@
 
 /*main slider*/
 .main-slider {
-	min-height: 920px;
+	min-height: calc(100vh - 100px);
+	height: 920px;
 }
 .main-slider-img {
 	width: 300px;

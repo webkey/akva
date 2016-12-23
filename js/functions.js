@@ -169,8 +169,11 @@ function mainSlider() {
 	if (!$container.length) return false;
 
 	var activeClass = 'active',
+		activeClassPrev = 'active-prev',
+		activeClassNext = 'active-next',
 		hideClass = 'hide',
-		index = 0;
+		index = 0,
+		indexNext, indexPrev;
 
 	var images = '.ms-img-js';
 
@@ -182,15 +185,6 @@ function mainSlider() {
 		// '.ms-dots-js button'
 	];
 
-	/* html */
-	// <div class="ms-dots-js">
-	// <button class="active">1</button>
-	// <button>2</button>
-	// <button>3</button>
-	// <button>4</button>
-	// </div>
-	/* html end */
-
 	$.each($container, function () {
 		var currentSlider = $(this);
 
@@ -199,6 +193,15 @@ function mainSlider() {
 
 		slidesCounter(currentSlider, currentSlideIndex, totalLength);
 	});
+
+	/* html */
+	// <div class="ms-dots-js">
+	// <button class="active">1</button>
+	// <button>2</button>
+	// <button>3</button>
+	// <button>4</button>
+	// </div>
+	/* html end */
 
 	$('.ms-dots-js').on('click', 'button', function (e) {
 		e.preventDefault();
@@ -210,7 +213,7 @@ function mainSlider() {
 		var $currentSlider = $currentBtn.closest($container);
 		index = $currentBtn.index();
 
-		switchStateTab($currentSlider,$tab);
+		// switchStateTab($currentSlider,$tab);
 		switchStateTab($currentSlider,$tab,index);
 
 		return index;
@@ -237,7 +240,7 @@ function mainSlider() {
 			}
 		}
 
-		switchStateTab($currentSlider,$tab);
+		// switchStateTab($currentSlider,$tab);
 		switchStateTab($currentSlider,$tab,index);
 		
 		slidesCounter($currentSlider,index,length);
@@ -245,23 +248,100 @@ function mainSlider() {
 		return index;
 	});
 
+	$($container).swipe({
+		swipeRight: function (e) {
+			var $currentSlider = $(this);
+			var length = $currentSlider.find(images).length;
+
+			if (index <= 0) {
+				index = index - 1 + length;
+			} else {
+				index = index - 1;
+			}
+
+			switchStateTab($currentSlider,$tab,index);
+
+			slidesCounter($currentSlider,index,length);
+
+			return index;
+		},
+		swipeLeft: function (e) {
+			var $currentSlider = $(this);
+			var length = $currentSlider.find(images).length;
+
+			if (index >= length - 1) {
+				index = index + 1 - length;
+			} else {
+				index = index + 1;
+			}
+
+			switchStateTab($currentSlider,$tab,index);
+
+			slidesCounter($currentSlider,index,length);
+
+			return index;
+		}
+	});
+
 	function switchStateTab(content,tab,index) {
+		var length = content.find(images).length;
+
+		// if ($currentBtn.data('direction') === "prev") {
+		// 	if (index <= 0) {
+		// 		index = index - 1 + length;
+		// 	} else {
+		// 		index = index - 1;
+		// 	}
+		// } else {
+		// 	if (index >= length - 1) {
+		// 		index = index + 1 - length;
+		// 	} else {
+		// 		index = index + 1;
+		// 	}
+		// }
+
 		// if property "index" length class added
 		// else class removed
 		if (Array.isArray(tab)){
 			for(var i = 0; i < tab.length; i++) {
-				if (index !== undefined) {
-					content.find(tab[i]).eq(index).addClass(activeClass);
-				} else {
-					content.find(tab[i]).removeClass(activeClass);
-				}
+
+				indexNext = (index < length - 1) ? index + 1 : 0;
+				indexPrev = (index >= 0) ? index - 1 : length - 1;
+
+				content.find(tab[i])
+					.eq(index).addClass(activeClass)
+					.siblings().removeClass(activeClass);
+
+				content.find(tab[i])
+					.eq(indexNext).addClass(activeClassNext)
+					.siblings().removeClass(activeClassNext);
+
+				content.find(tab[i])
+					.eq(indexPrev).addClass(activeClassPrev)
+					.siblings().removeClass(activeClassPrev);
+
+				// if (index <= length - 2) {
+				// 	indexNext = index + 1;
+				// } else {
+				// 	indexNext = 0;
+				// }
+
+				// if (index !== undefined) {
+				//
+				// } else {
+				// 	content.find(tab[i]).removeClass(activeClass);
+				// }
 			}
 		} else {
-			if (index !== undefined) {
-				content.find(tab).eq(index).addClass(activeClass);
-			} else {
-				content.find(tab).removeClass(activeClass);
-			}
+			content.find(tab)
+				.eq(index).addClass(activeClass)
+				.siblings().removeClass(activeClass);
+
+			// if (index !== undefined) {
+			//
+			// } else {
+			// 	content.find(tab).removeClass(activeClass);
+			// }
 		}
 	}
 
@@ -282,7 +362,7 @@ function classToggle() {
 	var activeClassGuide = "guide-show";
 
 	// info bar toggle
-	$('body').on('click', '.info-btn-js a', function (e) {
+	$html.on('click', '.info-btn-js a', function (e) {
 		if ($('.info-bar-js').length) {
 			e.preventDefault();
 
@@ -292,7 +372,7 @@ function classToggle() {
 	});
 
 	// sidebar toggle
-	$('body').on('click', '.btn-menu-js', function (e) {
+	$html.on('click', '.btn-menu-js', function (e) {
 		if ($('.sidebar-js').length) {
 			e.preventDefault();
 
@@ -302,7 +382,7 @@ function classToggle() {
 	});
 
 	// overlay toggle
-	$('body').on('click', '.show-panels__overlay', function (e) {
+	$html.on('click', '.show-panels__overlay', function (e) {
 		e.preventDefault();
 
 		$html.removeClass(activeClassInfoBar);
@@ -310,7 +390,7 @@ function classToggle() {
 	});
 
 	// guide toggle
-	$('body').on('click', '.guide-opener-js', function (e) {
+	$html.on('click', '.guide-opener-js', function (e) {
 		if ($('.guide').length) {
 			e.preventDefault();
 
