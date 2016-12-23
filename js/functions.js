@@ -276,35 +276,53 @@ function mainSlider() {
  * info bar toggle
  * */
 function classToggle() {
+	var $html = $('html');
+	var activeClassSidebar = "sidebar-show";
+	var activeClassInfoBar = "info-bar-show";
+	var activeClassGuide = "guide-show";
+
 	// info bar toggle
-	$('body').on('click', '.info-btn-js a, .info-bar__overlay', function (e) {
-		var activeClass = "info-bar-show";
+	$('body').on('click', '.info-btn-js a', function (e) {
 		if ($('.info-bar-js').length) {
 			e.preventDefault();
 
-			var $html = $('html');
-
-			$html.toggleClass(activeClass, !$html.hasClass(activeClass));
+			$html.removeClass(activeClassSidebar);
+			$html.toggleClass(activeClassInfoBar, !$html.hasClass(activeClassInfoBar));
 		}
+	});
+
+	// sidebar toggle
+	$('body').on('click', '.btn-menu-js', function (e) {
+		if ($('.sidebar-js').length) {
+			e.preventDefault();
+
+			$html.removeClass(activeClassInfoBar);
+			$html.toggleClass(activeClassSidebar, !$html.hasClass(activeClassSidebar));
+		}
+	});
+
+	// overlay toggle
+	$('body').on('click', '.show-panels__overlay', function (e) {
+		e.preventDefault();
+
+		$html.removeClass(activeClassInfoBar);
+		$html.removeClass(activeClassSidebar);
 	});
 
 	// guide toggle
 	$('body').on('click', '.guide-opener-js', function (e) {
-		var activeClass = "guide-show";
 		if ($('.guide').length) {
 			e.preventDefault();
 
-			var $html = $('html');
-
-			$html.toggleClass(activeClass, !$html.hasClass(activeClass));
+			$html.toggleClass(activeClassGuide, !$html.hasClass(activeClassGuide));
 
 			e.stopPropagation();
 		}
 	});
 
 	$(document).on('click', function (e) {
-		if ($('html').hasClass('guide-show') && !$(e.target).hasClass('guide__align') && !$(e.target).parents().hasClass('guide__align')) {
-			$('html').removeClass('guide-show');
+		if ($html.hasClass(activeClassGuide) && !$(e.target).hasClass('guide__align') && !$(e.target).parents().hasClass('guide__align')) {
+			$html.removeClass(activeClassGuide);
 		}
 	})
 }
@@ -659,6 +677,6 @@ jQuery(document).ready(function(){
 	classToggle();
 	// parallaxMainSlider();
 	hoverClassInit();
-	fixedHeader();
+	// fixedHeader();
 	// walkPages();
 });
