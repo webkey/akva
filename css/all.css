@@ -1811,7 +1811,7 @@ label{
 	left: 0;
 	height: 30px;
 	width: 100%;
-	box-shadow: 0 0 15px 8px #023466;
+	box-shadow: 0 0 8px 5px #023466;
 	z-index: 3;
 	pointer-events: none;
 }

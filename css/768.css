@@ -196,8 +196,8 @@
 	left: 0;
 	height: 30px;
 	width: 100%;
-	box-shadow: 0 0 15px 8px #024383;
-	z-index: 3;
+	box-shadow: 0 0 8px 5px #024383;
+	z-index: 4;
 	pointer-events: none;
 }
 .sidebar:before{
@@ -219,9 +219,6 @@
 	-webkit-transform: translate(0, 0);
 	-ms-transform: translate(0, 0);
 	transform: translate(0, 0);
-}
-.sidebar:after{
-	content: none;
 }
 .sidebar__head{
 	position: relative;
@@ -246,10 +243,11 @@
 	display: block;
 	width: auto;
 	height: auto;
-	padding-bottom: 20px;
+	padding: 0;
 }
 .main-nav ul{
 	display: block;
+	padding: 0;
 }
 .main-nav a{
 	text-align: left;
