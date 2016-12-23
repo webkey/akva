@@ -189,6 +189,23 @@
 	-ms-transform: translate(-105%, 0);
 	transform: translate(-105%, 0);
 }
+.sidebar:before,
+.sidebar:after{
+	content: '';
+	position: absolute;
+	left: 0;
+	height: 30px;
+	width: 100%;
+	box-shadow: 0 0 15px 8px #024383;
+	z-index: 3;
+	pointer-events: none;
+}
+.sidebar:before{
+	bottom: 100%;
+}
+.sidebar:after{
+	top: 100%;
+}
 .sidebar-holder{
 	overflow-y: auto;
 	padding-top: 0;
