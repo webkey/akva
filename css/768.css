@@ -1,1 +1,124 @@
 @media only screen and (max-width: 767px){}
+
+/*MAIN BLOCKS*/
+.wrapper{
+	padding-top: 50px;
+}
+/*MAIN BLOCKS end*/
+
+/*HEADER*/
+.header{
+	display: block;
+}
+/*HEADER end*/
+
+/*MAIN*/
+.main{
+	height: calc(100vh - 50px);
+	padding-left: 0;
+}
+/*MAIN end*/
+
+/*info bar*/
+.info-bar{
+	left: auto;
+	top: 51px;
+	right: 0;
+	height: calc(100vh - 51px);
+	border: solid #024383;
+	border-width: 0 0 0 1px;
+	-webkit-transform: translate(105%, 0);
+	-ms-transform: translate(105%, 0);
+	transform: translate(105%, 0);
+}
+/*info bar end*/
+
+/*SIDEBAR*/
+.sidebar{
+	height: calc(100vh - 50px);
+	width: 260px;
+	/*width: calc(100vw - 49px);*/
+	top: 50px;
+	border-right: 1px solid #2b52a1;
+	-webkit-transform: translate(-105%, 0);
+	-ms-transform: translate(-105%, 0);
+	transform: translate(-105%, 0);
+}
+.sidebar-holder{
+	overflow-y: auto;
+	padding-top: 0;
+}
+.info-bar-show .sidebar {
+	-webkit-transform: translate(-105%, 0);
+	-ms-transform: translate(-105%, 0);
+	transform: translate(-105%, 0);
+}
+.sidebar-show .sidebar{
+	-webkit-transform: translate(0, 0);
+	-ms-transform: translate(0, 0);
+	transform: translate(0, 0);
+}
+.sidebar:after{
+	content: none;
+}
+.sidebar__head{
+	position: relative;
+	height: auto;
+	padding: 0;
+	box-shadow: none;
+}
+.lang{
+	text-align: left;
+}
+.logo_sidebar{
+	display: none;
+}
+
+.sidebar__body,
+.no-touchevents .sidebar__body{
+	padding: 0;
+	height: auto;
+	width: auto;
+}
+.main-nav{
+	display: block;
+	width: auto;
+	height: auto;
+	padding-bottom: 20px;
+}
+.main-nav ul{
+	display: block;
+}
+.main-nav a{
+	text-align: left;
+	padding: 0.8em 20px;
+	line-height: 1;
+}
+.main-nav a:before,
+.main-nav a:after{
+	width: 100%;
+}
+.main-nav a svg{
+	position: relative;
+	left: auto;
+	top: auto;
+	width: 2.8em;
+	height: 2.8em;
+	margin-right: 1em;
+	display: inline-block;
+	vertical-align: middle;
+	-webkit-transform: none;
+	-ms-transform: none;
+	transform: none;
+}
+.main-nav a > span{
+	display: inline-block;
+	width: calc(98% - 2.8em - 1em);
+	/*98% - width of svg icon - svg icon right margin*/
+	line-height: 1.3;
+}
+
+.btn-info_sidebar{
+	display: none;
+}
+/*SIDEBAR end*/
