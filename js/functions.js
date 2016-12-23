@@ -14,18 +14,7 @@ $(window).resize(function () {
 });
 /*resize only width end*/
 
-/**!
- * device detected
- * */
-var DESKTOP = device.desktop();
-//console.log('DESKTOP: ', DESKTOP);
-var MOBILE = device.mobile();
-//console.log('MOBILE: ', MOBILE);
-var TABLET = device.tablet();
-//console.log('MOBILE: ', MOBILE);
-/*device detected end*/
-
-/**!
+/**
  *  placeholder
  *  */
 function placeholderInit(){
@@ -33,7 +22,7 @@ function placeholderInit(){
 }
 /*placeholder end*/
 
-/**!
+/**
  * print
  * */
 function printShow() {
@@ -286,20 +275,6 @@ function mainSlider() {
 	function switchStateTab(content,tab,index) {
 		var length = content.find(images).length;
 
-		// if ($currentBtn.data('direction') === "prev") {
-		// 	if (index <= 0) {
-		// 		index = index - 1 + length;
-		// 	} else {
-		// 		index = index - 1;
-		// 	}
-		// } else {
-		// 	if (index >= length - 1) {
-		// 		index = index + 1 - length;
-		// 	} else {
-		// 		index = index + 1;
-		// 	}
-		// }
-
 		// if property "index" length class added
 		// else class removed
 		if (Array.isArray(tab)){
@@ -319,29 +294,11 @@ function mainSlider() {
 				content.find(tab[i])
 					.eq(indexPrev).addClass(activeClassPrev)
 					.siblings().removeClass(activeClassPrev);
-
-				// if (index <= length - 2) {
-				// 	indexNext = index + 1;
-				// } else {
-				// 	indexNext = 0;
-				// }
-
-				// if (index !== undefined) {
-				//
-				// } else {
-				// 	content.find(tab[i]).removeClass(activeClass);
-				// }
 			}
 		} else {
 			content.find(tab)
 				.eq(index).addClass(activeClass)
 				.siblings().removeClass(activeClass);
-
-			// if (index !== undefined) {
-			//
-			// } else {
-			// 	content.find(tab).removeClass(activeClass);
-			// }
 		}
 	}
 
@@ -411,7 +368,11 @@ function classToggle() {
 /**
  * jquery.toggleHoverClass
  * */
+//
 (function ($) {
+	// external js:
+	// 1) Modernizr (touchevents)
+
 	var HoverClass = function (settings) {
 		var options = $.extend({
 			container: 'ul',
@@ -437,7 +398,7 @@ function classToggle() {
 
 		self.addClassHover();
 
-		if (!DESKTOP) {
+		if (Modernizr.touchevents) {
 			$(window).on('debouncedresize', function () {
 				self.removeClassHover();
 			});
@@ -453,7 +414,7 @@ function classToggle() {
 			item = self.options.item,
 			$container = self.$container;
 
-		if (!DESKTOP) {
+		if (Modernizr.touchevents) {
 
 			$container.on('click', ''+item+'', function (e) {
 				var $currentAnchor = $(this);

@@ -90,66 +90,6 @@
 	visibility: hidden;
 }
 
-/*.main-slider-title__item{
-	-webkit-transform: scale(0.9, 0.9);
-	-ms-transform: scale(0.9, 0.9);
-	transform: scale(0.9, 0.9);
-}
-.main-slider-title__item.active{
-	opacity: 1;
-	visibility: visible;
-	-webkit-transform: scale(1, 1);
-	-ms-transform: scale(1, 1);
-	transform: scale(1, 1);
-}
-.main-slider-title__item.active-prev{
-	opacity: 0;
-	visibility: hidden;
-	-webkit-transform: scale(0.9, 0.9);
-	-ms-transform: scale(0.9, 0.9);
-	transform: scale(0.9, 0.9);
-}*/
-
-/*.main-slider-title__item{
-	-webkit-transform: scale(0.9, 0.9);
-	-ms-transform: scale(0.9, 0.9);
-	transform: scale(0.9, 0.9);
-}
-.main-slider-title__item.active{
-	opacity: 1;
-	visibility: visible;
-	-webkit-transform: scale(1, 1);
-	-ms-transform: scale(1, 1);
-	transform: scale(1, 1);
-}
-.main-slider-title__item.active-prev{
-	opacity: 0;
-	visibility: hidden;
-	-webkit-transform: scale(1.5, 1.5);
-	-ms-transform: scale(1.5, 1.5);
-	transform: scale(1.5, 1.5);
-}*/
-
-/*.main-slider-title__item{
-	-webkit-transform: scale(1.5, 1.5);
-	-ms-transform: scale(1.5, 1.5);
-	transform: scale(1.5, 1.5);
-}
-.main-slider-title__item.active{
-	opacity: 1;
-	visibility: visible;
-	-webkit-transform: scale(1, 1);
-	-ms-transform: scale(1, 1);
-	transform: scale(1, 1);
-}
-.main-slider-title__item.active-prev{
-	opacity: 0;
-	visibility: hidden;
-	-webkit-transform: scale(0.9, 0.9);
-	-ms-transform: scale(0.9, 0.9);
-	transform: scale(0.9, 0.9);
-}*/
-
 .main-slider__foot{
 	position: absolute;
 	left: 0;
@@ -195,7 +135,8 @@
 	top: auto;
 	left: auto;
 	width: 100%;
-	padding: 0;
+	padding: 20px;
+	border: none;
 }
 .guide,
 .guide-show .guide{
@@ -203,6 +144,19 @@
 	-ms-transform: none;
 	transform: none;
 }
+.guide:before{
+	content: none;
+}
+
+.guide__align{
+	display: block;
+	width: auto;
+}
+
+.guide__img {
+	max-height: none;
+}
+
 .guide-opener{
 	display: none;
 }
@@ -313,3 +267,43 @@
 	display: none;
 }
 /*SIDEBAR end*/
+
+/*ASIDE*/
+/*add menu*/
+.aside .add-menu {
+	height: auto;
+}
+.add-menu__item {
+	float: none;
+	height: auto;
+	width: 100%;
+}
+.add-menu__inner{
+	display: block;
+	position: relative;
+	left: auto;
+	bottom: auto;
+	padding-top: 20px;
+	border-bottom: 1px solid #045bb3;
+	box-shadow: none;
+}
+.add-menu__inner,
+.add-menu__item.hover .add-menu__inner{
+	-webkit-transform: none;
+	-ms-transform: none;
+	transform: none;
+}
+.add-menu__title {
+	text-align: left;
+	padding-bottom: 20px;
+}
+.add-menu__title:before{
+	content: none;
+}
+.add-menu__title,
+.add-menu__content{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+/*add menu end*/
+/*ASIDE end*/

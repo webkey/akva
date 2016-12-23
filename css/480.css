@@ -5,6 +5,17 @@
 	height: 480px;
 }
 
+.main-slider-caption,
+.main-slider-title__item{
+	font-size: 1.8rem;
+	line-height: 1.2;
+	max-height: calc(1.2em * 5 - 2px);
+	/*5 row of text (line-height * 5) - correcting value*/
+}
+.main-slider-caption {
+	top: 20px;
+}
+
 .main-slider__foot{
 	height: 60px;
 }
