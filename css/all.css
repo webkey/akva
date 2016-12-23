@@ -1265,16 +1265,21 @@ label{
 	max-width: 98%;
 	box-sizing: border-box;
 }
+.btn-menu > i{
+	font-size: 1px;
+	line-height: 1;
+}
 .btn-menu > i,
 .btn-menu > i:before,
 .btn-menu > i:after{
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	width: 21px;
-	height: 2px;
-	margin: -1px 0 0 -11px;
+	width: 21em;
+	height: 2em;
+	margin: -1em 0 0 -11em;
 	background: #fff;
+	border-radius: 2em;
 	-webkit-transition-property: background, -webkit-transform;
 	transition-property: background, transform;
 	-webkit-transition-duration: 0.2s;
@@ -1806,7 +1811,7 @@ label{
 	left: 0;
 	height: 30px;
 	width: 100%;
-	box-shadow: 0 0 15px 5px #023466;
+	box-shadow: 0 0 15px 8px #023466;
 	z-index: 3;
 	pointer-events: none;
 }
@@ -1900,10 +1905,11 @@ label{
 	font-size: 1.4rem;
 	line-height: 1.2;
 }
-.load-btn svg {
+.load-btn svg{
 	display: inline-block;
 	vertical-align: middle;
 	width: 34px;
+	height: 34px;
 	margin: 0 0.9em 0 0;
 }
 .load-btn path {
@@ -2037,6 +2043,7 @@ label{
 	left: 0;
 	height: 100vh;
 	overflow: hidden;
+	background: #024383;
 	z-index: 9;
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
@@ -2054,15 +2061,6 @@ label{
 	-webkit-transform: translate(260px, 0);
 	-ms-transform: translate(260px, 0);
 	transform: translate(260px, 0);
-}
-.sidebar:before {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	background-color: #024383;
 }
 .sidebar:after{
 	content: '';
