@@ -1194,18 +1194,34 @@ label{
 /*logo*/
 .logo{
 	display: block;
-	background: url(../img/logo.png) no-repeat 50% 50%;
 	width: 100px;
 	height: 37px;
 	margin: 0;
-	-webkit-background-size: contain;
-	background-size: contain;
-	text-indent: -9999px;
-	overflow: hidden;
+	font-size: 1px;
 }
 .logo a{
 	display: block;
 	height: 100%;
+	padding: 14em 0 0;
+}
+.logo a > span{
+	display: block;
+	overflow: hidden;
+	background: url(../img/logo.svg) no-repeat 50% 50%;
+	-webkit-background-size: contain;
+	background-size: contain;
+	height: 14em;
+	margin-bottom: 8em;
+	text-indent: -9999px;
+}
+.logo a > i{
+	display: block;
+	overflow: hidden;
+	background: url(../img/logo-text.svg) no-repeat 50% 50%;
+	-webkit-background-size: contain;
+	background-size: contain;
+	height: 7em;
+	text-indent: -9999px;
 }
 /*logo end*/
 
@@ -1214,6 +1230,9 @@ label{
 	margin: 0 auto;
 	height: 50px;
 	width: 80px;
+}
+.logo_header a{
+	padding: 11em 0 0;
 }
 /*logo in header end*/
 
