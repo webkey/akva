@@ -1078,18 +1078,10 @@ label{
 	position: relative;
 }
 .btn-info a{
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	width: 100%;
+	display: block;
 	height: 100%;
 	text-indent: -9999px;
 	overflow: hidden;
-	-webkit-backface-visibility: visible;
-	backface-visibility: visible;
-	-webkit-transform: translate(-50%, -50%);
-	-ms-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%);
 }
 .btn-info a:before{
 	content: '';
@@ -1098,7 +1090,9 @@ label{
 	top: 0;
 	height: 100%;
 	width: 100%;
-	background: url(../img/depict-info.png) no-repeat 50% 50%;
+	background: url(../img/depict-info.svg) no-repeat 50% 50%;
+	-webkit-background-size: 6px;
+	background-size: 6px;
 	-webkit-transition-property: visibility, opacity, -webkit-transform;
 	transition-property: visibility, opacity, transform;
 	-webkit-transition-duration: 0.2s;
@@ -1142,19 +1136,19 @@ label{
 	width: 21em;
 	border-radius: 2em;
 	background: #fff;
-	-webkit-transition-property: background;
-	transition-property: background;
+	-webkit-transition-property: background, -webkit-transform;
+	transition-property: background, transform;
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
 	margin: -1em 0 0 -11em;
 }
 
-.btn-info a > i:before{
+.info-bar-show .btn-info a > i:before{
 	-webkit-transform: rotate(-45deg);
 	-ms-transform: rotate(-45deg);
 	transform: rotate(-45deg);
 }
-.btn-info a > i:after{
+.info-bar-show .btn-info a > i:after{
 	-webkit-transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
 	transform: rotate(45deg);
@@ -1169,10 +1163,10 @@ label{
 	width: 50px;
 	height: 50px;
 }
-.btn-info a:active{
-	-webkit-transform: translate(-50%, -50%) scale(0.85, 0.85);
-	-ms-transform: translate(-50%, -50%) scale(0.85, 0.85);
-	transform: translate(-50%, -50%) scale(0.85, 0.85);
+.btn-info_header a:active{
+	-webkit-transform: scale(0.85, 0.85);
+	-ms-transform: scale(0.85, 0.85);
+	transform: scale(0.85, 0.85);
 }
 /*button info in header end*/
 
@@ -1189,8 +1183,8 @@ label{
 	height: 50px;
 	border: 2px solid #fff;
 	border-radius: 50%;
-	text-indent: -9999px;
-	overflow: hidden;
+	-webkit-backface-visibility: visible;
+	backface-visibility: visible;
 	-webkit-transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
@@ -2530,6 +2524,11 @@ label{
 }
 .add-menu__title svg path{
 	fill: #fff;
+}
+.add-menu__title svg.svg-map-supply path{
+	-webkit-transform: scale(0.8, 0.8) translate(25%, 14%);
+	-ms-transform: scale(0.8, 0.8) translate(25%, 14%);
+	transform: scale(0.8, 0.8) translate(25%, 14%);
 }
 .add-menu__title span{
 	display: inline-block;
