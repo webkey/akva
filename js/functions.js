@@ -642,7 +642,7 @@ function walkPages() {
 			loadingBarAnimation();
 
 			//create a new section element and insert it into the DOM
-			var section = $('<section class="main cd-section overflow-hidden '+newSection+'"></section>').prependTo(mainContent);
+			var section = $('<div class="main cd-section overflow-hidden '+newSection+'"></div>').prependTo(mainContent);
 			//load the new content from the proper html file
 			section.load(newSection+'.html .cd-section > *', function(event){
 				//finish up the animation and then make the new section visible
@@ -709,6 +709,120 @@ function walkPages() {
 }
 /*walk pages end*/
 
+/**
+ * scroll to section
+ * */
+function secondNav() {
+// external js:
+// 1) TweetMax (widgets.js);
+// 2) ScrollToPlugin (widgets.js);
+
+	var self = this;
+	var sectionArr;
+	var scrollWrap = ".main";
+	var nav = '.side';
+	var activeClassForNav = 'active';
+	var activeClassForSection = 'active-section';
+
+	self.initialize = function() {
+		findNavItems();
+		setScroll();
+		setActions()
+	};
+
+	var setActions = function() {
+		$(nav).on('click', "li", function(e) {
+			e.preventDefault();
+
+			if ($(this).hasClass(activeClassForNav)) return;
+
+			var $currentSection = $("#" + $(this).data('section'));
+
+			TweenMax.to($(scrollWrap), 0.3, {scrollTo: {
+				y: $currentSection.position().top},
+				ease: Power2.easeInOut,
+				onComplete: function () {
+					$('section[data-side-nav]').removeClass(activeClassForSection);
+					$currentSection.addClass(activeClassForSection)
+				}
+			});
+
+			$("li", nav).removeClass(activeClassForNav);
+
+			$(this).addClass(activeClassForNav)
+		})
+	};
+
+	var setScroll = function() {
+		var $initialNavItem = $(nav).find("li").eq(0);
+		var $section = $('section[data-side-nav]');
+		var $currentSection = $("#" + $initialNavItem.data('section'));
+
+		$initialNavItem.addClass(activeClassForNav);
+
+		$section.removeClass(activeClassForSection);
+		$currentSection.addClass(activeClassForSection);
+
+		$(scrollWrap).scroll(function() {
+			var scrollTop = $(scrollWrap).scrollTop();
+
+			if (scrollTop > 0) {
+				$(scrollWrap).addClass('is-scrolled')
+			} else {
+				$(scrollWrap).removeClass('is-scrolled')
+			}
+
+			for (var i = 0; i < sectionArr.length; i++) {
+				$currentSection = $(sectionArr[i]);
+
+				if ( $currentSection.position().top - scrollTop >= 0 && $currentSection.position().top - scrollTop <= 100 ) {
+				// if ( $currentSection.position().top - scrollTop >= 0) {
+
+					$("li", nav).removeClass(activeClassForNav);
+
+					$('li[data-section="' + $currentSection.attr("id") + '"]', nav).addClass(activeClassForNav);
+
+					$section.removeClass(activeClassForSection);
+					$currentSection.addClass(activeClassForSection);
+				}
+			}
+		})
+	};
+
+	var findNavItems = function() {
+		sectionArr = [];
+		$("section").each(function() {
+			if ($(this).attr("data-side-nav")) {
+				sectionArr.push($(this))
+			}
+		});
+		createNavigation()
+	};
+
+	var createNavigation = function() {
+		var navTpl = '<nav class="side"><ul></li></nav>';
+
+		$('body').append(navTpl);
+
+		for (var i = 0; i < sectionArr.length; i++) {
+			$(nav).find("ul")
+				.append(
+					'<li data-lpos="sidenav" data-lid="click_' + $(sectionArr[i]).attr("id") + '" data-section="' + $(sectionArr[i]).attr("id") + '">' +
+					'<a data-lpos="sidenav" data-lid="click_' + $(sectionArr[i]).attr("id") + '" href="#' + $(sectionArr[i]).attr("id") + '">' +
+					'<i class="side__circle"></i>' +
+					'<span class="side__label">' + $(sectionArr[i]).data("side-nav") + '</span>' +
+					'</a>' +
+					'</li>'
+				)
+		}
+	};
+
+	self.initialize()
+}
+
+var secondaryNav;
+/*scroll to section end*/
+
 /** ready/load/resize document **/
 
 jQuery(document).ready(function(){
@@ -716,8 +830,12 @@ jQuery(document).ready(function(){
 	printShow();
 	mainSlider();
 	classToggle();
-	// parallaxMainSlider();
+	parallaxMainSlider();
 	hoverClassInit();
 	// fixedHeader();
 	// walkPages();
+
+	if ($('.main').hasClass('about')) {
+		secondaryNav = new secondNav();
+	}
 });
