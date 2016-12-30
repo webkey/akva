@@ -1853,20 +1853,29 @@ label{
 }
 .section-aside:before{
 	content: 'Об истории завода, его работе и достижениях написано много в различных средствах массовой информации. Вся наша работа направлена на то, чтобы потребители нашей продукции были уверены, что они приобретают гарантированно качественный и натуральный продукт, технологии производства которого от выращивания и хранения зерна до изготовления конечного продукта строго соблюдаются в едином взаимосвязанном цикле.';
+	color: #fff;
 }
-#section-02 .section-aside{
+.section .section-aside{
+	display: none;
+}
+#section-02 .section-aside,
+.section-asides .section-aside:nth-child(2){
 	background: #ffb288;
 }
-#section-03 .section-aside{
+#section-03 .section-aside,
+.section-asides .section-aside:nth-child(3){
 	background: #ff5d75;
 }
-#section-04 .section-aside{
+#section-04 .section-aside,
+.section-asides .section-aside:nth-child(4){
 	background: #cb93fd;
 }
-#section-05 .section-aside{
+#section-05 .section-aside,
+.section-asides .section-aside:nth-child(5){
 	background: #6bbdff;
 }
-#section-06 .section-aside{
+#section-06 .section-aside,
+.section-asides.section-aside:nth-child(6){
 	background: #8affd0;
 }
 
@@ -1875,6 +1884,29 @@ label{
 }*/
 .section.active-section .section-aside{
 	/*position: fixed;*/
+}
+
+.section-asides{
+	position: fixed;
+	width: 320px;
+	top: 0;
+	right: 17px;
+	height: 100vh;
+	z-index: 6;
+}
+.section-asides .section-aside{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	-webkit-transform: translateZ(0);
+	-moz-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	-o-transform: translateZ(0);
+	transform: translateZ(0);
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
 }
 /*about end*/
 /*CONTENT end*/

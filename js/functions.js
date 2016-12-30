@@ -719,10 +719,12 @@ function secondNav() {
 
 	var self = this;
 	var sectionArr;
-	var scrollWrap = ".main";
+	var scrollArea = ".main";
+	var section = 'section[data-side-nav]';
 	var nav = '.side';
 	var activeClassForNav = 'active';
 	var activeClassForSection = 'active-section';
+	var animationName = 'fixed'; // 'fixed', 'opacity' or 'parallax'
 
 	self.initialize = function() {
 		findNavItems();
@@ -738,11 +740,11 @@ function secondNav() {
 
 			var $currentSection = $("#" + $(this).data('section'));
 
-			TweenMax.to($(scrollWrap), 0.3, {scrollTo: {
+			TweenMax.to($(scrollArea), 0.3, {scrollTo: {
 				y: $currentSection.position().top},
 				ease: Power2.easeInOut,
 				onComplete: function () {
-					$('section[data-side-nav]').removeClass(activeClassForSection);
+					$(section).removeClass(activeClassForSection);
 					$currentSection.addClass(activeClassForSection)
 				}
 			});
@@ -755,7 +757,7 @@ function secondNav() {
 
 	var setScroll = function() {
 		var $initialNavItem = $(nav).find("li").eq(0);
-		var $section = $('section[data-side-nav]');
+		var $section = $(section);
 		var $currentSection = $("#" + $initialNavItem.data('section'));
 
 		$initialNavItem.addClass(activeClassForNav);
@@ -763,13 +765,13 @@ function secondNav() {
 		$section.removeClass(activeClassForSection);
 		$currentSection.addClass(activeClassForSection);
 
-		$(scrollWrap).scroll(function() {
-			var scrollTop = $(scrollWrap).scrollTop();
+		$(scrollArea).scroll(function() {
+			var scrollTop = $(scrollArea).scrollTop();
 
 			if (scrollTop > 0) {
-				$(scrollWrap).addClass('is-scrolled')
+				$(scrollArea).addClass('is-scrolled')
 			} else {
-				$(scrollWrap).removeClass('is-scrolled')
+				$(scrollArea).removeClass('is-scrolled')
 			}
 
 			for (var i = 0; i < sectionArr.length; i++) {
@@ -786,6 +788,8 @@ function secondNav() {
 					$currentSection.addClass(activeClassForSection);
 				}
 			}
+
+			scrollAnimation();
 		})
 	};
 
@@ -816,6 +820,122 @@ function secondNav() {
 				)
 		}
 	};
+
+	scrollAnimation();
+
+	function scrollAnimation(){
+		(!window.requestAnimationFrame) ? animateSection() : window.requestAnimationFrame(animateSection);
+	}
+
+	function animateSection() {
+		var scrollTop = $(scrollArea).scrollTop(),
+			windowHeight = $(section).height();
+			// windowHeight = $(window).height();
+
+		$(section).each(function(){
+			var actualBlock = $(this),
+				offset = scrollTop - actualBlock.position().top;
+
+			//according to animation type and window scroll, define animation parameters
+			var animationValues = setSectionAnimation(offset, windowHeight, animationName);
+
+			transformSection(
+				// actualBlock.children('.section-aside'),
+				$('.section-aside').eq(actualBlock.index()),
+				animationValues[0],
+				animationValues[1],
+				animationValues[2],
+				animationValues[3],
+				animationValues[4]
+			);
+			( offset >= 0 && offset < windowHeight ) ? actualBlock.addClass('visible') : actualBlock.removeClass('visible');
+		});
+	}
+
+	function setSectionAnimation(sectionOffset, windowHeight, animationName ) {
+		// select section animation - normal scroll
+		var scale = 1,
+			translateY = 100,
+			rotateX = '0deg',
+			opacity = 1,
+			boxShadowBlur = 0;
+
+		if( sectionOffset >= -windowHeight && sectionOffset <= 0 ) {
+			// section entering the viewport
+			translateY = (-sectionOffset)*100/windowHeight;
+
+			switch(animationName) {
+				case 'opacity':
+					translateY = 0;
+					scale = (sectionOffset + 5*windowHeight)*0.2/windowHeight;
+					opacity = (sectionOffset + windowHeight)/windowHeight;
+					break;
+			}
+
+		} else if( sectionOffset > 0 && sectionOffset <= windowHeight ) {
+			//section leaving the viewport - still has the '.visible' class
+			translateY = (-sectionOffset)*100/windowHeight;
+
+			switch(animationName) {
+				case 'opacity':
+					translateY = 0;
+					scale = (sectionOffset + 5*windowHeight)*0.2/windowHeight;
+					opacity = ( windowHeight - sectionOffset )/windowHeight;
+					break;
+				case 'fixed':
+					translateY = 0;
+					break;
+				case 'parallax':
+					translateY = (-sectionOffset)*50/windowHeight;
+					break;
+			}
+
+		} else if( sectionOffset < -windowHeight ) {
+			//section not yet visible
+			translateY = 100;
+
+			switch(animationName) {
+				case 'opacity':
+					translateY = 0;
+					scale = 0.8;
+					opacity = 0;
+					break;
+			}
+
+		} else {
+			//section not visible anymore
+			translateY = -100;
+
+			switch(animationName) {
+				case 'opacity':
+					translateY = 0;
+					scale = 1.2;
+					opacity = 0;
+					break;
+				case 'fixed':
+					translateY = 0;
+					break;
+				case 'parallax':
+					translateY = -50;
+					break;
+			}
+		}
+
+		return [translateY, scale, rotateX, opacity, boxShadowBlur];
+	}
+
+	function transformSection(element, translateY, scaleValue, rotateXValue, opacityValue, boxShadow) {
+		//transform sections - normal scroll
+		element.velocity({
+			translateY: translateY+'vh',
+			scale: scaleValue,
+			rotateX: rotateXValue,
+			opacity: opacityValue,
+			boxShadowBlur: boxShadow+'px',
+			translateZ: 0
+		}, 0);
+	}
+
 
 	self.initialize()
 }
