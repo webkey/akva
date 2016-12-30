@@ -1,5 +1,5 @@
-/**!
- * resize only width
+/**
+ *! resize only width
  * */
 var resizeByWidth = true;
 
@@ -15,7 +15,7 @@ $(window).resize(function () {
 /*resize only width end*/
 
 /**
- *  placeholder
+ *!  placeholder
  *  */
 function placeholderInit(){
 	$('[placeholder]').placeholder();
@@ -23,7 +23,7 @@ function placeholderInit(){
 /*placeholder end*/
 
 /**
- * print
+ *! print
  * */
 function printShow() {
 	$('.view-print').on('click', function (e) {
@@ -34,7 +34,7 @@ function printShow() {
 /*print end*/
 
 /**
- * parallax on mousemove
+ *! parallax on mousemove
  * */
 (function () {
 	var ParallaxJs = function (setting){
@@ -149,7 +149,7 @@ function parallaxMainSlider() {
  * */
 
 /**
- * main slider
+ *! main slider
  * */
 function mainSlider() {
 	'use strict';
@@ -310,7 +310,7 @@ function mainSlider() {
 /*main slider end*/
 
 /**
- * info bar toggle
+ *! info bar toggle
  * */
 function classToggle() {
 	var $html = $('html');
@@ -366,7 +366,7 @@ function classToggle() {
 /*info bar toggle end*/
 
 /**
- * jquery.toggleHoverClass
+ *! jquery.toggleHoverClass
  * */
 //
 (function ($) {
@@ -491,7 +491,7 @@ function classToggle() {
 /*jquery.toggleHoverClass end*/
 
 /**
- * toggle hover class
+ *! toggle hover class
  * */
 function hoverClassInit(){
 	if($('.add-menu').length){
@@ -505,7 +505,24 @@ function hoverClassInit(){
 /*toggle hover class end*/
 
 /**
- * fixed header on scroll
+ *! equal height
+ * */
+function equalHeightInit() {
+	var $productsItem = $('.benefits__list');
+
+	if ($productsItem.length) {
+		$productsItem.children().matchHeight({
+			byRow: true,
+			property: 'height',
+			target: null,
+			remove: false
+		});
+	}
+}
+/* equal height end */
+
+/**
+ *! fixed header on scroll
  * */
 function fixedHeader() {
 	var $bar = $('.header');
@@ -559,7 +576,7 @@ function fixedHeader() {
 /* fixed header on scroll*/
 
 /**
- * walk pages
+ *! walk pages
  * */
 function walkPages() {
 	//set some variables
@@ -643,6 +660,13 @@ function walkPages() {
 
 			//create a new section element and insert it into the DOM
 			var section = $('<div class="main cd-section overflow-hidden '+newSection+'"></div>').prependTo(mainContent);
+
+			section.css({
+				'-webkit-transform':'translateX(-100%)',
+				'-ms-transform':'translateX(-100%)',
+				'transform':'translateX(-100%)'
+			});
+
 			//load the new content from the proper html file
 			section.load(newSection+'.html .cd-section > *', function(event){
 				//finish up the animation and then make the new section visible
@@ -652,9 +676,19 @@ function walkPages() {
 					scaleY: scaleMax
 				}, 400, function(){
 					//add the .visible class to the new section element -> it will cover the old one
-					section.prev('.visible').removeClass('visible').end().addClass('visible').on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(){
-						resetAfterAnimation(section);
-					});
+					section
+						.css({
+							'-webkit-transform':'translateX(0)',
+							'-ms-transform':'translateX(0)',
+							'transform':'translateX(0)'
+						});
+
+					section
+						.prev('.visible').removeClass('visible').end()
+						.addClass('visible')
+						.on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(){
+							resetAfterAnimation(section);
+						});
 
 					//if browser doesn't support transition
 					if( $('.no-csstransitions').length > 0 ) {
@@ -696,6 +730,11 @@ function walkPages() {
 	function resetAfterAnimation(newSection) {
 		//once the new section animation is over, remove the old section and make the new one scrollable
 		newSection.removeClass('overflow-hidden').siblings('.cd-section').remove();
+		newSection.css({
+			'-webkit-transform':'none',
+			'-ms-transform':'none',
+			'transform':'none'
+		});
 		isAnimating =  false;
 		//reset your loading bar
 		resetLoadingBar();
@@ -710,7 +749,7 @@ function walkPages() {
 /*walk pages end*/
 
 /**
- * scroll to section
+ *! scroll to section
  * */
 function secondNav() {
 // external js:
@@ -749,9 +788,7 @@ function secondNav() {
 				}
 			});
 
-			$("li", nav).removeClass(activeClassForNav);
-
-			$(this).addClass(activeClassForNav)
+			$(this).addClass(activeClassForNav).siblings().removeClass(activeClassForNav);
 		})
 	};
 
@@ -777,10 +814,15 @@ function secondNav() {
 			for (var i = 0; i < sectionArr.length; i++) {
 				$currentSection = $(sectionArr[i]);
 
-				if ( $currentSection.position().top - scrollTop >= 0 && $currentSection.position().top - scrollTop <= 100 ) {
+				var offset = $currentSection.position().top,
+					scrollAreaHeight = $(scrollArea).outerHeight(),
+					sectionOffset = scrollTop - offset;
+
+				if ( sectionOffset >= -(scrollAreaHeight/2)) {
+				// if ( offset - scrollTop >= 0 && offset - scrollTop <= 100 ) {
 				// if ( $currentSection.position().top - scrollTop >= 0) {
 
-					$("li", nav).removeClass(activeClassForNav);
+					$('li', nav).removeClass(activeClassForNav);
 
 					$('li[data-section="' + $currentSection.attr("id") + '"]', nav).addClass(activeClassForNav);
 
@@ -789,7 +831,7 @@ function secondNav() {
 				}
 			}
 
-			scrollAnimation();
+			// scrollAnimation();
 		})
 	};
 
@@ -821,7 +863,7 @@ function secondNav() {
 		}
 	};
 
-	scrollAnimation();
+	// scrollAnimation();
 
 	function scrollAnimation(){
 		(!window.requestAnimationFrame) ? animateSection() : window.requestAnimationFrame(animateSection);
@@ -829,19 +871,22 @@ function secondNav() {
 
 	function animateSection() {
 		var scrollTop = $(scrollArea).scrollTop(),
-			windowHeight = $(section).height();
+			windowHeight = $(section).outerHeight();
 			// windowHeight = $(window).height();
 
 		$(section).each(function(){
 			var actualBlock = $(this),
 				offset = scrollTop - actualBlock.position().top;
 
+			console.log("scrollTop: ", scrollTop);
+			console.log("actualBlock.position().top: ", actualBlock.position().top);
+
 			//according to animation type and window scroll, define animation parameters
 			var animationValues = setSectionAnimation(offset, windowHeight, animationName);
 
 			transformSection(
 				// actualBlock.children('.section-aside'),
-				$('.section-aside').eq(actualBlock.index()),
+				actualBlock.find('.section-aside'),
 				animationValues[0],
 				animationValues[1],
 				animationValues[2],
@@ -860,15 +905,18 @@ function secondNav() {
 			opacity = 1,
 			boxShadowBlur = 0;
 
-		if( sectionOffset >= -windowHeight && sectionOffset <= 0 ) {
+		console.log("sectionOffset (scrollTop - actualBlock.position().top): ", sectionOffset);
+		console.log("windowHeight/2: ", windowHeight/2);
+
+		if( sectionOffset >= -(windowHeight) && sectionOffset <= 0 ) {
 			// section entering the viewport
 			translateY = (-sectionOffset)*100/windowHeight;
 
 			switch(animationName) {
 				case 'opacity':
 					translateY = 0;
-					scale = (sectionOffset + 5*windowHeight)*0.2/windowHeight;
-					opacity = (sectionOffset + windowHeight)/windowHeight;
+					// scale = (sectionOffset + 5*windowHeight)*0.2/windowHeight;
+					opacity = (sectionOffset + windowHeight)/(windowHeight);
 					break;
 			}
 
@@ -879,7 +927,7 @@ function secondNav() {
 			switch(animationName) {
 				case 'opacity':
 					translateY = 0;
-					scale = (sectionOffset + 5*windowHeight)*0.2/windowHeight;
+					// scale = (sectionOffset + 5*windowHeight)*0.2/windowHeight;
 					opacity = ( windowHeight - sectionOffset )/windowHeight;
 					break;
 				case 'fixed':
@@ -890,14 +938,14 @@ function secondNav() {
 					break;
 			}
 
-		} else if( sectionOffset < -windowHeight ) {
+		} else if( sectionOffset < -(windowHeight) ) {
 			//section not yet visible
 			translateY = 100;
 
 			switch(animationName) {
 				case 'opacity':
 					translateY = 0;
-					scale = 0.8;
+					// scale = 0.8;
 					opacity = 0;
 					break;
 			}
@@ -909,7 +957,7 @@ function secondNav() {
 			switch(animationName) {
 				case 'opacity':
 					translateY = 0;
-					scale = 1.2;
+					// scale = 1.2;
 					opacity = 0;
 					break;
 				case 'fixed':
@@ -943,7 +991,9 @@ function secondNav() {
 var secondaryNav;
 /*scroll to section end*/
 
-/** ready/load/resize document **/
+/**
+ *!  ready/load/resize document
+ * */
 
 jQuery(document).ready(function(){
 	placeholderInit();
@@ -952,6 +1002,7 @@ jQuery(document).ready(function(){
 	classToggle();
 	parallaxMainSlider();
 	hoverClassInit();
+	equalHeightInit();
 	// fixedHeader();
 	walkPages();
 

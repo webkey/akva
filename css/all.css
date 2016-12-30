@@ -67,7 +67,7 @@ body{
 	line-height: 1.7;
 	font-weight: 300;
 	height: 100%;
-	color: #333;
+	color: #262626;
 	background-color: #f7f7f7;
 	min-width: 320px;
 }
@@ -190,6 +190,12 @@ strong em{
 }
 .bottom-space{
 	margin-bottom: 30px;
+}
+.text__description{
+	font-family: 'arnopro-regular', sans-serif;
+	font-size: 1.3em;
+	line-height: 1.5;
+	color: #000;
 }
 /*MAIN BLOCKS end*/
 
@@ -1387,9 +1393,9 @@ label{
 	/* Force Hardware Acceleration */
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
-	-webkit-transform: translateX(-100%);
-	-ms-transform: translateX(-100%);
-	transform: translateX(-100%);
+	/*-webkit-transform: translateX(-100%);*/
+	/*-ms-transform: translateX(-100%);*/
+	/*transform: translateX(-100%);*/
 	-webkit-transition: -webkit-transform 0s 0.5s;
 	-moz-transition: -moz-transform 0s 0.5s;
 	transition: transform 0s 0.5s;
@@ -1405,11 +1411,9 @@ label{
 	position: relative;
 	z-index: 2;
 	-webkit-overflow-scrolling: touch;
-	-webkit-transform: translateX(0);
-	-moz-transform: translateX(0);
-	-ms-transform: translateX(0);
-	-o-transform: translateX(0);
-	transform: translateX(0);
+	/*-webkit-transform: translateX(0);*/
+	/*-ms-transform: translateX(0);*/
+	/*transform: translateX(0);*/
 	-webkit-transition: -webkit-transform 0.5s 0s;
 	-moz-transition: -moz-transform 0.5s 0s;
 	transition: transform 0.5s 0s;
@@ -1826,7 +1830,7 @@ label{
 /*about*/
 .section{
 	position: relative;
-	padding: 80px 320px 0 80px;
+	padding: 80px 320px 80px 0;
 	border-bottom: 1px solid #d9d9d9;
 	min-height: 100vh;
 }
@@ -1834,6 +1838,63 @@ label{
 .section:last-child{
 	border-bottom: none;
 }
+
+.benefits{
+	overflow: hidden;
+}
+.benefits__list{
+	margin: 0 -40px;
+	font-size: 0;
+	letter-spacing: -4px;
+}
+.benefits__list li{
+	display: inline-block;
+	vertical-align: top;
+	width: 49.98%;
+	min-height: 75px;
+	overflow: hidden;
+	padding: 44px 130px 25px 40px;
+	position: relative;
+	font-size: 1.8rem;
+	line-height: 1.7;
+	letter-spacing: normal;
+}
+.benefits__list li:after{
+	content: '';
+	position: absolute;
+	left: 40px;
+	right: 40px;
+	bottom: 0;
+	height: 0;
+	border-bottom: 1px solid #d9d9d9;
+}
+.benefits__list svg {
+	position:absolute;
+	right: 65px;
+	bottom: 0;
+}
+.benefits__list svg text {
+	font-family: 'arnopro-bold', sans-serif;
+	font-size: 7em;
+	line-height: 1;
+	stroke:none;
+}
+
+.section-history{
+	background: #fff url(../img/bg-section-history.png) no-repeat 50% 50%;
+	-webkit-background-size: cover;
+	background-size: cover;
+}
+.show-photos{
+	position: absolute;
+	bottom: 100px;
+	width: 60px;
+	height: 60px;
+	text-decoration: none;
+	color: #7a6240;
+	font-size: 1.8rem;
+}
+
 .section-aside{
 	position: fixed;
 	right: 17px;
@@ -1841,35 +1902,37 @@ label{
 	height: calc(100% + 1px);
 	width: 320px;
 	background: #024383;
+	color: #fff;
 	padding: 40px;
+	visibility: hidden;
+	opacity: 0;
 	-webkit-transform: translateZ(0);
 	-ms-transform: translateZ(0);
 	transform: translateZ(0);
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
+	-webkit-transition-property: visibility, opacity;
+	transition-property: visibility, opacity;
+	-webkit-transition-duration: 0.3s;
+	transition-duration: 0.3s;
 }
-.section-aside:before{
-	content: 'Об истории завода, его работе и достижениях написано много в различных средствах массовой информации. Вся наша работа направлена на то, чтобы потребители нашей продукции были уверены, что они приобретают гарантированно качественный и натуральный продукт, технологии производства которого от выращивания и хранения зерна до изготовления конечного продукта строго соблюдаются в едином взаимосвязанном цикле.';
-	color: #fff;
+.active-section .section-aside{
+	visibility: visible;
+	opacity: 1;
 }
-#section-02 .section-aside,
-.section-asides .section-aside:nth-child(2){
+#section-02 .section-aside{
 	background: #ffb288;
 }
-#section-03 .section-aside,
-.section-asides .section-aside:nth-child(3){
+#section-03 .section-aside{
 	background: #ff5d75;
 }
-#section-04 .section-aside,
-.section-asides .section-aside:nth-child(4){
+#section-04 .section-aside{
 	background: #cb93fd;
 }
-#section-05 .section-aside,
-.section-asides .section-aside:nth-child(5){
+#section-05 .section-aside{
 	background: #6bbdff;
 }
-#section-06 .section-aside,
-.section-asides.section-aside:nth-child(6){
+#section-06 .section-aside{
 	background: #8affd0;
 }
 
