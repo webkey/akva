@@ -953,7 +953,7 @@ jQuery(document).ready(function(){
 	parallaxMainSlider();
 	hoverClassInit();
 	// fixedHeader();
-	// walkPages();
+	walkPages();
 
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();
