@@ -991,6 +991,96 @@ function secondNav() {
 var secondaryNav;
 /*scroll to section end*/
 
+/**!
+ * common slider
+ * */
+function slidersInit() {
+	//history text slider
+	// var $historySliders = $('.history-text-slider-js');
+	var $historySliders = $('.history-sliders-js');
+	var $sliderNav = $('.history-periods-js');
+
+	if($historySliders.length) {
+		var $historyTextSlider = $historySliders.find('.history-text-slider-js');
+		var $historyImagesSlider = $historySliders.find('.history-images-slider-js');
+
+		$('.history-text-slider-js, .history-images-slider-js').on('init', function (event, slick) {
+
+			addCurrentClass(slick.currentSlide);
+
+		}).slick({
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			infinite: true,
+			speed: 300,
+			// autoplay: true,
+			// autoplaySpeed: 8000,
+			dots: false,
+			arrows: false,
+			fade: true,
+			focusOnSelect: true,
+			responsive: [
+				{
+					breakpoint: 640,
+					settings: {
+						autoplay: false
+					}
+				}
+			]
+		}).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+
+			addCurrentClass(nextSlide);
+
+		});
+
+		// common slider's navigation events
+		$sliderNav.on('click', 'a', function(e){
+
+			e.preventDefault();
+
+			var $this = $(this);
+			if ($this.parent().hasClass('current-slide')) return false;
+
+			var index = $this.parent().index();
+			$historyTextSlider.slick('slickGoTo', index);
+			$historyImagesSlider.slick('slickGoTo', index);
+
+		});
+
+		// toggle class current slide on navigation
+		function addCurrentClass(index) {
+
+			$sliderNav.find('li').removeClass('current-slide');
+			$sliderNav.find('li').eq(index).addClass('current-slide');
+
+		}
+
+		$('.history-images-js').each(function() {
+			$(this).on('init', function (event, slick) {
+
+				// addCurrentClass(slick.currentSlide);
+
+			}).slick({
+				slidesToShow: 3,
+				slidesToScroll: 3,
+				infinite: true,
+				dots: false,
+				arrows: false,
+				touchMove: false,
+				draggable: false,
+				accessibility: false,
+				swipe: false,
+				lazyLoad: 'ondemand',
+			}).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+
+				// addCurrentClass(nextSlide);
+
+			});
+		});
+	}
+}
+/*common slider end*/
+
 /**
  *!  ready/load/resize document
  * */
@@ -1005,6 +1095,7 @@ jQuery(document).ready(function(){
 	equalHeightInit();
 	// fixedHeader();
 	walkPages();
+	slidersInit();
 
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();
