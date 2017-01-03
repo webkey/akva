@@ -992,7 +992,7 @@ var secondaryNav;
 /*scroll to section end*/
 
 /**!
- * common slider
+ * history
  * */
 function slidersInit() {
 	//history text slider
@@ -1001,37 +1001,211 @@ function slidersInit() {
 	var $sliderNav = $('.history-periods-js');
 
 	if($historySliders.length) {
-		var $historyTextSlider = $historySliders.find('.history-text-slider-js');
-		var $historyImagesSlider = $historySliders.find('.history-images-slider-js');
 
-		$('.history-text-slider-js, .history-images-slider-js').on('init', function (event, slick) {
+		// external js:
+		// 1) TweetMax VERSION: 1.19.0 (widgets.js);
+		// 2) resizeByWidth (resize only width);
 
-			addCurrentClass(slick.currentSlide);
+		/*
+		 <!--html-->
+		 <div class="some-class js-tabs" data-collapsed="true">
+		 <!--if has data-collapsed="true" one click open tab content, two click close collapse tab content-->
+		 <div class="some-class__nav">
+		 <div class="some-class__tab">
+		 <a href="#" class="js-tab-anchor" data-for="some-id-01">Text tab 01</a>
+		 </div>
+		 <div class="some-class__tab">
+		 <a href="#" class="js-tab-anchor" data-for="some-id-02">Text tab 02</a>
+		 </div>
+		 </div>
 
-		}).slick({
-			slidesToShow: 1,
-			slidesToScroll: 1,
-			infinite: true,
-			speed: 300,
-			// autoplay: true,
-			// autoplaySpeed: 8000,
-			dots: false,
-			arrows: false,
-			fade: true,
-			focusOnSelect: true,
-			responsive: [
-				{
-					breakpoint: 640,
-					settings: {
-						autoplay: false
+		 <div class="some-class__panels js-tab-container">
+		 <div class="some-class__panel js-tab-content" data-id="some-id-01">Text content 01</div>
+		 <div class="some-class__panel js-tab-content" data-id="some-id-02">Text content 02</div>
+		 </div>
+		 </div>
+		 <!--html end-->
+		 */
+
+		var $main = $('.js-tabs');
+
+		var $container = $('.js-tab-container');
+
+		if ( !$container.length ) return false;
+
+		if($main.length){
+			var $anchor = $('.js-tab-anchor'),
+				$content = $('.js-tab-content'),
+				activeClass = 'active',
+				animationSpeed = 0,
+				animationHeightSpeed = 0.08;
+
+			$.each($main, function () {
+				var $this = $(this),
+					$thisAnchor = $this.find($anchor),
+					$thisContainer = $this.find($container),
+					$thisContent = $this.find($content),
+					initialDataAtr = $this.find('.active').data('for'),
+					activeDataAtr = false;
+
+				// prepare traffic content
+				function prepareTrafficContent() {
+					$thisContainer.css({
+						'display': 'block',
+						'position': 'relative',
+						'overflow': 'hidden'
+					});
+
+					$thisContent.css({
+						'display': 'block',
+						'position': 'absolute',
+						'left': 0,
+						'right': 0,
+						'width': '100%',
+						'z-index': -1
+					});
+
+					switchContent();
+				}
+
+				prepareTrafficContent();
+
+				// toggle content
+				$thisAnchor.on('click', function (e) {
+					e.preventDefault();
+
+					var $cur = $(this),
+						dataFor = $cur.data('for');
+
+					if ($this.data('collapsed') === true && activeDataAtr === dataFor) {
+
+						toggleActiveClass();
+						toggleContent(false);
+						changeHeightContainer(false);
+
+						return;
+					}
+
+					if (activeDataAtr === dataFor) return false;
+
+					initialDataAtr = dataFor;
+
+					switchContent();
+				});
+
+				// switch content
+				function switchContent() {
+					if (initialDataAtr) {
+						toggleContent();
+						changeHeightContainer();
+						toggleActiveClass();
 					}
 				}
-			]
-		}).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
 
-			addCurrentClass(nextSlide);
+				// show active content and hide other
+				function toggleContent() {
 
-		});
+					$thisContainer.css('height', $thisContainer.outerHeight());
+
+					$thisContent.css({
+						'position': 'absolute',
+						'left': 0,
+						'right': 0
+					});
+
+					TweenMax.set($thisContent, {
+						autoAlpha: 0,
+						'z-index': -1
+					});
+
+					if ( arguments[0] === false ) return;
+
+					var $initialContent = $thisContent.filter('[data-id="' + initialDataAtr + '"]');
+
+					$initialContent.css('z-index', 2);
+
+					TweenMax.to($initialContent, animationSpeed, {
+						autoAlpha: 1
+					});
+				}
+
+				// change container's height
+				function changeHeightContainer() {
+					var $initialContent = $thisContent.filter('[data-id="' + initialDataAtr + '"]');
+
+					if ( arguments[0] === false ) {
+						TweenMax.to($thisContainer, animationHeightSpeed, {
+							'height': 0
+						});
+
+						return;
+					}
+
+					TweenMax.to($thisContainer, animationHeightSpeed, {
+						'height': $initialContent.outerHeight(),
+						onComplete: function () {
+
+							$thisContainer.css('height', 'auto');
+
+							$initialContent.css({
+								'position': 'relative',
+								'left': 'auto',
+								'right': 'auto'
+							});
+						}
+					});
+				}
+
+				// toggle class active
+				function toggleActiveClass(){
+					$thisAnchor.removeClass(activeClass);
+					$thisContent.removeClass(activeClass);
+
+					// toggleStateThumb();
+
+					if (initialDataAtr !== activeDataAtr) {
+
+						activeDataAtr = initialDataAtr;
+
+						$thisAnchor.filter('[data-for="' + initialDataAtr + '"]').addClass(activeClass);
+						$thisContent.filter('[data-id="' + initialDataAtr + '"]').addClass(activeClass);
+
+						return false;
+					}
+
+					activeDataAtr = false;
+				}
+			});
+		}
+
+		// $historySliders.on('init', function (event, slick) {
+		//
+		// 	addCurrentClass(slick.currentSlide);
+		//
+		// }).slick({
+		// 	slidesToShow: 1,
+		// 	slidesToScroll: 1,
+		// 	infinite: true,
+		// 	speed: 300,
+		// 	// autoplay: true,
+		// 	// autoplaySpeed: 8000,
+		// 	dots: false,
+		// 	arrows: false,
+		// 	fade: true,
+		// 	focusOnSelect: true,
+		// 	responsive: [
+		// 		{
+		// 			breakpoint: 640,
+		// 			settings: {
+		// 				autoplay: false
+		// 			}
+		// 		}
+		// 	]
+		// }).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+		//
+		// 	addCurrentClass(nextSlide);
+		//
+		// });
 
 		// common slider's navigation events
 		$sliderNav.on('click', 'a', function(e){
@@ -1042,8 +1216,7 @@ function slidersInit() {
 			if ($this.parent().hasClass('current-slide')) return false;
 
 			var index = $this.parent().index();
-			$historyTextSlider.slick('slickGoTo', index);
-			$historyImagesSlider.slick('slickGoTo', index);
+			$historySliders.slick('slickGoTo', index);
 
 		});
 
@@ -1055,31 +1228,309 @@ function slidersInit() {
 
 		}
 
-		$('.history-images-js').each(function() {
-			$(this).on('init', function (event, slick) {
+	}
 
-				// addCurrentClass(slick.currentSlide);
 
-			}).slick({
-				slidesToShow: 3,
-				slidesToScroll: 3,
-				infinite: true,
-				dots: false,
-				arrows: false,
-				touchMove: false,
-				draggable: false,
-				accessibility: false,
-				swipe: false,
-				lazyLoad: 'ondemand',
-			}).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+}
+(function ($) {
+	// external js:
+	// 1) TweetMax VERSION: 1.19.0 (widgets.js);
+	// 2) resizeByWidth (resize only width);
+	// 3) debouncedresize (widgets.js);
+	// 4) Modernizr (touchevents)
+	// if (Modernizr.touchevents) {
+	// 	$(window).on('debouncedresize', function () {
+	// 		console.log('touchevents');
+	// 	});
+	// }
 
-				// addCurrentClass(nextSlide);
+	// add css style
+	// .nav-opened{
+	// 	width: 100%!important;
+	// 	height: 100%!important;
+	// 	max-width: 100%!important;
+	// 	max-height: 100%!important;
+	// 	margin: 0!important;
+	// 	padding: 0!important;
+	// 	overflow: hidden!important;
+	// }
 
+	// .nav-opened-before .wrapper{ z-index: 99; } // z-index of header must be greater than footer
+	//
+	// @media only screen and (min-width: [example: 1280px]){
+	// .nav{
+	// 		-webkit-transform: translate(0, 0) matrix(1, 0, 0, 1, 0, 0) !important;
+	// 		-ms-transform: translate(0, 0) matrix(1, 0, 0, 1, 0, 0) !important;
+	// 		transform: translate(0, 0) matrix(1, 0, 0, 1, 0, 0) !important;
+	// 	}
+	// .nav-list > li{
+	// 		-webkit-transform: translate(0, 0) matrix(1, 0, 0, 1, 0, 0) !important;
+	// 		-ms-transform: translate(0, 0) matrix(1, 0, 0, 1, 0, 0) !important;
+	// 		transform: translate(0, 0) matrix(1, 0, 0, 1, 0, 0) !important;
+	// 		opacity: 1 !important;
+	// 		visibility: visible !important;
+	// 	}
+	// }
+
+	var MultiSwitcher = function (settings) {
+		var options = $.extend({
+			switcher: null,
+			switcherPanel: null,
+			activeSwitcher: 0,
+			animationSpeed: 0.3
+		}, settings || {});
+
+		var self = this;
+
+		self.options = options;
+		self.$switcher = $(options.switcher);
+		self.switcherPanel = options.switcherPanel;
+
+		self.activeSwitcher = options.activeSwitcher;
+		self.animationSpeed = options.animationSpeed;
+
+		self.modifiers = {
+			active: 'active',
+			activePrev: 'active-prev',
+			activeNext: 'active-next'
+		};
+
+		self.switchIndex = options.activeSwitcher;
+		self.preparationAnimation();
+		self.initSwitcher();
+	};
+
+	MultiSwitcher.prototype.switchIndex = 0;
+
+	MultiSwitcher.prototype.initSwitcher = function() {
+		this.toggleContent();
+		this.changeHeightContainer();
+		this.switchClass();
+	};
+
+	MultiSwitcher.prototype.switchClass = function() {
+		var self = this;
+		var $content = self.$switcher;
+		var panel = self.switcherPanel;
+		var length = panel.length;
+		var index = self.activeSwitcher;
+		var indexNext, indexPrev;
+		var activeClass = self.modifiers.active;
+		var activeClassPrev = self.modifiers.activePrev;
+		var activeClassNext = self.modifiers.activeNext;
+
+		indexNext = (index < length - 1) ? index + 1 : 0;
+		indexPrev = (index >= 0) ? index - 1 : length - 1;
+
+		if (Array.isArray(panel)){
+			for(var i = 0; i < panel.length; i++) {
+
+				$content.find(panel[i])
+					.eq(index).addClass(activeClass)
+					.siblings().removeClass(activeClass);
+
+				$content.find(panel[i])
+					.eq(indexNext).addClass(activeClassNext)
+					.siblings().removeClass(activeClassNext);
+
+				$content.find(panel[i])
+					.eq(indexPrev).addClass(activeClassPrev)
+					.siblings().removeClass(activeClassPrev);
+			}
+		} else {
+			var $panel = $(panel);
+
+			$content.find($panel)
+				.eq(index).addClass(activeClass)
+				.siblings().removeClass(activeClass);
+
+			$content.find($panel)
+				.eq(indexNext).addClass(activeClassNext)
+				.siblings().removeClass(activeClassNext);
+
+			$content.find($panel)
+				.eq(indexPrev).addClass(activeClassPrev)
+				.siblings().removeClass(activeClassPrev);
+		}
+	};
+
+	// preparation element before animation
+	MultiSwitcher.prototype.preparationAnimation = function() {
+		var self = this;
+
+		var $content = self.$switcher,
+			panel = self.switcherPanel;
+
+		$content.css({
+			'display': 'block',
+			'position': 'relative',
+			'overflow': 'hidden'
+		});
+
+		if (Array.isArray(panel)){
+			for(var i = 0; i < panel.length; i++) {
+
+				$content.find(panel[i]).css({
+					'display': 'block',
+					'position': 'absolute',
+					'left': 0,
+					'right': 0,
+					'width': '100%',
+					'z-index': -1
+				});
+
+			}
+		} else {
+			var $panel = $(panel);
+
+			$panel.css({
+				'display': 'block',
+				'position': 'absolute',
+				'left': 0,
+				'right': 0,
+				'width': '100%',
+				'z-index': -1
+			});
+		}
+
+		// console.log('preparationAnimation');
+
+		// TweenMax.set($navContainer, {
+		// 	xPercent: -100,
+		// 	autoAlpha: 0,
+		// 	onComplete: function () {
+		// 		$navContainer.show(0);
+		// 	}
+		// });
+		//
+		// TweenMax.set($staggerItems, {
+		// 	autoAlpha: 0,
+		// 	scale: 0.6,
+		// 	y: 50
+		// });
+	};
+
+	// show active content and hide other
+	MultiSwitcher.prototype.toggleContent = function() {
+
+		var self = this;
+
+		var $content = self.$switcher,
+			panel = self.switcherPanel,
+			$panel = $(panel),
+			index = self.switchIndex,
+			animationSpeed = self.animationSpeed;
+
+		$content.css('height', $content.outerHeight());
+		
+		var panelsArr = [];
+
+		if (Array.isArray(panel)){
+			for(var i = 0; i < panel.length; i++) {
+				panelsArr.push($(panel[i]));
+			}
+		} else {
+			panelsArr.push($panel);
+		}
+
+		$.each(panelsArr, function () {
+			var $panel = $(this);
+			var $currentPanel = $panel.eq(index);
+			var $currentContainer = $currentPanel.closest($content);
+
+			$panel.css({
+				'position': 'absolute',
+				'left': 0,
+				'right': 0
+			});
+
+			TweenMax.set($panel, {
+				autoAlpha: 0,
+				'z-index': -1
+			});
+
+			if ( arguments[0] === false ) return;
+
+			$currentPanel.css('z-index', 2);
+
+			TweenMax.to($currentPanel, animationSpeed, {
+				autoAlpha: 1
 			});
 		});
+
+		// change container's height
+		MultiSwitcher.prototype.changeHeightContainer = function() {
+			var self = this;
+
+			var $content = self.$switcher,
+				panel = self.switcherPanel,
+				$panel = $(panel),
+				index = self.switchIndex,
+				animationSpeed = self.animationSpeed;
+
+			var panelsArr = [];
+
+			if (Array.isArray(panel)){
+				for(var i = 0; i < panel.length; i++) {
+					panelsArr.push($(panel[i]));
+				}
+			} else {
+				panelsArr.push($panel);
+			}
+
+			$.each(panelsArr, function () {
+
+				var $currentPanel = $(this).eq(index);
+				var $currentContainer = $currentPanel.closest($content);
+
+				if ( arguments[0] === false ) {
+					TweenMax.to($currentContainer, animationSpeed, {
+						'height': 0
+					});
+
+					return;
+				}
+
+				console.log("$currentPanel.outerHeight(): ", $currentPanel.outerHeight());
+				TweenMax.to($currentContainer, animationSpeed, {
+					'height': $currentPanel.outerHeight(),
+
+					onComplete: function () {
+
+						// $content.css('height', 'auto');
+
+						$currentPanel.css({
+							'position': 'relative',
+							'left': 'auto',
+							'right': 'auto'
+						});
+					}
+				});
+			});
+
+
+		}
+
+
+	};
+
+	window.MultiSwitcher = MultiSwitcher;
+
+}(jQuery));
+
+function historySwitcher(){
+	if($('.history-sliders-js').length){
+
+		new MultiSwitcher({
+			switcher: '.history-sliders-js',
+			switcherPanel: '.history-slider__item',
+			// switcherPanel: ['.history-slider__item', '.history-periods__item'],
+			activeSwitcher: 2
+		});
+
 	}
 }
-/*common slider end*/
+/*history end*/
 
 /**
  *!  ready/load/resize document
@@ -1095,7 +1546,7 @@ jQuery(document).ready(function(){
 	equalHeightInit();
 	// fixedHeader();
 	walkPages();
-	slidersInit();
+	historySwitcher();
 
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();

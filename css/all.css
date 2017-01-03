@@ -1447,8 +1447,7 @@ label{
 }
 
 /*slider*/
-.slick-arrow,
-.history-images__arrow{
+.slick-arrow{
 	width: 60px;
 	height: 60px;
 	display: block;
@@ -1473,30 +1472,24 @@ label{
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
 }
-.slick-prev,
-.history-images__prev{
+.slick-prev{
 	left: 0;
 }
-.slick-next,
-.history-images__next{
+.slick-next{
 	right: 0;
 }
-.no-touchevents .slick-arrow:hover,
-.no-touchevents .history-images__arrow:hover{ opacity: 1; }
+.no-touchevents .slick-arrow:hover{ opacity: 1; }
 .slick-arrow.slick-disabled,
 .no-touchevents .slick-arrow.slick-disabled{
 	opacity: 0.25;
 	-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
 	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
 }
-.no-touchevents .slick-arrow:hover,
-.no-touchevents .history-images__arrow:hover{
+.no-touchevents .slick-arrow:hover{
 	background: #2cb3f3;
 }
 .slick-arrow:before,
-.slick-arrow:after,
-.history-images__arrow:before,
-.history-images__arrow:after{
+.slick-arrow:after{
 	top: 50%;
 	content: "";
 	position: absolute;
@@ -1504,8 +1497,7 @@ label{
 	pointer-events: none;
 	box-sizing: border-box;
 }
-.slick-arrow:before,
-.history-images__arrow:before{
+.slick-arrow:before{
 	content: none;
 	left: 50%;
 	width: 22px;
@@ -1513,8 +1505,7 @@ label{
 	margin: -1px 0 0 -11px;
 	background: #fff;
 }
-.slick-arrow:after,
-.history-images__arrow:after{
+.slick-arrow:after{
 	width: 8px;
 	height: 8px;
 	-webkit-transform: rotate(45deg);
@@ -1522,14 +1513,12 @@ label{
 	transform: rotate(45deg);
 	border: 0 solid #fff;
 }
-.slick-prev:after,
-.history-images__prev:after{
+.slick-prev:after{
 	left: 50%;
 	border-width: 0 0 2px 2px;
 	margin: -4px 0 0 -2px;
 }
-.slick-next:after,
-.history-images__next:after{
+.slick-next:after{
 	right: 50%;
 	border-width: 2px 2px 0 0;
 	margin: -4px -2px 0 0;
@@ -2159,6 +2148,14 @@ label{
 	-webkit-background-size: cover;
 	background-size: cover;
 }
+
+.history-slider{}
+.history-slider__item{
+	display: none;
+}
+
+.history-slider__images{}
+
 .show-photos{
 	position: absolute;
 	bottom: 0;
@@ -2229,7 +2226,7 @@ label{
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
 }
-.history-periods li.current-slide{
+.history-periods li.active{
 	font-family: 'arnopro-bold', sans-serif;
 	font-size: 3.0rem;
 	padding: 3vh;
@@ -2265,8 +2262,8 @@ label{
 	-ms-transform-origin: right center;
 	transform-origin: right center;
 }
-.history-periods li.current-slide:before,
-.history-periods li.current-slide:after{
+.history-periods li.active:before,
+.history-periods li.active:after{
 	-webkit-transform: scale(1, 1);
 	-ms-transform: scale(1, 1);
 	transform: scale(1, 1);
