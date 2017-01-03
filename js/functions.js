@@ -1300,7 +1300,7 @@ var secondaryNav;
 					speed: 300,
 					// autoplay: true,
 					// autoplaySpeed: 8000,
-					// dots: true,
+					dots: false,
 					arrows: true,
 					responsive: [
 						{
@@ -1422,6 +1422,35 @@ function historySwitcher(){
 /*history end*/
 
 /**
+ * images gallery
+ * */
+function imagesGalleryInit() {
+	var $imagesGallery = $('.images-gallery__list');
+
+	$imagesGallery.slick({
+		slidesToShow: 5,
+		slidesToScroll: 5,
+		infinite: true,
+		speed: 300,
+		lazyLoad: 'ondemand',
+		// autoplay: true,
+		// autoplaySpeed: 8000,
+		dots: false,
+		arrows: true,
+		responsive: [
+			{
+				breakpoint: 640,
+				settings: {
+					slidesToShow: 2,
+					slidesToScroll: 2
+				}
+			}
+		]
+	})
+}
+/*images gallery end*/
+
+/**
  *!  ready/load/resize document
  * */
 
@@ -1436,6 +1465,7 @@ jQuery(document).ready(function(){
 	// fixedHeader();
 	walkPages();
 	historySwitcher();
+	imagesGalleryInit();
 
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();
