@@ -994,244 +994,6 @@ var secondaryNav;
 /**!
  * history
  * */
-function slidersInit() {
-	//history text slider
-	// var $historySliders = $('.history-text-slider-js');
-	var $historySliders = $('.history-sliders-js');
-	var $sliderNav = $('.history-periods-js');
-
-	if($historySliders.length) {
-
-		// external js:
-		// 1) TweetMax VERSION: 1.19.0 (widgets.js);
-		// 2) resizeByWidth (resize only width);
-
-		/*
-		 <!--html-->
-		 <div class="some-class js-tabs" data-collapsed="true">
-		 <!--if has data-collapsed="true" one click open tab content, two click close collapse tab content-->
-		 <div class="some-class__nav">
-		 <div class="some-class__tab">
-		 <a href="#" class="js-tab-anchor" data-for="some-id-01">Text tab 01</a>
-		 </div>
-		 <div class="some-class__tab">
-		 <a href="#" class="js-tab-anchor" data-for="some-id-02">Text tab 02</a>
-		 </div>
-		 </div>
-
-		 <div class="some-class__panels js-tab-container">
-		 <div class="some-class__panel js-tab-content" data-id="some-id-01">Text content 01</div>
-		 <div class="some-class__panel js-tab-content" data-id="some-id-02">Text content 02</div>
-		 </div>
-		 </div>
-		 <!--html end-->
-		 */
-
-		var $main = $('.js-tabs');
-
-		var $container = $('.js-tab-container');
-
-		if ( !$container.length ) return false;
-
-		if($main.length){
-			var $anchor = $('.js-tab-anchor'),
-				$content = $('.js-tab-content'),
-				activeClass = 'active',
-				animationSpeed = 0,
-				animationHeightSpeed = 0.08;
-
-			$.each($main, function () {
-				var $this = $(this),
-					$thisAnchor = $this.find($anchor),
-					$thisContainer = $this.find($container),
-					$thisContent = $this.find($content),
-					initialDataAtr = $this.find('.active').data('for'),
-					activeDataAtr = false;
-
-				// prepare traffic content
-				function prepareTrafficContent() {
-					$thisContainer.css({
-						'display': 'block',
-						'position': 'relative',
-						'overflow': 'hidden'
-					});
-
-					$thisContent.css({
-						'display': 'block',
-						'position': 'absolute',
-						'left': 0,
-						'right': 0,
-						'width': '100%',
-						'z-index': -1
-					});
-
-					switchContent();
-				}
-
-				prepareTrafficContent();
-
-				// toggle content
-				$thisAnchor.on('click', function (e) {
-					e.preventDefault();
-
-					var $cur = $(this),
-						dataFor = $cur.data('for');
-
-					if ($this.data('collapsed') === true && activeDataAtr === dataFor) {
-
-						toggleActiveClass();
-						toggleContent(false);
-						changeHeightContainer(false);
-
-						return;
-					}
-
-					if (activeDataAtr === dataFor) return false;
-
-					initialDataAtr = dataFor;
-
-					switchContent();
-				});
-
-				// switch content
-				function switchContent() {
-					if (initialDataAtr) {
-						toggleContent();
-						changeHeightContainer();
-						toggleActiveClass();
-					}
-				}
-
-				// show active content and hide other
-				function toggleContent() {
-
-					$thisContainer.css('height', $thisContainer.outerHeight());
-
-					$thisContent.css({
-						'position': 'absolute',
-						'left': 0,
-						'right': 0
-					});
-
-					TweenMax.set($thisContent, {
-						autoAlpha: 0,
-						'z-index': -1
-					});
-
-					if ( arguments[0] === false ) return;
-
-					var $initialContent = $thisContent.filter('[data-id="' + initialDataAtr + '"]');
-
-					$initialContent.css('z-index', 2);
-
-					TweenMax.to($initialContent, animationSpeed, {
-						autoAlpha: 1
-					});
-				}
-
-				// change container's height
-				function changeHeightContainer() {
-					var $initialContent = $thisContent.filter('[data-id="' + initialDataAtr + '"]');
-
-					if ( arguments[0] === false ) {
-						TweenMax.to($thisContainer, animationHeightSpeed, {
-							'height': 0
-						});
-
-						return;
-					}
-
-					TweenMax.to($thisContainer, animationHeightSpeed, {
-						'height': $initialContent.outerHeight(),
-						onComplete: function () {
-
-							$thisContainer.css('height', 'auto');
-
-							$initialContent.css({
-								'position': 'relative',
-								'left': 'auto',
-								'right': 'auto'
-							});
-						}
-					});
-				}
-
-				// toggle class active
-				function toggleActiveClass(){
-					$thisAnchor.removeClass(activeClass);
-					$thisContent.removeClass(activeClass);
-
-					// toggleStateThumb();
-
-					if (initialDataAtr !== activeDataAtr) {
-
-						activeDataAtr = initialDataAtr;
-
-						$thisAnchor.filter('[data-for="' + initialDataAtr + '"]').addClass(activeClass);
-						$thisContent.filter('[data-id="' + initialDataAtr + '"]').addClass(activeClass);
-
-						return false;
-					}
-
-					activeDataAtr = false;
-				}
-			});
-		}
-
-		// $historySliders.on('init', function (event, slick) {
-		//
-		// 	addCurrentClass(slick.currentSlide);
-		//
-		// }).slick({
-		// 	slidesToShow: 1,
-		// 	slidesToScroll: 1,
-		// 	infinite: true,
-		// 	speed: 300,
-		// 	// autoplay: true,
-		// 	// autoplaySpeed: 8000,
-		// 	dots: false,
-		// 	arrows: false,
-		// 	fade: true,
-		// 	focusOnSelect: true,
-		// 	responsive: [
-		// 		{
-		// 			breakpoint: 640,
-		// 			settings: {
-		// 				autoplay: false
-		// 			}
-		// 		}
-		// 	]
-		// }).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
-		//
-		// 	addCurrentClass(nextSlide);
-		//
-		// });
-
-		// common slider's navigation events
-		$sliderNav.on('click', 'a', function(e){
-
-			e.preventDefault();
-
-			var $this = $(this);
-			if ($this.parent().hasClass('current-slide')) return false;
-
-			var index = $this.parent().index();
-			$historySliders.slick('slickGoTo', index);
-
-		});
-
-		// toggle class current slide on navigation
-		function addCurrentClass(index) {
-
-			$sliderNav.find('li').removeClass('current-slide');
-			$sliderNav.find('li').eq(index).addClass('current-slide');
-
-		}
-
-	}
-
-
-}
 (function ($) {
 	// external js:
 	// 1) TweetMax VERSION: 1.19.0 (widgets.js);
@@ -1272,11 +1034,15 @@ function slidersInit() {
 	// 	}
 	// }
 
-	var MultiSwitcher = function (settings) {
+	var HistorySlider = function (settings) {
 		var options = $.extend({
 			switcher: null,
 			switcherPanel: null,
-			activeSwitcher: 0,
+			switcherNavItem: null,
+			switcherNavAnchor: null,
+			photosSlider: null,
+			showPhotosBtn: null,
+			activeSwitcher: null,
 			animationSpeed: 0.3
 		}, settings || {});
 
@@ -1284,7 +1050,12 @@ function slidersInit() {
 
 		self.options = options;
 		self.$switcher = $(options.switcher);
-		self.switcherPanel = options.switcherPanel;
+		self.$switcherPanel = options.switcherPanel;
+		self.$switcherNavItem = $(options.switcherNavItem);
+		self.$switcherNavAnchor = $(options.switcherNavAnchor);
+		self.$photosSlider = $(options.photosSlider);
+		self.$showPhotosBtn= $(options.showPhotosBtn);
+		self.btnIsVisible = true;
 
 		self.activeSwitcher = options.activeSwitcher;
 		self.animationSpeed = options.animationSpeed;
@@ -1295,71 +1066,63 @@ function slidersInit() {
 			activeNext: 'active-next'
 		};
 
-		self.switchIndex = options.activeSwitcher;
+		self.currentSwitcher = options.activeSwitcher;
+
+		self.getImagesSlider = self.imagesSliderInit();
+
 		self.preparationAnimation();
 		self.initSwitcher();
+		self.toggleSwitcher();
+		self.toggleImageSlider();
 	};
 
-	MultiSwitcher.prototype.switchIndex = 0;
-
-	MultiSwitcher.prototype.initSwitcher = function() {
-		this.toggleContent();
-		this.changeHeightContainer();
-		this.switchClass();
-	};
-
-	MultiSwitcher.prototype.switchClass = function() {
+	HistorySlider.prototype.initSwitcher = function() {
 		var self = this;
-		var $content = self.$switcher;
-		var panel = self.switcherPanel;
-		var length = panel.length;
-		var index = self.activeSwitcher;
-		var indexNext, indexPrev;
-		var activeClass = self.modifiers.active;
-		var activeClassPrev = self.modifiers.activePrev;
-		var activeClassNext = self.modifiers.activeNext;
 
-		indexNext = (index < length - 1) ? index + 1 : 0;
-		indexPrev = (index >= 0) ? index - 1 : length - 1;
+		self.countSlides();
+		self.switchClass();
+		self.toggleContent();
+		self.changeHeightContainer();
+	};
 
-		if (Array.isArray(panel)){
-			for(var i = 0; i < panel.length; i++) {
+	// toggle content
+	HistorySlider.prototype.toggleSwitcher = function() {
+		var self = this;
 
-				$content.find(panel[i])
-					.eq(index).addClass(activeClass)
-					.siblings().removeClass(activeClass);
+		$(document).on('click', ''+ this.options.switcherNavAnchor +'', function (e) {
+			e.preventDefault();
+			var initIndex = self.currentSwitcher;
 
-				$content.find(panel[i])
-					.eq(indexNext).addClass(activeClassNext)
-					.siblings().removeClass(activeClassNext);
+			var $curAnchor = $(this),
+				thisIndex = $curAnchor.closest(self.$switcherNavItem).index();
 
-				$content.find(panel[i])
-					.eq(indexPrev).addClass(activeClassPrev)
-					.siblings().removeClass(activeClassPrev);
+			if (initIndex === null && thisIndex === initIndex) {
+
+				toggleActiveClass();
+				toggleContent(false);
+				changeHeightContainer(false);
+
+				return;
 			}
-		} else {
-			var $panel = $(panel);
 
-			$content.find($panel)
-				.eq(index).addClass(activeClass)
-				.siblings().removeClass(activeClass);
+			if (thisIndex === initIndex) return false;
 
-			$content.find($panel)
-				.eq(indexNext).addClass(activeClassNext)
-				.siblings().removeClass(activeClassNext);
+			self.currentSwitcher = thisIndex;
 
-			$content.find($panel)
-				.eq(indexPrev).addClass(activeClassPrev)
-				.siblings().removeClass(activeClassPrev);
-		}
+			self.initSwitcher();
+
+			setTimeout(function () {
+				self.scrollToSection();
+			}, 100)
+		});
+
 	};
 
 	// preparation element before animation
-	MultiSwitcher.prototype.preparationAnimation = function() {
+	HistorySlider.prototype.preparationAnimation = function() {
 		var self = this;
 
-		var $content = self.$switcher,
-			panel = self.switcherPanel;
+		var $content = self.$switcher;
 
 		$content.css({
 			'display': 'block',
@@ -1367,31 +1130,20 @@ function slidersInit() {
 			'overflow': 'hidden'
 		});
 
-		if (Array.isArray(panel)){
-			for(var i = 0; i < panel.length; i++) {
+		var $curPanels = $(self.$switcherPanel, $content);
 
-				$content.find(panel[i]).css({
-					'display': 'block',
-					'position': 'absolute',
-					'left': 0,
-					'right': 0,
-					'width': '100%',
-					'z-index': -1
-				});
+		$curPanels.css({
+			'display': 'block',
+			'position': 'absolute',
+			'left': 0,
+			'right': 0,
+			'width': '100%',
+			'z-index': -1
+		});
 
-			}
-		} else {
-			var $panel = $(panel);
+		var $curImagesSlider = $(self.$photosSlider, $content);
 
-			$panel.css({
-				'display': 'block',
-				'position': 'absolute',
-				'left': 0,
-				'right': 0,
-				'width': '100%',
-				'z-index': -1
-			});
-		}
+		// TweenMax.set($curImagesSlider, {yPercent: 100});
 
 		// console.log('preparationAnimation');
 
@@ -1410,124 +1162,261 @@ function slidersInit() {
 		// });
 	};
 
+	HistorySlider.prototype.switchClass = function() {
+		var self = this;
+		var $content = self.$switcher;
+
+		var initIndex = self.currentSwitcher,
+			indexNext = 0,
+			indexPrev = 0;
+
+		var activeClass = self.modifiers.active,
+			activeClassPrev = self.modifiers.activePrev,
+			activeClassNext = self.modifiers.activeNext;
+
+		var panel = this.switcherPanel;
+		var panelsArr = [];
+
+		panelsArr.push($(panel), self.$switcherNavItem);
+
+		$.each(panelsArr, function () {
+			var $curItems = $(this, $content);
+			var length = $curItems.length;
+
+			// console.log("$curItems: ", $curItems);
+			// console.log("length: ", length);
+
+			indexNext = (initIndex < length - 1) ? initIndex + 1 : 0;
+			indexPrev = (initIndex >= 0) ? initIndex - 1 : length - 1;
+
+			$curItems
+				.eq(initIndex).addClass(activeClass)
+				.siblings().removeClass(activeClass);
+
+			$curItems
+				.eq(indexNext).addClass(activeClassNext)
+				.siblings().removeClass(activeClassNext);
+
+			$curItems
+				.eq(indexPrev).addClass(activeClassPrev)
+				.siblings().removeClass(activeClassPrev);
+		});
+	};
+
 	// show active content and hide other
-	MultiSwitcher.prototype.toggleContent = function() {
+	HistorySlider.prototype.toggleContent = function() {
 
 		var self = this;
 
 		var $content = self.$switcher,
-			panel = self.switcherPanel,
-			$panel = $(panel),
-			index = self.switchIndex,
+			$panel = self.$switcherPanel,
+			initIndex = self.currentSwitcher,
 			animationSpeed = self.animationSpeed;
 
+		var $curPanel = $($panel, $content);
+		var $currentPanel = $curPanel.eq(initIndex);
+
 		$content.css('height', $content.outerHeight());
-		
-		var panelsArr = [];
 
-		if (Array.isArray(panel)){
-			for(var i = 0; i < panel.length; i++) {
-				panelsArr.push($(panel[i]));
-			}
-		} else {
-			panelsArr.push($panel);
-		}
-
-		$.each(panelsArr, function () {
-			var $panel = $(this);
-			var $currentPanel = $panel.eq(index);
-			var $currentContainer = $currentPanel.closest($content);
-
-			$panel.css({
-				'position': 'absolute',
-				'left': 0,
-				'right': 0
-			});
-
-			TweenMax.set($panel, {
-				autoAlpha: 0,
-				'z-index': -1
-			});
-
-			if ( arguments[0] === false ) return;
-
-			$currentPanel.css('z-index', 2);
-
-			TweenMax.to($currentPanel, animationSpeed, {
-				autoAlpha: 1
-			});
+		$curPanel.css({
+			'position': 'absolute',
+			'left': 0,
+			'right': 0
 		});
 
-		// change container's height
-		MultiSwitcher.prototype.changeHeightContainer = function() {
-			var self = this;
+		TweenMax.set($curPanel, {
+			autoAlpha: 0,
+			'z-index': -1
+		});
 
-			var $content = self.$switcher,
-				panel = self.switcherPanel,
-				$panel = $(panel),
-				index = self.switchIndex,
-				animationSpeed = self.animationSpeed;
+		if ( arguments[0] === false ) return;
 
-			var panelsArr = [];
+		$currentPanel.css('z-index', 2);
 
-			if (Array.isArray(panel)){
-				for(var i = 0; i < panel.length; i++) {
-					panelsArr.push($(panel[i]));
-				}
-			} else {
-				panelsArr.push($panel);
+		TweenMax.to($currentPanel, animationSpeed, {
+			autoAlpha: 1
+		});
+	};
+
+	// change container's height
+	HistorySlider.prototype.changeHeightContainer = function() {
+		var self = this;
+
+		var $content = self.$switcher,
+			$panel = self.$switcherPanel,
+			initIndex = self.currentSwitcher,
+			animationSpeed = self.animationSpeed;
+
+		var $curPanel = $($panel, $content);
+		var $activePanels = $curPanel.eq(initIndex);
+		var $activeContainer = $activePanels.closest($content);
+
+		if ( arguments[0] === false ) {
+			TweenMax.to($activeContainer, animationSpeed, {
+				'height': 0
+			});
+
+			return;
+		}
+
+		TweenMax.to($activeContainer, 0.1, {
+			'height': $activePanels.outerHeight(),
+
+			onComplete: function () {
+
+				$content.css('height', 'auto');
+
+				$activePanels.css({
+					'position': 'relative',
+					'left': 'auto',
+					'right': 'auto'
+				});
 			}
+		});
+	};
 
-			$.each(panelsArr, function () {
+	// image slider init
+	HistorySlider.prototype.imagesSliderInit = function() {
+		var self = this;
+		var $photosSlider = self.$photosSlider;
 
-				var $currentPanel = $(this).eq(index);
-				var $currentContainer = $currentPanel.closest($content);
+		if ($photosSlider.length) {
 
-				if ( arguments[0] === false ) {
-					TweenMax.to($currentContainer, animationSpeed, {
-						'height': 0
-					});
+			var slidersArr = [];
+
+			$.each($(self.$switcherPanel, self.$switcher), function () {
+				var $currentImagesSlider = $(this).find($photosSlider);
+
+				if ($currentImagesSlider.length === 0) {
+					slidersArr.push(undefined);
 
 					return;
 				}
 
-				console.log("$currentPanel.outerHeight(): ", $currentPanel.outerHeight());
-				TweenMax.to($currentContainer, animationSpeed, {
-					'height': $currentPanel.outerHeight(),
+				var historyImageSlider = $currentImagesSlider.slick({
+					slidesToShow: 3,
+					slidesToScroll: 3,
+					infinite: true,
+					speed: 300,
+					// autoplay: true,
+					// autoplaySpeed: 8000,
+					// dots: true,
+					arrows: true,
+					responsive: [
+						{
+							breakpoint: 640,
+							settings: {
+								slidesToShow: 2,
+								slidesToScroll: 2
+							}
+						}
+					]
+				});
 
+				slidersArr.push(historyImageSlider);
+
+			});
+
+			return slidersArr;
+		}
+	};
+
+	HistorySlider.prototype.countSlides = function () {
+		var self = this;
+		// console.log("self.currentSwitcher: ", self.currentSwitcher);
+		// console.log("self.getImagesSlider: ", self.getImagesSlider);
+
+		var currentImagesSlider = self.getImagesSlider[self.currentSwitcher];
+		var $currentShowPhotosBtn = self.$showPhotosBtn;
+
+		if (currentImagesSlider === undefined) {
+			TweenMax.to($currentShowPhotosBtn, self.animationSpeed, {
+				autoAlpha: 0
+			});
+
+			self.btnIsVisible = false;
+
+			return;
+		}
+
+		if (!self.btnIsVisible) {
+			TweenMax.to($currentShowPhotosBtn, self.animationSpeed, {
+				autoAlpha: 1
+			});
+		}
+
+		var totalSlides = currentImagesSlider.slick('getSlick').$slides.length;
+
+		$('.photos-count', $currentShowPhotosBtn).text(totalSlides);
+	};
+
+	HistorySlider.prototype.toggleImageSlider = function () {
+		var self = this;
+
+		self.$showPhotosBtn.on('click', function (e) {
+			e.preventDefault();
+
+			var $currentImageSlider = self.getImagesSlider[self.currentSwitcher];
+
+			if ($currentImageSlider.height() === 0) {
+
+				TweenMax.set($currentImageSlider, {yPercent: 100});
+
+				TweenMax.to($currentImageSlider, 0.1, {
+					'height': $currentImageSlider.find('img').outerHeight(),
+					autoAlpha: 1,
 					onComplete: function () {
+						TweenMax.to($currentImageSlider, self.animationSpeed, { yPercent: 0});
+					}
+				});
 
-						// $content.css('height', 'auto');
+			} else {
 
-						$currentPanel.css({
-							'position': 'relative',
-							'left': 'auto',
-							'right': 'auto'
+				TweenMax.to($currentImageSlider, self.animationSpeed, {
+					yPercent: 100,
+					onComplete: function () {
+						TweenMax.to($currentImageSlider, 0.1, {
+							'height': 0,
+							autoAlpha: 0
 						});
 					}
 				});
-			});
 
+			}
 
-		}
-
-
+		})
 	};
 
-	window.MultiSwitcher = MultiSwitcher;
+	HistorySlider.prototype.scrollToSection = function () {
+		var $scrollArea = $('.main');
+
+		if (!$scrollArea.is(':animated')) {
+			var $currentSection = $('.section-history');
+
+			TweenMax.to($scrollArea, 0.3, {scrollTo: {
+				y: $currentSection.position().top},
+				ease: Power2.easeInOut
+			});
+		}
+	};
+
+	window.HistorySlider = HistorySlider;
 
 }(jQuery));
 
 function historySwitcher(){
 	if($('.history-sliders-js').length){
 
-		new MultiSwitcher({
+		new HistorySlider({
 			switcher: '.history-sliders-js',
 			switcherPanel: '.history-slider__item',
 			// switcherPanel: ['.history-slider__item', '.history-periods__item'],
-			activeSwitcher: 2
+			switcherNavItem: '.history-periods li',
+			switcherNavAnchor: '.history-periods a',
+			photosSlider: '.history-slider__images',
+			showPhotosBtn: '.show-photos-js',
+			activeSwitcher: 0
 		});
-
 	}
 }
 /*history end*/
