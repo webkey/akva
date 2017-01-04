@@ -764,11 +764,12 @@ function secondNav() {
 	var activeClassForNav = 'active';
 	var activeClassForSection = 'active-section';
 	var animationName = 'fixed'; // 'fixed', 'opacity' or 'parallax'
+	var timeout;
 
 	self.initialize = function() {
 		findNavItems();
 		setScroll();
-		setActions()
+		setActions();
 	};
 
 	var setActions = function() {
@@ -781,14 +782,20 @@ function secondNav() {
 
 			TweenMax.to($(scrollArea), 0.3, {scrollTo: {
 				y: $currentSection.position().top},
-				ease: Power2.easeInOut,
-				onComplete: function () {
-					$(section).removeClass(activeClassForSection);
-					$currentSection.addClass(activeClassForSection)
-				}
+				ease: Power2.easeInOut
+				// onComplete: function () {
+				//
+				// 	clearTimeout(timeout);
+				//
+				// 	timeout = setTimeout(function () {
+				// 		$(section).removeClass(activeClassForSection);
+				// 		$currentSection.addClass(activeClassForSection)
+				// 	}, 2000);
+				//
+				// }
 			});
 
-			$(this).addClass(activeClassForNav).siblings().removeClass(activeClassForNav);
+			// $(this).addClass(activeClassForNav).siblings().removeClass(activeClassForNav);
 		})
 	};
 
@@ -799,7 +806,7 @@ function secondNav() {
 
 		$initialNavItem.addClass(activeClassForNav);
 
-		$section.removeClass(activeClassForSection);
+		// $section.removeClass(activeClassForSection);
 		$currentSection.addClass(activeClassForSection);
 
 		$(scrollArea).scroll(function() {
@@ -822,11 +829,17 @@ function secondNav() {
 				// if ( offset - scrollTop >= 0 && offset - scrollTop <= 100 ) {
 				// if ( $currentSection.position().top - scrollTop >= 0) {
 
+					// clearTimeout(timeout);
+					//
+					// timeout = setTimeout(function () {
+					// }, 2000);
+
 					$('li', nav).removeClass(activeClassForNav);
 
 					$('li[data-section="' + $currentSection.attr("id") + '"]', nav).addClass(activeClassForNav);
 
 					$section.removeClass(activeClassForSection);
+
 					$currentSection.addClass(activeClassForSection);
 				}
 			}
@@ -995,45 +1008,6 @@ var secondaryNav;
  * history
  * */
 (function ($) {
-	// external js:
-	// 1) TweetMax VERSION: 1.19.0 (widgets.js);
-	// 2) resizeByWidth (resize only width);
-	// 3) debouncedresize (widgets.js);
-	// 4) Modernizr (touchevents)
-	// if (Modernizr.touchevents) {
-	// 	$(window).on('debouncedresize', function () {
-	// 		console.log('touchevents');
-	// 	});
-	// }
-
-	// add css style
-	// .nav-opened{
-	// 	width: 100%!important;
-	// 	height: 100%!important;
-	// 	max-width: 100%!important;
-	// 	max-height: 100%!important;
-	// 	margin: 0!important;
-	// 	padding: 0!important;
-	// 	overflow: hidden!important;
-	// }
-
-	// .nav-opened-before .wrapper{ z-index: 99; } // z-index of header must be greater than footer
-	//
-	// @media only screen and (min-width: [example: 1280px]){
-	// .nav{
-	// 		-webkit-transform: translate(0, 0) matrix(1, 0, 0, 1, 0, 0) !important;
-	// 		-ms-transform: translate(0, 0) matrix(1, 0, 0, 1, 0, 0) !important;
-	// 		transform: translate(0, 0) matrix(1, 0, 0, 1, 0, 0) !important;
-	// 	}
-	// .nav-list > li{
-	// 		-webkit-transform: translate(0, 0) matrix(1, 0, 0, 1, 0, 0) !important;
-	// 		-ms-transform: translate(0, 0) matrix(1, 0, 0, 1, 0, 0) !important;
-	// 		transform: translate(0, 0) matrix(1, 0, 0, 1, 0, 0) !important;
-	// 		opacity: 1 !important;
-	// 		visibility: visible !important;
-	// 	}
-	// }
-
 	var HistorySlider = function (settings) {
 		var options = $.extend({
 			switcher: null,
@@ -1137,6 +1111,7 @@ var secondaryNav;
 			'position': 'absolute',
 			'left': 0,
 			'right': 0,
+			'top': 0,
 			'width': '100%',
 			'z-index': -1
 		});
@@ -1269,7 +1244,8 @@ var secondaryNav;
 				$activePanels.css({
 					'position': 'relative',
 					'left': 'auto',
-					'right': 'auto'
+					'right': 'auto',
+					'top': 'auto'
 				});
 			}
 		});
@@ -1422,25 +1398,237 @@ function historySwitcher(){
 /*history end*/
 
 /**
+ * tab switcher
+ * */
+function tabSwitcher() {
+	// external js:
+	// 1) TweetMax VERSION: 1.19.0 (widgets.js);
+	// 2) resizeByWidth (resize only width);
+
+	/*
+	 <!--html-->
+	 <div class="some-class js-tabs" data-collapsed="true">
+	 <!--if has data-collapsed="true" one click open tab content, two click close collapse tab content-->
+	 <div class="some-class__nav">
+	 <div class="some-class__tab">
+	 <a href="#" class="js-tab-anchor" data-for="some-id-01">Text tab 01</a>
+	 </div>
+	 <div class="some-class__tab">
+	 <a href="#" class="js-tab-anchor" data-for="some-id-02">Text tab 02</a>
+	 </div>
+	 </div>
+
+	 <div class="some-class__panels js-tab-container">
+	 <div class="some-class__panel js-tab-content" data-id="some-id-01">Text content 01</div>
+	 <div class="some-class__panel js-tab-content" data-id="some-id-02">Text content 02</div>
+	 </div>
+	 </div>
+	 <!--html end-->
+	 */
+
+	var $main = $('.foreign-js');
+
+	var $container = $('.foreign__panels-js');
+
+	if ( !$container.length ) return false;
+
+	if($main.length){
+		var $anchor = $('.foreign__anchor-js'),
+			$content = $('.foreign__panel-js'),
+			activeClass = 'active',
+			animationSpeed = 0.2,
+			animationHeightSpeed = 0;
+
+		$.each($main, function () {
+			var $this = $(this),
+				$thisAnchor = $this.find($anchor),
+				$thisContainer = $this.find($container),
+				$thisContent = $this.find($content),
+				initialDataAtr = $this.find('.active').data('for'),
+				activeDataAtr = false;
+
+			// prepare traffic content
+			function prepareTrafficContent() {
+				$thisContainer.css({
+					'position': 'relative',
+					'overflow': 'hidden'
+				});
+
+				$thisContent.css({
+					'display': 'block',
+					'position': 'absolute',
+					'left': 0,
+					'right': 0,
+					'top': 0,
+					'width': '100%',
+					'z-index': -1
+				});
+
+				switchContent();
+			}
+
+			prepareTrafficContent();
+
+			// toggle content
+			$thisAnchor.on('click', function (e) {
+				e.preventDefault();
+
+				var $cur = $(this),
+					dataFor = $cur.data('for');
+
+				if ($this.data('collapsed') === true && activeDataAtr === dataFor) {
+
+					toggleActiveClass();
+					toggleContent(false);
+					changeHeightContainer(false);
+
+					return;
+				}
+
+				if (activeDataAtr === dataFor) return false;
+
+				initialDataAtr = dataFor;
+
+				switchContent();
+			});
+
+			// switch content
+			function switchContent() {
+				if (initialDataAtr) {
+					toggleContent();
+					changeHeightContainer();
+					toggleActiveClass();
+				}
+			}
+
+			// show active content and hide other
+			function toggleContent() {
+
+				$.each($thisContainer, function () {
+					var $currentContainer = $(this);
+					$currentContainer.css('height', $currentContainer.outerHeight());
+
+					var $currentContent = $currentContainer.find($thisContent);
+
+					$currentContent.css({
+						'position': 'absolute',
+						'left': 0,
+						'right': 0,
+						'top': 0
+					});
+
+					TweenMax.set($currentContent, {
+						autoAlpha: 0,
+						'z-index': -1
+					});
+
+					if ( arguments[0] === false ) return;
+
+					var $initialContent = $currentContent.filter('[data-id="' + initialDataAtr + '"]');
+
+					$initialContent.css('z-index', 2);
+
+					TweenMax.to($initialContent, animationSpeed, {
+						autoAlpha: 1
+					});
+				});
+			}
+
+			// change container's height
+			function changeHeightContainer() {
+				var $initialContent = $thisContent.filter('[data-id="' + initialDataAtr + '"]');
+
+				$.each($initialContent, function () {
+					var $currentContent = $(this);
+					var $currentContainer = $currentContent.closest($thisContainer);
+
+					if ( arguments[0] === false ) {
+						TweenMax.to($currentContainer, animationHeightSpeed, {
+							'height': 0
+						});
+
+						return;
+					}
+
+					TweenMax.to($currentContainer, animationHeightSpeed, {
+						'height': $currentContent.outerHeight(),
+						onComplete: function () {
+
+							$currentContainer.css('height', 'auto');
+
+							$currentContent.css({
+								'position': 'relative',
+								'left': 'auto',
+								'right': 'auto',
+								'top': 'auto'
+							});
+						}
+					});
+				});
+			}
+
+			// toggle class active
+			function toggleActiveClass(){
+				$thisAnchor.removeClass(activeClass);
+				$thisContent.removeClass(activeClass);
+
+				// toggleStateThumb();
+
+				if (initialDataAtr !== activeDataAtr) {
+
+					activeDataAtr = initialDataAtr;
+
+					$thisAnchor.filter('[data-for="' + initialDataAtr + '"]').addClass(activeClass);
+					$thisContent.filter('[data-id="' + initialDataAtr + '"]').addClass(activeClass);
+
+					return false;
+				}
+
+				activeDataAtr = false;
+			}
+		});
+	}
+}
+/* tab switcher end */
+
+/**
+ * create bottom spacer
+ * */
+function createBottomSpacer(target) {
+	var $sliderSpacer = $('<div />', {
+		class: 'section-bottom-spacer'
+	});
+
+	$(target).before($sliderSpacer.clone());
+}
+
+function spacerGetHeight(spacer, sample) {
+	$(spacer).height(sample.outerHeight());
+}
+
+function addBottomSpacer() {
+	var $brief = $('.brief');
+	if ($brief.length) {
+		createBottomSpacer($brief);
+		$(window).on('load resizeByWidth', function () {
+			spacerGetHeight($brief.parent().find('.section-bottom-spacer'), $brief);
+		})
+	}
+}
+/*create bottom spacer end*/
+
+/**
  * images gallery
  * */
 function imagesGalleryInit() {
 	var $imagesGallery = $('.images-gallery');
 
 	if ($imagesGallery.length) {
-		var $sliderSpacer = $('<div />', {
-			class: 'slider-spacer'
-		});
-
-		$imagesGallery.after($sliderSpacer);
-
-		function spacerGetHeight() {
-			$sliderSpacer.height($imagesGallery.outerHeight());
-		}
+		createBottomSpacer($imagesGallery);
 
 		$('.images-gallery__list', $imagesGallery).on('init', function (event, slick) {
 			setTimeout(function () {
-				spacerGetHeight();
+				spacerGetHeight($imagesGallery.parent().find('.section-bottom-spacer'), $imagesGallery);
 			}, 200)
 		}).slick({
 			slidesToShow: 6,
@@ -1491,7 +1679,7 @@ function imagesGalleryInit() {
 /**
  * news slider
  * */
-function newsSlider() {
+function newsSliderInit() {
 	var $defaultSlider = $('.news-slider');
 
 	if ($defaultSlider.length) {
@@ -1548,8 +1736,10 @@ jQuery(document).ready(function(){
 	// fixedHeader();
 	walkPages();
 	historySwitcher();
+	tabSwitcher();
+	addBottomSpacer();
 	imagesGalleryInit();
-	newsSlider();
+	newsSliderInit();
 
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();
