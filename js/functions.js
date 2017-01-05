@@ -766,6 +766,45 @@ function secondNav() {
 	var animationName = 'fixed'; // 'fixed', 'opacity' or 'parallax'
 	var timeout;
 
+	var delta = 0;
+	var scrollThreshold = 5;
+	var scrollValue = 0;
+
+	// $(window).on('DOMMouseScroll mousewheel', scrollHijacking);
+
+	function scrollHijacking (event) {
+		var delta = event.originalEvent.detail || event.originalEvent.wheelDelta;
+
+		console.log("event: ", delta);
+		var scrollTop = $(scrollArea).scrollTop();
+		scrollValue += delta;
+
+		console.log("scrollValue: ", scrollValue);
+
+		$(scrollArea).scrollTop(scrollValue);
+
+		if (event.originalEvent.detail < 0 || event.originalEvent.wheelDelta > 0) {
+			delta--;
+
+			// console.log("Math.abs(delta) >= scrollThreshold: ", Math.abs(delta) >= scrollThreshold);
+			( Math.abs(delta) >= scrollThreshold) && prevSection();
+		} else {
+			delta++;
+
+			// console.log("delta >= scrollThreshold: ", delta >= scrollThreshold);
+			(delta >= scrollThreshold) && nextSection();
+		}
+		return false;
+	}
+	
+	function prevSection() {
+		// console.log('prevSection');
+	}
+	
+	function nextSection() {
+		// console.log('nextSection');
+	}
+
 	self.initialize = function() {
 		findNavItems();
 		setScroll();
@@ -783,19 +822,7 @@ function secondNav() {
 			TweenMax.to($(scrollArea), 0.3, {scrollTo: {
 				y: $currentSection.position().top},
 				ease: Power2.easeInOut
-				// onComplete: function () {
-				//
-				// 	clearTimeout(timeout);
-				//
-				// 	timeout = setTimeout(function () {
-				// 		$(section).removeClass(activeClassForSection);
-				// 		$currentSection.addClass(activeClassForSection)
-				// 	}, 2000);
-				//
-				// }
 			});
-
-			// $(this).addClass(activeClassForNav).siblings().removeClass(activeClassForNav);
 		})
 	};
 
@@ -809,8 +836,51 @@ function secondNav() {
 		// $section.removeClass(activeClassForSection);
 		$currentSection.addClass(activeClassForSection);
 
-		$(scrollArea).scroll(function() {
+		var $whileSection = sectionArr[0];
+		var $prevSection;
+		var $nextSection = sectionArr[1];
+
+		// var tween = TweenLite.to(box, 2, {x:endX, ease:Linear.easeNone}).reverse();
+		// var tween = TweenMax.to($(scrollArea), 0.3, {scrollTo: {
+		// 	y: $nextSection.position().top},
+		// 	ease: Power2.easeInOut
+		// }).pause();
+
+		var tween = new TimelineLite();
+
+		// tween.play();
+
+		function prevSection() {
+			console.log("prevSection");
+			tween.to($(scrollArea), 0.5, {scrollTo: {
+				y: $whileSection.position().top},
+				ease: Power2.easeInOut
+			});
+		}
+
+		function nextSection() {
+			console.log("nextSection");
+			tween.to($(scrollArea), 0.5, {scrollTo: {
+				y: $nextSection.position().top},
+				ease: Power2.easeInOut
+			});
+		}
+
+		$('.logo a').on('click', function (e) {
+			console.log(2);
+			e.preventDefault();
+			tween = TweenMax.to($(scrollArea), 0.3, {scrollTo: {
+				y: $nextSection.position().top},
+				ease: Power2.easeInOut
+			});
+		});
+
+		var prevScroll = -1;
+
+		$(scrollArea).on('scroll', function() {
+
 			var scrollTop = $(scrollArea).scrollTop();
+			// console.log("scrollTop: ", scrollTop);
 
 			if (scrollTop > 0) {
 				$(scrollArea).addClass('is-scrolled')
@@ -818,12 +888,20 @@ function secondNav() {
 				$(scrollArea).removeClass('is-scrolled')
 			}
 
+			var scrollAreaHeight = $(scrollArea).outerHeight();
+
+			// console.log("scrollAreaHeight: ", scrollAreaHeight);
+
 			for (var i = 0; i < sectionArr.length; i++) {
 				$currentSection = $(sectionArr[i]);
 
 				var offset = $currentSection.position().top,
-					scrollAreaHeight = $(scrollArea).outerHeight(),
+
 					sectionOffset = scrollTop - offset;
+
+				// console.log("scrollTop: ", scrollTop);
+				// console.log("prevScroll: ", prevScroll);
+				// console.log("sectionOffset: ", sectionOffset);
 
 				if ( sectionOffset >= -(scrollAreaHeight/2)) {
 				// if ( offset - scrollTop >= 0 && offset - scrollTop <= 100 ) {
@@ -836,16 +914,65 @@ function secondNav() {
 
 					$('li', nav).removeClass(activeClassForNav);
 
-					$('li[data-section="' + $currentSection.attr("id") + '"]', nav).addClass(activeClassForNav);
+					$('li[data-section="' + $currentSection.attr('id') + '"]', nav).addClass(activeClassForNav);
 
 					$section.removeClass(activeClassForSection);
 
 					$currentSection.addClass(activeClassForSection);
 				}
+
+				if ( sectionOffset >= 0 ) {
+					$whileSection = $currentSection;
+					$nextSection = sectionArr[i + 1];
+				}
+
+				// if ( sectionOffset >= -scrollAreaHeight ) {
+				// 	$nextSection = $currentSection;
+				// }
+
 			}
 
-			// scrollAnimation();
-		})
+			console.log("$whileSection id: ", $whileSection.attr('id'));
+			console.log("$nextSection id: ", $nextSection.attr('id'));
+
+			var offsetWhile = $whileSection.position().top;
+			var offsetNext = $nextSection.position().top;
+
+			// console.log("scrollTop: ", scrollTop);
+			// console.log("offsetWhile: ", offsetWhile);
+			// console.log("offsetNext: ", offsetNext);
+			// console.log("scrollTop: ", scrollTop);
+			// console.log("offsetNext + 20: ", offsetNext + 20);
+			// console.log("scrollAreaHeight + scrollTop: ", scrollAreaHeight + scrollTop);
+
+
+			// console.log("!tween.isActive(): ", !tween.isActive());
+			// console.log("!!scrollTop > offsetWhile: ", !!scrollTop > offsetWhile);
+			// if (!tween.isActive() && prevScroll < scrollTop && scrollTop > offsetWhile) {
+			if (!tween.isActive() && prevScroll < scrollTop && (offsetNext + 20 < scrollAreaHeight + scrollTop)) {
+
+				clearTimeout(timeout);
+
+				timeout = setTimeout(function () {
+					nextSection();
+				}, 500);
+				prevScroll = scrollTop;
+
+				return;
+			}
+
+			if (!tween.isActive() && prevScroll > scrollTop) {
+
+				clearTimeout(timeout);
+
+				timeout = setTimeout(function () {
+					prevSection();
+				}, 500);
+				prevScroll = scrollTop;
+
+			}
+
+		});
 	};
 
 	var findNavItems = function() {
@@ -885,7 +1012,6 @@ function secondNav() {
 	function animateSection() {
 		var scrollTop = $(scrollArea).scrollTop(),
 			windowHeight = $(section).outerHeight();
-			// windowHeight = $(window).height();
 
 		$(section).each(function(){
 			var actualBlock = $(this),
@@ -1722,6 +1848,56 @@ function newsSliderInit() {
 /*news slider end*/
 
 /**
+ * modal window
+ * */
+function modalWindowInit() {
+
+	// modal video
+	$('.modal-video').on('click', function() {
+		var href = $(this).attr('href');
+		if (window.innerWidth >= 1024) {
+			var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container modal__container__video"><div class="modal__video__wrap"><iframe src="' + href + '" frameborder="0" allowfullscreen></iframe></div><a class="modal__close"><span>Close</span></a></div></div></div></div>';
+			$('body').addClass('body--no-scroll');
+			$('body').append(data);
+			$('.modal').show(0, function() {
+				$('.modal').addClass('modal--active');
+			});
+			return false;
+		}
+	});
+
+	// modal img
+	$('.modal-img').on('click', function() {
+		var href = $(this).attr('href');
+		var alt = $(this).find('img').attr('alt');
+		if (window.innerWidth >= 1024) {
+			var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container"><div class="modal__img__wrap"><img src="' + href +'" alt="' + alt + '" /><a class="modal__close"><span>Close</span></a></div></div></div></div></div>';
+			$('body').addClass('body--no-scroll');
+			$('body').append(data);
+			$('.modal').show(0, function() {
+				$('.modal').addClass('modal--active');
+			});
+			return false;
+		}
+	});
+
+	// modal close
+	$('body').on('click', '.modal__close, .modal__wrap', function() {
+		$('.modal').removeClass('modal--active');
+		setTimeout(function() {
+			$('.modal').remove();
+			$('body').removeClass('body--no-scroll');
+		}, 500);
+	});
+
+	// modal no close
+	$('body').on('click', '.modal__img__wrap, .modal__video__wrap', function(e) {
+		e.stopPropagation();
+	});
+}
+/*modal window end*/
+
+/**
  *!  ready/load/resize document
  * */
 
@@ -1740,6 +1916,7 @@ jQuery(document).ready(function(){
 	addBottomSpacer();
 	imagesGalleryInit();
 	newsSliderInit();
+	modalWindowInit();
 
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();
