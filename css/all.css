@@ -2088,10 +2088,6 @@ label{
 	z-index: -1;
 }
 
-.section:last-child{
-	border-bottom: none;
-}
-
 .section__holder{
 	padding: 80px 0;
 	min-height: inherit;
@@ -2099,8 +2095,27 @@ label{
 	margin-right: 320px;
 	-webkit-background-size: cover;
 	background-size: cover;
-	border-bottom: 1px solid #d9d9d9;
+	border-top: 1px solid #d9d9d9;
 }
+.section:first-child .section__holder{
+	border-bottom: none;
+}
+.section__holder:before,
+.section__holder:after{
+	content: '';
+	position: absolute;
+	left: 0;
+	height: 80px;
+	width: 100%;
+}
+/*.section__holder:before{
+	top: 0;
+	background-color: lightgreen;
+}
+.section__holder:after{
+	bottom: 0;
+	background-color: #ee8890;
+}*/
 .section__title{
 	padding: 0 0 10px;
 }

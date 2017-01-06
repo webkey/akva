@@ -765,6 +765,9 @@ function secondNav() {
 	var activeClassForSection = 'active-section';
 	var animationName = 'fixed'; // 'fixed', 'opacity' or 'parallax'
 	var timeout;
+	var delay = 500;
+	var bufferZone = 80;
+	var directToBottom;
 
 	var delta = 0;
 	var scrollThreshold = 5;
@@ -830,6 +833,7 @@ function secondNav() {
 		var $initialNavItem = $(nav).find("li").eq(0);
 		var $section = $(section);
 		var $currentSection = $("#" + $initialNavItem.data('section'));
+		var scrollTop = 0;
 
 		$initialNavItem.addClass(activeClassForNav);
 
@@ -837,7 +841,6 @@ function secondNav() {
 		$currentSection.addClass(activeClassForSection);
 
 		var $whileSection = sectionArr[0];
-		var $prevSection;
 		var $nextSection = sectionArr[1];
 
 		// var tween = TweenLite.to(box, 2, {x:endX, ease:Linear.easeNone}).reverse();
@@ -851,46 +854,40 @@ function secondNav() {
 		// tween.play();
 
 		function prevSection() {
-			console.log("prevSection");
 			tween.to($(scrollArea), 0.5, {scrollTo: {
 				y: $whileSection.position().top},
-				ease: Power2.easeInOut
+				ease: Power2.easeInOut,
+				onComplete: function () {
+					console.log("%c" + "проскроллено к началу ТЕКУЩЕЙ секции", "color: blue; font-weight:bold;");
+				}
 			});
 		}
 
 		function nextSection() {
-			console.log("nextSection");
+			if (!$nextSection) return;
+
+			prevScroll = scrollTop;
+
 			tween.to($(scrollArea), 0.5, {scrollTo: {
 				y: $nextSection.position().top},
-				ease: Power2.easeInOut
+				ease: Power2.easeInOut,
+				onComplete: function () {
+					console.log("%c" + "проскроллено к началу СЛЕДУЮЩЕ секции", "color: red; font-weight:bold;");
+
+					prevScroll = scrollTop;
+					console.log('direction scroll are changed (1): ', 'scrollTop = ' + scrollTop + ', prevScroll = ' + prevScroll);
+				}
 			});
 		}
 
-		$('.logo a').on('click', function (e) {
-			console.log(2);
-			e.preventDefault();
-			tween = TweenMax.to($(scrollArea), 0.3, {scrollTo: {
-				y: $nextSection.position().top},
-				ease: Power2.easeInOut
-			});
-		});
-
 		var prevScroll = -1;
 
+		// $(scrollArea).on('scroll', function() {
 		$(scrollArea).on('scroll', function() {
 
-			var scrollTop = $(scrollArea).scrollTop();
-			// console.log("scrollTop: ", scrollTop);
-
-			if (scrollTop > 0) {
-				$(scrollArea).addClass('is-scrolled')
-			} else {
-				$(scrollArea).removeClass('is-scrolled')
-			}
+			scrollTop = $(scrollArea).scrollTop();
 
 			var scrollAreaHeight = $(scrollArea).outerHeight();
-
-			// console.log("scrollAreaHeight: ", scrollAreaHeight);
 
 			for (var i = 0; i < sectionArr.length; i++) {
 				$currentSection = $(sectionArr[i]);
@@ -898,10 +895,6 @@ function secondNav() {
 				var offset = $currentSection.position().top,
 
 					sectionOffset = scrollTop - offset;
-
-				// console.log("scrollTop: ", scrollTop);
-				// console.log("prevScroll: ", prevScroll);
-				// console.log("sectionOffset: ", sectionOffset);
 
 				if ( sectionOffset >= -(scrollAreaHeight/2)) {
 				// if ( offset - scrollTop >= 0 && offset - scrollTop <= 100 ) {
@@ -929,48 +922,93 @@ function secondNav() {
 				// if ( sectionOffset >= -scrollAreaHeight ) {
 				// 	$nextSection = $currentSection;
 				// }
-
 			}
 
-			console.log("$whileSection id: ", $whileSection.attr('id'));
-			console.log("$nextSection id: ", $nextSection.attr('id'));
+			// console.log("$nextSection: ", $nextSection);
 
-			var offsetWhile = $whileSection.position().top;
-			var offsetNext = $nextSection.position().top;
+			clearTimeout(timeout);
 
-			// console.log("scrollTop: ", scrollTop);
-			// console.log("offsetWhile: ", offsetWhile);
-			// console.log("offsetNext: ", offsetNext);
-			// console.log("scrollTop: ", scrollTop);
-			// console.log("offsetNext + 20: ", offsetNext + 20);
-			// console.log("scrollAreaHeight + scrollTop: ", scrollAreaHeight + scrollTop);
+			if ($nextSection) {
+				directToBottom = prevScroll > scrollTop;
 
-
-			// console.log("!tween.isActive(): ", !tween.isActive());
-			// console.log("!!scrollTop > offsetWhile: ", !!scrollTop > offsetWhile);
-			// if (!tween.isActive() && prevScroll < scrollTop && scrollTop > offsetWhile) {
-			if (!tween.isActive() && prevScroll < scrollTop && (offsetNext + 20 < scrollAreaHeight + scrollTop)) {
-
-				clearTimeout(timeout);
+				// console.log("directToBottom: ", directToBottom);
 
 				timeout = setTimeout(function () {
-					nextSection();
-				}, 500);
-				prevScroll = scrollTop;
 
-				return;
+					console.log("* * * * * * * * * * * *");
+
+					var offsetWhile = $whileSection.position().top;
+					var offsetNext = $nextSection.position().top;
+
+					// console.log('direction scroll are changed (2): ', 'scrollTop = ' + scrollTop + ', prevScroll = ' + prevScroll);
+
+					if (directToBottom) {
+						console.log("проскроллили ВВЕРХ");
+					} else {
+						console.log("проскроллили ВНИЗ");
+					}
+
+					// console.log("$whileSection: ", $whileSection.attr('data-side-nav'));
+					// console.log("$nextSection: ", $nextSection.attr('data-side-nav') + " - " + (offsetNext + bufferZone) + "( if < " + (scrollAreaHeight + scrollTop) + ") и ВНИЗ");
+					// console.log("$nextSection: ", $nextSection.attr('data-side-nav') + " - " + (offsetNext - bufferZone) + "( if > " + (scrollTop) + ") и ВВЕРХ");
+
+					// console.log("$whileSection: ", $whileSection.attr('data-side-nav') + " - " + (offsetWhile + bufferZone) + "( if < " + (scrollTop) + ") и ВНИЗ");
+					// console.log("$nextSection: ", $nextSection.attr('data-side-nav') + " - " + (offsetNext - bufferZone) + "( if > " + (scrollTop) + ") и ВВЕРХ");
+
+					console.log("$whileSection: ", $whileSection.attr('data-side-nav'));
+
+					// if (!tween.isActive() && prevScroll < scrollTop && (offsetNext + space < scrollAreaHeight + scrollTop)) {
+					if (
+						!tween.isActive() && !directToBottom && (offsetWhile + bufferZone < scrollTop) && $whileSection.outerHeight() <= scrollAreaHeight
+						||
+						!tween.isActive() && directToBottom && (offsetNext - bufferZone < scrollTop) && $whileSection.outerHeight() <= scrollAreaHeight
+
+						// !tween.isActive() && (offsetNext + bufferZone < scrollAreaHeight + scrollTop)
+						// &&
+						// (offsetNext - bufferZone < scrollTop)
+
+						// !tween.isActive() && prevScroll < scrollTop && (offsetNext + bufferZone < scrollAreaHeight + scrollTop)
+						// ||
+						// !tween.isActive() && prevScroll > scrollTop && (offsetNext - bufferZone < scrollTop)
+					) {
+
+						prevScroll = scrollTop;
+
+						console.log("------------ next -----------");
+						nextSection();
+
+						clearTimeout(timeout);
+
+						timeout = setTimeout(function () {
+						}, delay);
+
+					} else if ( $whileSection.outerHeight() <= scrollAreaHeight )
+
+					// if (!tween.isActive() && prevScroll > scrollTop && $nextSection) {
+					// if (!tween.isActive()) {
+
+					{
+
+						prevScroll = scrollTop;
+
+						console.log("------------ prev ------------");
+						prevSection();
+
+						clearTimeout(timeout);
+
+						timeout = setTimeout(function () {
+						}, delay);
+						// prevScroll = scrollTop;
+
+					}
+
+					// prevScroll = scrollTop;
+
+				}, delay);
+
+				prevScroll = scrollTop;
 			}
 
-			if (!tween.isActive() && prevScroll > scrollTop) {
-
-				clearTimeout(timeout);
-
-				timeout = setTimeout(function () {
-					prevSection();
-				}, 500);
-				prevScroll = scrollTop;
-
-			}
 
 		});
 	};
@@ -1017,9 +1055,6 @@ function secondNav() {
 			var actualBlock = $(this),
 				offset = scrollTop - actualBlock.position().top;
 
-			console.log("scrollTop: ", scrollTop);
-			console.log("actualBlock.position().top: ", actualBlock.position().top);
-
 			//according to animation type and window scroll, define animation parameters
 			var animationValues = setSectionAnimation(offset, windowHeight, animationName);
 
@@ -1043,9 +1078,6 @@ function secondNav() {
 			rotateX = '0deg',
 			opacity = 1,
 			boxShadowBlur = 0;
-
-		console.log("sectionOffset (scrollTop - actualBlock.position().top): ", sectionOffset);
-		console.log("windowHeight/2: ", windowHeight/2);
 
 		if( sectionOffset >= -(windowHeight) && sectionOffset <= 0 ) {
 			// section entering the viewport
@@ -1910,7 +1942,7 @@ jQuery(document).ready(function(){
 	hoverClassInit();
 	equalHeightInit();
 	// fixedHeader();
-	walkPages();
+	// walkPages();
 	historySwitcher();
 	tabSwitcher();
 	addBottomSpacer();
