@@ -2108,14 +2108,14 @@ label{
 	height: 80px;
 	width: 100%;
 }
-/*.section__holder:before{
+.section__holder:before{
 	top: 0;
 	background-color: lightgreen;
 }
 .section__holder:after{
 	bottom: 0;
 	background-color: #ee8890;
-}*/
+}
 .section__title{
 	padding: 0 0 10px;
 }
