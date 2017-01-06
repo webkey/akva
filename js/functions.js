@@ -765,48 +765,9 @@ function secondNav() {
 	var activeClassForSection = 'active-section';
 	var animationName = 'fixed'; // 'fixed', 'opacity' or 'parallax'
 	var timeout;
-	var delay = 500;
+	var delay = 700;
 	var bufferZone = 80;
-	var directToBottom;
-
-	var delta = 0;
-	var scrollThreshold = 5;
-	var scrollValue = 0;
-
-	// $(window).on('DOMMouseScroll mousewheel', scrollHijacking);
-
-	function scrollHijacking (event) {
-		var delta = event.originalEvent.detail || event.originalEvent.wheelDelta;
-
-		console.log("event: ", delta);
-		var scrollTop = $(scrollArea).scrollTop();
-		scrollValue += delta;
-
-		console.log("scrollValue: ", scrollValue);
-
-		$(scrollArea).scrollTop(scrollValue);
-
-		if (event.originalEvent.detail < 0 || event.originalEvent.wheelDelta > 0) {
-			delta--;
-
-			// console.log("Math.abs(delta) >= scrollThreshold: ", Math.abs(delta) >= scrollThreshold);
-			( Math.abs(delta) >= scrollThreshold) && prevSection();
-		} else {
-			delta++;
-
-			// console.log("delta >= scrollThreshold: ", delta >= scrollThreshold);
-			(delta >= scrollThreshold) && nextSection();
-		}
-		return false;
-	}
-	
-	function prevSection() {
-		// console.log('prevSection');
-	}
-	
-	function nextSection() {
-		// console.log('nextSection');
-	}
+	var directScrollToTop;
 
 	self.initialize = function() {
 		findNavItems();
@@ -837,23 +798,14 @@ function secondNav() {
 
 		$initialNavItem.addClass(activeClassForNav);
 
-		// $section.removeClass(activeClassForSection);
 		$currentSection.addClass(activeClassForSection);
 
 		var $whileSection = sectionArr[0];
 		var $nextSection = sectionArr[1];
 
-		// var tween = TweenLite.to(box, 2, {x:endX, ease:Linear.easeNone}).reverse();
-		// var tween = TweenMax.to($(scrollArea), 0.3, {scrollTo: {
-		// 	y: $nextSection.position().top},
-		// 	ease: Power2.easeInOut
-		// }).pause();
-
 		var tween = new TimelineLite();
 
-		// tween.play();
-
-		function prevSection() {
+		function scrollToWhileSection() {
 			tween.to($(scrollArea), 0.5, {scrollTo: {
 				y: $whileSection.position().top},
 				ease: Power2.easeInOut,
@@ -863,7 +815,7 @@ function secondNav() {
 			});
 		}
 
-		function nextSection() {
+		function scrollToNextSection() {
 			if (!$nextSection) return;
 
 			prevScroll = scrollTop;
@@ -929,9 +881,9 @@ function secondNav() {
 			clearTimeout(timeout);
 
 			if ($nextSection) {
-				directToBottom = prevScroll > scrollTop;
+				directScrollToTop = prevScroll > scrollTop;
 
-				// console.log("directToBottom: ", directToBottom);
+				// console.log("directScrollToTop: ", directScrollToTop);
 
 				timeout = setTimeout(function () {
 
@@ -939,10 +891,14 @@ function secondNav() {
 
 					var offsetWhile = $whileSection.position().top;
 					var offsetNext = $nextSection.position().top;
+					var whileSectionHeight = $whileSection.outerHeight();
+
+					// console.log("whileSectionHeight: ", whileSectionHeight);
+					// console.log("scrollAreaHeight: ", scrollAreaHeight);
 
 					// console.log('direction scroll are changed (2): ', 'scrollTop = ' + scrollTop + ', prevScroll = ' + prevScroll);
 
-					if (directToBottom) {
+					if (directScrollToTop) {
 						console.log("проскроллили ВВЕРХ");
 					} else {
 						console.log("проскроллили ВНИЗ");
@@ -952,57 +908,46 @@ function secondNav() {
 					// console.log("$nextSection: ", $nextSection.attr('data-side-nav') + " - " + (offsetNext + bufferZone) + "( if < " + (scrollAreaHeight + scrollTop) + ") и ВНИЗ");
 					// console.log("$nextSection: ", $nextSection.attr('data-side-nav') + " - " + (offsetNext - bufferZone) + "( if > " + (scrollTop) + ") и ВВЕРХ");
 
-					// console.log("$whileSection: ", $whileSection.attr('data-side-nav') + " - " + (offsetWhile + bufferZone) + "( if < " + (scrollTop) + ") и ВНИЗ");
-					// console.log("$nextSection: ", $nextSection.attr('data-side-nav') + " - " + (offsetNext - bufferZone) + "( if > " + (scrollTop) + ") и ВВЕРХ");
+					console.log("$whileSection (",$whileSection.attr('data-side-nav') + "): " + (offsetWhile + bufferZone) + "( if < " + (scrollTop) + ")");
+					console.log("$whileSection (",$whileSection.attr('data-side-nav') + "): " + (whileSectionHeight + offsetWhile - bufferZone) + "( if > " + (scrollTop) + ")");
+					console.log("$nextSection (",$nextSection.attr('data-side-nav') + "): " + (offsetNext + bufferZone) + "( if < " + (scrollTop + scrollAreaHeight) + ") и ВНИЗ");
 
-					console.log("$whileSection: ", $whileSection.attr('data-side-nav'));
+					// console.log("$whileSection: ", $whileSection.attr('data-side-nav'));
+					// console.log("$nextSection: ", $nextSection.attr('data-side-nav'));
 
-					// if (!tween.isActive() && prevScroll < scrollTop && (offsetNext + space < scrollAreaHeight + scrollTop)) {
 					if (
-						!tween.isActive() && !directToBottom && (offsetWhile + bufferZone < scrollTop) && $whileSection.outerHeight() <= scrollAreaHeight
-						||
-						!tween.isActive() && directToBottom && (offsetNext - bufferZone < scrollTop) && $whileSection.outerHeight() <= scrollAreaHeight
-
-						// !tween.isActive() && (offsetNext + bufferZone < scrollAreaHeight + scrollTop)
-						// &&
-						// (offsetNext - bufferZone < scrollTop)
-
-						// !tween.isActive() && prevScroll < scrollTop && (offsetNext + bufferZone < scrollAreaHeight + scrollTop)
-						// ||
-						// !tween.isActive() && prevScroll > scrollTop && (offsetNext - bufferZone < scrollTop)
+						!tween.isActive() && (offsetWhile + bufferZone) > scrollTop
 					) {
 
 						prevScroll = scrollTop;
 
-						console.log("------------ next -----------");
-						nextSection();
+						console.log("------------ while (1) ------------");
+						scrollToWhileSection();
 
-						clearTimeout(timeout);
+						return;
+					}
 
-						timeout = setTimeout(function () {
-						}, delay);
-
-					} else if ( $whileSection.outerHeight() <= scrollAreaHeight )
-
-					// if (!tween.isActive() && prevScroll > scrollTop && $nextSection) {
-					// if (!tween.isActive()) {
-
-					{
+					if (!tween.isActive() && (whileSectionHeight + offsetWhile - bufferZone) <= scrollTop) {
 
 						prevScroll = scrollTop;
 
-						console.log("------------ prev ------------");
-						prevSection();
+						console.log("------------ next (1) -----------");
+						scrollToNextSection();
 
-						clearTimeout(timeout);
-
-						timeout = setTimeout(function () {
-						}, delay);
-						// prevScroll = scrollTop;
-
+						return;
 					}
 
-					// prevScroll = scrollTop;
+					if (!tween.isActive() && !directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight)) {
+
+						prevScroll = scrollTop;
+
+						console.log("------------ next (2) -----------");
+						scrollToNextSection();
+
+						return;
+					}
+
+					console.log("------------ no move ------------");
 
 				}, delay);
 
