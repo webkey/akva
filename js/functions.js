@@ -765,7 +765,7 @@ function secondNav() {
 	var activeClassForSection = 'active-section';
 	var animationName = 'fixed'; // 'fixed', 'opacity' or 'parallax'
 	var timeout;
-	var delay = 700;
+	var delay = 600;
 	var bufferZone = 80;
 	var directScrollToTop;
 
@@ -908,43 +908,49 @@ function secondNav() {
 					// console.log("$nextSection: ", $nextSection.attr('data-side-nav') + " - " + (offsetNext + bufferZone) + "( if < " + (scrollAreaHeight + scrollTop) + ") и ВНИЗ");
 					// console.log("$nextSection: ", $nextSection.attr('data-side-nav') + " - " + (offsetNext - bufferZone) + "( if > " + (scrollTop) + ") и ВВЕРХ");
 
-					console.log("$whileSection (",$whileSection.attr('data-side-nav') + "): " + (offsetWhile + bufferZone) + "( if < " + (scrollTop) + ")");
-					console.log("$whileSection (",$whileSection.attr('data-side-nav') + "): " + (whileSectionHeight + offsetWhile - bufferZone) + "( if > " + (scrollTop) + ")");
+					console.log("$whileSection (",$whileSection.attr('data-side-nav') + "): " + (offsetWhile + bufferZone) + "( if >= " + (scrollTop) + ")");
+					console.log("$whileSection (",$whileSection.attr('data-side-nav') + "): " + (whileSectionHeight + offsetWhile - bufferZone) + "( if <= " + (scrollTop) + ")");
 					console.log("$nextSection (",$nextSection.attr('data-side-nav') + "): " + (offsetNext + bufferZone) + "( if < " + (scrollTop + scrollAreaHeight) + ") и ВНИЗ");
 
 					// console.log("$whileSection: ", $whileSection.attr('data-side-nav'));
 					// console.log("$nextSection: ", $nextSection.attr('data-side-nav'));
 
-					if (
-						!tween.isActive() && (offsetWhile + bufferZone) > scrollTop
-					) {
+					console.log("tween.isActive(): ", tween.isActive());
 
-						prevScroll = scrollTop;
+					if (!tween.isActive()) {
 
-						console.log("------------ while (1) ------------");
-						scrollToWhileSection();
+						if ((offsetWhile + bufferZone) >= scrollTop) {
 
-						return;
-					}
+							console.log("------------ while (1) ------------");
+							scrollToWhileSection();
 
-					if (!tween.isActive() && (whileSectionHeight + offsetWhile - bufferZone) <= scrollTop) {
+							return;
+						}
 
-						prevScroll = scrollTop;
+						if ((offsetWhile + whileSectionHeight - bufferZone) <= scrollTop) {
 
-						console.log("------------ next (1) -----------");
-						scrollToNextSection();
+							console.log("------------ next (1) -----------");
+							scrollToNextSection();
 
-						return;
-					}
+							return;
+						}
 
-					if (!tween.isActive() && !directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight)) {
+						if (!directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight)) {
 
-						prevScroll = scrollTop;
+							console.log("------------ next (2) -----------");
+							scrollToNextSection();
 
-						console.log("------------ next (2) -----------");
-						scrollToNextSection();
+							return;
+						}
 
-						return;
+						if (directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight) && whileSectionHeight <= scrollAreaHeight) {
+
+							console.log("------------ while (2) ------------");
+							scrollToWhileSection();
+
+							return;
+						}
+
 					}
 
 					console.log("------------ no move ------------");
