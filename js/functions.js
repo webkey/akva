@@ -537,13 +537,7 @@ function fixedHeader() {
 	});
 
 	$('.main').on('scroll', function () {
-		console.log(1);
-
 		var scrollTop = $('.main').scrollTop();
-
-		console.log("scrollPrev: ", scrollPrev);
-		console.log("scrollTop: ", scrollTop);
-
 		if (timeout) {
 			clearTimeout(timeout);
 		}
@@ -554,12 +548,6 @@ function fixedHeader() {
 			scrollTopFlag = true;
 		}
 
-		if (scrollTopFlag) {
-			console.log("scrollTopFlag: ", initValue++);
-		} else {
-			console.log("scrollTopFlag: ", initValue--);
-		}
-
 		$bar.css({
 			top: -scrollTop
 		});
@@ -567,9 +555,6 @@ function fixedHeader() {
 		timeout = setTimeout(function() {
 
 		}, 400);
-
-
-
 		scrollPrev = scrollTop;
 	})
 }
@@ -762,8 +747,6 @@ function secondNav() {
 	var section = 'section[data-side-nav]';
 	var $section = $(section);
 	var nav = '.side';
-	var $nav = $(nav);
-
 	var activeClassForNav = 'active',
 		activeClassForSection = 'active-section',
 		delay = 300,
@@ -787,13 +770,11 @@ function secondNav() {
 	function scrollToSection(section, duration) {
 		if (!section.length || tweenScroll.isActive()) return;
 
+		sectionIsAnimated = true;
+
 		var dur = duration || 0.3;
 
-		console.log("duration: ", dur);
-
 		prevScroll = scrollTop;
-
-		sectionIsAnimated = true;
 
 		tweenScroll.to($scrollArea, dur, {scrollTo: {
 			y: section.position().top},
@@ -805,16 +786,16 @@ function secondNav() {
 	}
 
 	var setActions = function() {
-		$nav.on('click', "li", function(e) {
+		$(nav).on('click', "a", function(e) {
 			e.preventDefault();
 
 			var $thisItem = $(this);
-			if (sectionIsAnimated || $thisItem.hasClass(activeClassForNav)) return;
+			if (sectionIsAnimated || $thisItem.parent().hasClass(activeClassForNav)) return;
 
-			var $activeSection = $("#" + $thisItem.data('section'));
+			var $activeSection = $($thisItem.attr('href'));
 
 			$('li', nav).removeClass(activeClassForNav);
-			$('li[data-section="' + $activeSection.attr('id') + '"]', nav).addClass(activeClassForNav);
+			$thisItem.parent().addClass(activeClassForNav);
 
 			scrollToSection($activeSection);
 		})
@@ -823,14 +804,9 @@ function secondNav() {
 	var setScroll = function() {
 		var $initialNavItem, $whileSection, $activeSection, $currentSection;
 
-		var hashTag = window.location.hash;
+		$initialNavItem = $(nav).find('li').eq(0);
 
-		$initialNavItem = $nav.find('li').eq(0);
-		if ( hashTag ) {
-			$scrollArea.scrollTop(200);
-			$initialNavItem = $('li[data-section="' + hashTag.substring(1) + '"]', nav);
-		}
-		$currentSection = $("#" + $initialNavItem.data('section'));
+		$currentSection = $($initialNavItem.find('a').attr('href'));
 		$activeSection = $whileSection = $currentSection;
 
 		$initialNavItem.addClass(activeClassForNav);
@@ -867,7 +843,6 @@ function secondNav() {
 			timeoutSetActive = setTimeout(function () {
 
 				var $activeSectionId = $activeSection.attr('id');
-				window.history.pushState({path: '#' + $activeSectionId}, '', '#' + $activeSectionId);
 
 				$('li', nav).removeClass(activeClassForNav);
 				$('li[data-section="' + $activeSectionId + '"]', nav).addClass(activeClassForNav);
@@ -890,40 +865,36 @@ function secondNav() {
 					var offsetNext = $nextSection.position().top;
 					var whileSectionHeight = $whileSection.outerHeight();
 
-					if (!tweenScroll.isActive()) {
+					if (offsetWhile !== scrollTop && (offsetWhile + bufferZone) > scrollTop && whileSectionHeight <= scrollAreaHeight) {
 
-						if ((offsetWhile + bufferZone) >= scrollTop && whileSectionHeight <= scrollAreaHeight) {
+						// console.log("------------ while (1) ------------");
+						scrollToSection($whileSection);
 
-							// console.log("------------ while (1) ------------");
-							scrollToSection($whileSection);
+						return;
+					}
 
-							return;
-						}
+					if ((offsetWhile + whileSectionHeight - bufferZone) <= scrollTop) {
 
-						if ((offsetWhile + whileSectionHeight - bufferZone) <= scrollTop) {
+						// console.log("------------ next (1) -----------");
+						scrollToSection($nextSection);
 
-							// console.log("------------ next (1) -----------");
-							scrollToSection($nextSection);
+						return;
+					}
 
-							return;
-						}
+					if (!directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight)) {
 
-						if (!directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight)) {
+						// console.log("------------ next (2) -----------");
+						scrollToSection($nextSection);
 
-							// console.log("------------ next (2) -----------");
-							scrollToSection($nextSection);
+						return;
+					}
 
-							return;
-						}
+					if (directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight) && whileSectionHeight <= scrollAreaHeight) {
 
-						if (directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight) && whileSectionHeight <= scrollAreaHeight) {
+						// console.log("------------ while (2) ------------");
+						scrollToSection($whileSection);
 
-							// console.log("------------ while (2) ------------");
-							scrollToSection($whileSection);
-
-							return;
-						}
-
+						return;
 					}
 
 					// console.log("------------ no move ------------");
@@ -932,8 +903,6 @@ function secondNav() {
 
 				prevScroll = scrollTop;
 			}
-
-
 		});
 	};
 
