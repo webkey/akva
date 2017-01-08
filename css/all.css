@@ -2466,9 +2466,27 @@ label{
 /*benefits section end*/
 
 /*history section*/
-.section-history .section__holder{
-	background: #fff url(../img/bg-section-history.png) no-repeat 50% 50%;
+.history-slider-bg{
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	background: #fffdf2;
+	z-index: -1;
 }
+.history-slider-bg > div{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: no-repeat 50% 50%;
+	-webkit-background-size: cover;
+	background-size: cover;
+	display: none;
+}
+
 .history-slider{
 	margin-bottom: 80px;
 }
@@ -2522,6 +2540,10 @@ label{
 	font-size: 1.8rem;
 	border-radius: 50%;
 	border: 2px solid #024383;
+	-webkit-transition-property: background;
+	transition-property: background;
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
 }
 .show-photos svg{
 	position: absolute;
@@ -2530,15 +2552,31 @@ label{
 	width: 26px;
 	height: 26px;
 	margin: -13px 0 0 -13px;
+	visibility: hidden;
+	opacity: 0;
 }
 .show-photos svg path{
 	fill: #024383;
+	-webkit-transition: fill 0.2s;
+	transition: fill 0.2s;
 }
-.photos-count{
-	position: absolute;
-	left: 100%;
-	padding-left: 10px;
-	line-height: 60px;
+.show-photos svg:nth-child(1){
+	visibility: visible;
+	opacity: 1;
+}
+.show-photos.active svg:nth-child(1){
+	visibility: hidden;
+	opacity: 0;
+}
+.show-photos.active svg:nth-child(2){
+	visibility: visible;
+	opacity: 1;
+}
+.show-photos.active{
+	background: #024383;
+}
+.show-photos.active svg path{
+	fill: #fff;
 }
 
 .history-periods{

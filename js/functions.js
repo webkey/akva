@@ -954,6 +954,7 @@ var secondaryNav;
 			switcherPanel: null,
 			switcherNavItem: null,
 			switcherNavAnchor: null,
+			bgImg: null,
 			photosSlider: null,
 			showPhotosBtn: null,
 			activeSwitcher: null,
@@ -964,12 +965,14 @@ var secondaryNav;
 
 		self.options = options;
 		self.$switcher = $(options.switcher);
-		self.$switcherPanel = options.switcherPanel;
+		self.switcherPanel = options.switcherPanel;
 		self.$switcherNavItem = $(options.switcherNavItem);
 		self.$switcherNavAnchor = $(options.switcherNavAnchor);
+		self.$bgImg = $(options.bgImg);
 		self.$photosSlider = $(options.photosSlider);
 		self.$showPhotosBtn= $(options.showPhotosBtn);
 		self.btnIsVisible = true;
+		self.bgImgShow = false;
 
 		self.activeSwitcher = options.activeSwitcher;
 		self.animationSpeed = options.animationSpeed;
@@ -993,10 +996,13 @@ var secondaryNav;
 	HistorySlider.prototype.initSwitcher = function() {
 		var self = this;
 
-		self.countSlides();
+		if(self.options.photosSlider) {
+			self.countSlides();
+		}
 		self.switchClass();
 		self.toggleContent();
 		self.changeHeightContainer();
+		self.toggleBg();
 	};
 
 	// toggle content
@@ -1024,6 +1030,12 @@ var secondaryNav;
 			self.currentSwitcher = thisIndex;
 
 			self.initSwitcher();
+			
+			self.togglePhotoShowClass(false);
+			self.toggleTitleSection(false);
+			self.toggleBtnPhotos(false);
+
+			self.bgImgShow = false;
 
 			setTimeout(function () {
 				self.scrollToSection();
@@ -1041,10 +1053,9 @@ var secondaryNav;
 		$content.css({
 			'display': 'block',
 			'position': 'relative',
-			'overflow': 'hidden'
 		});
 
-		var $curPanels = $(self.$switcherPanel, $content);
+		var $curPanels = $(self.switcherPanel, $content);
 
 		$curPanels.css({
 			'display': 'block',
@@ -1056,25 +1067,17 @@ var secondaryNav;
 			'z-index': -1
 		});
 
-		var $curImagesSlider = $(self.$photosSlider, $content);
+		/*preparation bg*/
 
-		// TweenMax.set($curImagesSlider, {yPercent: 100});
+		var $curBgImg = self.$bgImg;
 
-		// console.log('preparationAnimation');
+		$curBgImg.css({
+			'display': 'block'
+		});
 
-		// TweenMax.set($navContainer, {
-		// 	xPercent: -100,
-		// 	autoAlpha: 0,
-		// 	onComplete: function () {
-		// 		$navContainer.show(0);
-		// 	}
-		// });
-		//
-		// TweenMax.set($staggerItems, {
-		// 	autoAlpha: 0,
-		// 	scale: 0.6,
-		// 	y: 50
-		// });
+		TweenMax.set($curBgImg, {
+			autoAlpha: 0
+		});
 	};
 
 	HistorySlider.prototype.switchClass = function() {
@@ -1097,9 +1100,6 @@ var secondaryNav;
 		$.each(panelsArr, function () {
 			var $curItems = $(this, $content);
 			var length = $curItems.length;
-
-			// console.log("$curItems: ", $curItems);
-			// console.log("length: ", length);
 
 			indexNext = (initIndex < length - 1) ? initIndex + 1 : 0;
 			indexPrev = (initIndex >= 0) ? initIndex - 1 : length - 1;
@@ -1124,12 +1124,11 @@ var secondaryNav;
 		var self = this;
 
 		var $content = self.$switcher,
-			$panel = self.$switcherPanel,
-			initIndex = self.currentSwitcher,
+			$panel = self.switcherPanel,
 			animationSpeed = self.animationSpeed;
 
 		var $curPanel = $($panel, $content);
-		var $currentPanel = $curPanel.eq(initIndex);
+		var $currentPanel = $curPanel.eq(self.currentSwitcher);
 
 		$content.css('height', $content.outerHeight());
 
@@ -1153,12 +1152,28 @@ var secondaryNav;
 		});
 	};
 
+	// show active background img and hide other
+	HistorySlider.prototype.toggleBg = function() {
+
+		var self = this;
+
+		var $bgImg = self.$bgImg, animationSpeed = self.animationSpeed;
+
+		TweenMax.to($bgImg, animationSpeed, {
+			autoAlpha: 0
+		});
+
+		TweenMax.to($bgImg.eq(self.currentSwitcher), animationSpeed, {
+			autoAlpha: 0.2
+		});
+	};
+
 	// change container's height
 	HistorySlider.prototype.changeHeightContainer = function() {
 		var self = this;
 
 		var $content = self.$switcher,
-			$panel = self.$switcherPanel,
+			$panel = self.switcherPanel,
 			initIndex = self.currentSwitcher,
 			animationSpeed = self.animationSpeed;
 
@@ -1191,7 +1206,7 @@ var secondaryNav;
 		});
 	};
 
-	// image slider init
+	/*images slider init*/
 	HistorySlider.prototype.imagesSliderInit = function() {
 		var self = this;
 		var $photosSlider = self.$photosSlider;
@@ -1200,7 +1215,7 @@ var secondaryNav;
 
 			var slidersArr = [];
 
-			$.each($(self.$switcherPanel, self.$switcher), function () {
+			$.each($(self.switcherPanel, self.$switcher), function () {
 				var $currentImagesSlider = $(this).find($photosSlider);
 
 				if ($currentImagesSlider.length === 0) {
@@ -1238,9 +1253,12 @@ var secondaryNav;
 	};
 
 	HistorySlider.prototype.countSlides = function () {
+		/*html*/
+		//<a href="#" class="show-photos-js"><span class="photos-count">0</span></a>
+
 		var self = this;
-		// console.log("self.currentSwitcher: ", self.currentSwitcher);
-		// console.log("self.getImagesSlider: ", self.getImagesSlider);
+
+		console.log("self.currentSwitcher: ", self.currentSwitcher);
 
 		var currentImagesSlider = self.getImagesSlider[self.currentSwitcher];
 		var $currentShowPhotosBtn = self.$showPhotosBtn;
@@ -1266,42 +1284,101 @@ var secondaryNav;
 		$('.photos-count', $currentShowPhotosBtn).text(totalSlides);
 	};
 
+	HistorySlider.prototype.togglePhotoShowClass = function () {
+		var self = this;
+		var activeIndex = self.currentSwitcher;
+		var $currentBgImg = self.$bgImg.eq(activeIndex);
+		var $panel = $(self.switcherPanel, self.$switcher);
+		var $currentPanel = $panel.eq(self.currentSwitcher);
+		var animationSpeed = self.animationSpeed;
+
+		if (self.bgImgShow || arguments[0] === false) {
+			self.bgImgShow = false;
+
+			TweenMax.to($currentBgImg, animationSpeed, {
+				autoAlpha: 0.2
+			});
+			TweenMax.to($currentPanel, animationSpeed, {
+				autoAlpha: 1
+			});
+		} else {
+			self.bgImgShow = true;
+
+			TweenMax.to($currentBgImg, animationSpeed, {
+				autoAlpha: 1
+			});
+			TweenMax.to($currentPanel, animationSpeed, {
+				autoAlpha: 0
+			});
+		}
+	};
+
+	HistorySlider.prototype.toggleTitleSection = function () {
+		var self = this;
+		var $titleSection = self.$switcher.closest('section').find('.section__title');
+		var animationSpeed = self.animationSpeed;
+
+		if (self.bgImgShow || arguments[0] === false) {
+			TweenMax.to($titleSection, animationSpeed, {
+				autoAlpha: 1
+			});
+		} else {
+			TweenMax.to($titleSection, animationSpeed, {
+				autoAlpha: 0
+			});
+		}
+	};
+
+	HistorySlider.prototype.toggleBtnPhotos = function () {
+		var self = this;
+		self.$showPhotosBtn.toggleClass(self.modifiers.active, !self.bgImgShow && arguments[0] !== false);
+	};
+
 	HistorySlider.prototype.toggleImageSlider = function () {
 		var self = this;
 
 		self.$showPhotosBtn.on('click', function (e) {
 			e.preventDefault();
 
-			var $currentImageSlider = self.getImagesSlider[self.currentSwitcher];
+			if (self.options.bgImg) {
+				self.toggleBtnPhotos();
+				self.toggleTitleSection();
+				self.togglePhotoShowClass();
+			}
 
-			if ($currentImageSlider.height() === 0) {
+			if (self.options.photosSlider) {
+				var $currentImageSlider = self.getImagesSlider[self.currentSwitcher];
 
-				TweenMax.set($currentImageSlider, {yPercent: 100});
+				if ($currentImageSlider.height() === 0) {
 
-				TweenMax.to($currentImageSlider, 0.1, {
-					'height': $currentImageSlider.find('img').outerHeight(),
-					autoAlpha: 1,
-					onComplete: function () {
-						TweenMax.to($currentImageSlider, self.animationSpeed, { yPercent: 0});
-					}
-				});
+					TweenMax.set($currentImageSlider, {yPercent: 100});
 
-			} else {
+					TweenMax.to($currentImageSlider, 0.1, {
+						'height': $currentImageSlider.find('img').outerHeight(),
+						autoAlpha: 1,
+						onComplete: function () {
+							TweenMax.to($currentImageSlider, self.animationSpeed, { yPercent: 0});
+						}
+					});
 
-				TweenMax.to($currentImageSlider, self.animationSpeed, {
-					yPercent: 100,
-					onComplete: function () {
-						TweenMax.to($currentImageSlider, 0.1, {
-							'height': 0,
-							autoAlpha: 0
-						});
-					}
-				});
+				} else {
 
+					TweenMax.to($currentImageSlider, self.animationSpeed, {
+						yPercent: 100,
+						onComplete: function () {
+							TweenMax.to($currentImageSlider, 0.1, {
+								'height': 0,
+								autoAlpha: 0
+							});
+						}
+					});
+
+				}
 			}
 
 		})
 	};
+	/*images slider init end*/
 
 	HistorySlider.prototype.scrollToSection = function () {
 		var $scrollArea = $('.main');
@@ -1329,7 +1406,8 @@ function historySwitcher(){
 			// switcherPanel: ['.history-slider__item', '.history-periods__item'],
 			switcherNavItem: '.history-periods li',
 			switcherNavAnchor: '.history-periods a',
-			photosSlider: '.history-slider__images',
+			bgImg: '.history-slider-bg > div',
+			// photosSlider: '.history-slider__images',
 			showPhotosBtn: '.show-photos-js',
 			activeSwitcher: 0
 		});
@@ -1438,6 +1516,7 @@ function tabSwitcher() {
 					toggleContent();
 					changeHeightContainer();
 					toggleActiveClass();
+
 				}
 			}
 
@@ -1571,8 +1650,8 @@ function imagesGalleryInit() {
 				spacerGetHeight($imagesGallery.parent().find('.section-bottom-spacer'), $imagesGallery);
 			}, 200)
 		}).slick({
-			slidesToShow: 6,
-			slidesToScroll: 6,
+			slidesToShow: 5,
+			slidesToScroll: 5,
 			infinite: true,
 			speed: 300,
 			lazyLoad: 'ondemand',
@@ -1580,27 +1659,27 @@ function imagesGalleryInit() {
 			// autoplaySpeed: 8000,
 			dots: false,
 			arrows: true,
-			initialSlide: 2,
+			// initialSlide: 0,
 			responsive: [
 				{
 					breakpoint: 1920,
-					settings: {
-						slidesToShow: 5,
-						slidesToScroll: 5
-					}
-				},
-				{
-					breakpoint: 1550,
 					settings: {
 						slidesToShow: 4,
 						slidesToScroll: 4
 					}
 				},
 				{
-					breakpoint: 1270,
+					breakpoint: 1550,
 					settings: {
 						slidesToShow: 3,
 						slidesToScroll: 3
+					}
+				},
+				{
+					breakpoint: 1270,
+					settings: {
+						slidesToShow: 2,
+						slidesToScroll: 2
 					}
 				},
 				{
@@ -1687,7 +1766,7 @@ function modalWindowInit() {
 		var href = $(this).attr('href');
 		var alt = $(this).find('img').attr('alt');
 		if (window.innerWidth >= 1024) {
-			var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container"><div class="modal__img__wrap"><img src="' + href +'" alt="' + alt + '" /><a class="modal__close"><span>Close</span></a></div></div></div></div></div>';
+			var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container"><div class="modal__img__wrap"><img src="' + href +'" alt="' + alt + '" /></div></div></div><a class="modal__close"><span>Close</span></a></div></div>';
 			$('body').addClass('body--no-scroll');
 			$('body').append(data);
 			modalIsOpen = true;
@@ -1748,6 +1827,6 @@ jQuery(document).ready(function(){
 	modalWindowInit();
 
 	if ($('.main').hasClass('about')) {
-		secondaryNav = new secondNav();
+		// secondaryNav = new secondNav();
 	}
 });
