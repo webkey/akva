@@ -757,17 +757,24 @@ function secondNav() {
 // 2) ScrollToPlugin (widgets.js);
 
 	var self = this;
-	var sectionArr;
 	var scrollArea = ".main";
+	var $scrollArea = $(scrollArea);
 	var section = 'section[data-side-nav]';
+	var $section = $(section);
 	var nav = '.side';
-	var activeClassForNav = 'active';
-	var activeClassForSection = 'active-section';
-	var animationName = 'fixed'; // 'fixed', 'opacity' or 'parallax'
-	var timeout;
-	var delay = 600;
-	var bufferZone = 80;
-	var directScrollToTop;
+	var $nav = $(nav);
+
+	var activeClassForNav = 'active',
+		activeClassForSection = 'active-section',
+		delay = 300,
+		bufferZone = 80,
+		scrollTop = 0,
+		prevScroll = -1,
+		sectionIsAnimated = false,
+		sectionArr,
+		directScrollToTop,
+		timeoutSetActive,
+		timeoutPosition;
 
 	self.initialize = function() {
 		findNavItems();
@@ -775,71 +782,67 @@ function secondNav() {
 		setActions();
 	};
 
+	var tweenScroll = new TimelineLite();
+
+	function scrollToSection(section, duration) {
+		if (!section.length || tweenScroll.isActive()) return;
+
+		var dur = duration || 0.3;
+
+		console.log("duration: ", dur);
+
+		prevScroll = scrollTop;
+
+		sectionIsAnimated = true;
+
+		tweenScroll.to($scrollArea, dur, {scrollTo: {
+			y: section.position().top},
+			ease: Power2.easeInOut,
+			onComplete: function () {
+				sectionIsAnimated = false;
+			}
+		});
+	}
+
 	var setActions = function() {
-		$(nav).on('click', "li", function(e) {
+		$nav.on('click', "li", function(e) {
 			e.preventDefault();
 
-			if ($(this).hasClass(activeClassForNav)) return;
+			var $thisItem = $(this);
+			if (sectionIsAnimated || $thisItem.hasClass(activeClassForNav)) return;
 
-			var $currentSection = $("#" + $(this).data('section'));
+			var $activeSection = $("#" + $thisItem.data('section'));
 
-			TweenMax.to($(scrollArea), 0.3, {scrollTo: {
-				y: $currentSection.position().top},
-				ease: Power2.easeInOut
-			});
+			$('li', nav).removeClass(activeClassForNav);
+			$('li[data-section="' + $activeSection.attr('id') + '"]', nav).addClass(activeClassForNav);
+
+			scrollToSection($activeSection);
 		})
 	};
 
 	var setScroll = function() {
-		var $initialNavItem = $(nav).find("li").eq(0);
-		var $section = $(section);
-		var $currentSection = $("#" + $initialNavItem.data('section'));
-		var scrollTop = 0;
+		var $initialNavItem, $whileSection, $activeSection, $currentSection;
+
+		var hashTag = window.location.hash;
+
+		$initialNavItem = $nav.find('li').eq(0);
+		if ( hashTag ) {
+			$scrollArea.scrollTop(200);
+			$initialNavItem = $('li[data-section="' + hashTag.substring(1) + '"]', nav);
+		}
+		$currentSection = $("#" + $initialNavItem.data('section'));
+		$activeSection = $whileSection = $currentSection;
 
 		$initialNavItem.addClass(activeClassForNav);
-
 		$currentSection.addClass(activeClassForSection);
 
-		var $whileSection = sectionArr[0];
 		var $nextSection = sectionArr[1];
 
-		var tween = new TimelineLite();
+		$scrollArea.on('scroll', function() {
 
-		function scrollToWhileSection() {
-			tween.to($(scrollArea), 0.5, {scrollTo: {
-				y: $whileSection.position().top},
-				ease: Power2.easeInOut,
-				onComplete: function () {
-					console.log("%c" + "проскроллено к началу ТЕКУЩЕЙ секции", "color: blue; font-weight:bold;");
-				}
-			});
-		}
+			scrollTop = $scrollArea.scrollTop();
 
-		function scrollToNextSection() {
-			if (!$nextSection) return;
-
-			prevScroll = scrollTop;
-
-			tween.to($(scrollArea), 0.5, {scrollTo: {
-				y: $nextSection.position().top},
-				ease: Power2.easeInOut,
-				onComplete: function () {
-					console.log("%c" + "проскроллено к началу СЛЕДУЮЩЕ секции", "color: red; font-weight:bold;");
-
-					prevScroll = scrollTop;
-					console.log('direction scroll are changed (1): ', 'scrollTop = ' + scrollTop + ', prevScroll = ' + prevScroll);
-				}
-			});
-		}
-
-		var prevScroll = -1;
-
-		// $(scrollArea).on('scroll', function() {
-		$(scrollArea).on('scroll', function() {
-
-			scrollTop = $(scrollArea).scrollTop();
-
-			var scrollAreaHeight = $(scrollArea).outerHeight();
+			var scrollAreaHeight = $scrollArea.outerHeight();
 
 			for (var i = 0; i < sectionArr.length; i++) {
 				$currentSection = $(sectionArr[i]);
@@ -848,112 +851,82 @@ function secondNav() {
 
 					sectionOffset = scrollTop - offset;
 
-				if ( sectionOffset >= -(scrollAreaHeight/2)) {
-				// if ( offset - scrollTop >= 0 && offset - scrollTop <= 100 ) {
-				// if ( $currentSection.position().top - scrollTop >= 0) {
-
-					// clearTimeout(timeout);
-					//
-					// timeout = setTimeout(function () {
-					// }, 2000);
-
-					$('li', nav).removeClass(activeClassForNav);
-
-					$('li[data-section="' + $currentSection.attr('id') + '"]', nav).addClass(activeClassForNav);
-
-					$section.removeClass(activeClassForSection);
-
-					$currentSection.addClass(activeClassForSection);
+				if (sectionOffset >= -(scrollAreaHeight/2)) {
+					$activeSection = $currentSection;
 				}
 
 				if ( sectionOffset >= 0 ) {
 					$whileSection = $currentSection;
 					$nextSection = sectionArr[i + 1];
 				}
-
-				// if ( sectionOffset >= -scrollAreaHeight ) {
-				// 	$nextSection = $currentSection;
-				// }
 			}
 
-			// console.log("$nextSection: ", $nextSection);
+			clearTimeout(timeoutSetActive);
 
-			clearTimeout(timeout);
+			/*add active class*/
+			timeoutSetActive = setTimeout(function () {
+
+				var $activeSectionId = $activeSection.attr('id');
+				window.history.pushState({path: '#' + $activeSectionId}, '', '#' + $activeSectionId);
+
+				$('li', nav).removeClass(activeClassForNav);
+				$('li[data-section="' + $activeSectionId + '"]', nav).addClass(activeClassForNav);
+
+				$section.removeClass(activeClassForSection);
+				$activeSection.addClass(activeClassForSection);
+
+			}, 250);
+
+			/*scroll position correction*/
+			clearTimeout(timeoutPosition);
 
 			if ($nextSection) {
+				/*get direct scroll*/
 				directScrollToTop = prevScroll > scrollTop;
 
-				// console.log("directScrollToTop: ", directScrollToTop);
-
-				timeout = setTimeout(function () {
-
-					console.log("* * * * * * * * * * * *");
+				timeoutPosition = setTimeout(function () {
 
 					var offsetWhile = $whileSection.position().top;
 					var offsetNext = $nextSection.position().top;
 					var whileSectionHeight = $whileSection.outerHeight();
 
-					// console.log("whileSectionHeight: ", whileSectionHeight);
-					// console.log("scrollAreaHeight: ", scrollAreaHeight);
+					if (!tweenScroll.isActive()) {
 
-					// console.log('direction scroll are changed (2): ', 'scrollTop = ' + scrollTop + ', prevScroll = ' + prevScroll);
+						if ((offsetWhile + bufferZone) >= scrollTop && whileSectionHeight <= scrollAreaHeight) {
 
-					if (directScrollToTop) {
-						console.log("проскроллили ВВЕРХ");
-					} else {
-						console.log("проскроллили ВНИЗ");
-					}
-
-					// console.log("$whileSection: ", $whileSection.attr('data-side-nav'));
-					// console.log("$nextSection: ", $nextSection.attr('data-side-nav') + " - " + (offsetNext + bufferZone) + "( if < " + (scrollAreaHeight + scrollTop) + ") и ВНИЗ");
-					// console.log("$nextSection: ", $nextSection.attr('data-side-nav') + " - " + (offsetNext - bufferZone) + "( if > " + (scrollTop) + ") и ВВЕРХ");
-
-					console.log("$whileSection (",$whileSection.attr('data-side-nav') + "): " + (offsetWhile + bufferZone) + "( if >= " + (scrollTop) + ")");
-					console.log("$whileSection (",$whileSection.attr('data-side-nav') + "): " + (whileSectionHeight + offsetWhile - bufferZone) + "( if <= " + (scrollTop) + ")");
-					console.log("$nextSection (",$nextSection.attr('data-side-nav') + "): " + (offsetNext + bufferZone) + "( if < " + (scrollTop + scrollAreaHeight) + ") и ВНИЗ");
-
-					// console.log("$whileSection: ", $whileSection.attr('data-side-nav'));
-					// console.log("$nextSection: ", $nextSection.attr('data-side-nav'));
-
-					console.log("tween.isActive(): ", tween.isActive());
-
-					if (!tween.isActive()) {
-
-						if ((offsetWhile + bufferZone) >= scrollTop) {
-
-							console.log("------------ while (1) ------------");
-							scrollToWhileSection();
+							// console.log("------------ while (1) ------------");
+							scrollToSection($whileSection);
 
 							return;
 						}
 
 						if ((offsetWhile + whileSectionHeight - bufferZone) <= scrollTop) {
 
-							console.log("------------ next (1) -----------");
-							scrollToNextSection();
+							// console.log("------------ next (1) -----------");
+							scrollToSection($nextSection);
 
 							return;
 						}
 
 						if (!directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight)) {
 
-							console.log("------------ next (2) -----------");
-							scrollToNextSection();
+							// console.log("------------ next (2) -----------");
+							scrollToSection($nextSection);
 
 							return;
 						}
 
 						if (directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight) && whileSectionHeight <= scrollAreaHeight) {
 
-							console.log("------------ while (2) ------------");
-							scrollToWhileSection();
+							// console.log("------------ while (2) ------------");
+							scrollToSection($whileSection);
 
 							return;
 						}
 
 					}
 
-					console.log("------------ no move ------------");
+					// console.log("------------ no move ------------");
 
 				}, delay);
 
@@ -966,11 +939,15 @@ function secondNav() {
 
 	var findNavItems = function() {
 		sectionArr = [];
-		$("section").each(function() {
-			if ($(this).attr("data-side-nav")) {
-				sectionArr.push($(this))
+
+		$section.each(function() {
+			var $this = $(this);
+
+			if ($this.attr("data-side-nav")) {
+				sectionArr.push($this)
 			}
 		});
+
 		createNavigation()
 	};
 
@@ -982,8 +959,8 @@ function secondNav() {
 		for (var i = 0; i < sectionArr.length; i++) {
 			$(nav).find("ul")
 				.append(
-					'<li data-lpos="sidenav" data-lid="click_' + $(sectionArr[i]).attr("id") + '" data-section="' + $(sectionArr[i]).attr("id") + '">' +
-					'<a data-lpos="sidenav" data-lid="click_' + $(sectionArr[i]).attr("id") + '" href="#' + $(sectionArr[i]).attr("id") + '">' +
+					'<li data-section="' + $(sectionArr[i]).attr("id") + '">' +
+					'<a href="#' + $(sectionArr[i]).attr("id") + '">' +
 					'<i class="side__circle"></i>' +
 					'<span class="side__label">' + $(sectionArr[i]).data("side-nav") + '</span>' +
 					'</a>' +
@@ -991,121 +968,6 @@ function secondNav() {
 				)
 		}
 	};
-
-	// scrollAnimation();
-
-	function scrollAnimation(){
-		(!window.requestAnimationFrame) ? animateSection() : window.requestAnimationFrame(animateSection);
-	}
-
-	function animateSection() {
-		var scrollTop = $(scrollArea).scrollTop(),
-			windowHeight = $(section).outerHeight();
-
-		$(section).each(function(){
-			var actualBlock = $(this),
-				offset = scrollTop - actualBlock.position().top;
-
-			//according to animation type and window scroll, define animation parameters
-			var animationValues = setSectionAnimation(offset, windowHeight, animationName);
-
-			transformSection(
-				// actualBlock.children('.section-aside'),
-				actualBlock.find('.section-aside'),
-				animationValues[0],
-				animationValues[1],
-				animationValues[2],
-				animationValues[3],
-				animationValues[4]
-			);
-			( offset >= 0 && offset < windowHeight ) ? actualBlock.addClass('visible') : actualBlock.removeClass('visible');
-		});
-	}
-
-	function setSectionAnimation(sectionOffset, windowHeight, animationName ) {
-		// select section animation - normal scroll
-		var scale = 1,
-			translateY = 100,
-			rotateX = '0deg',
-			opacity = 1,
-			boxShadowBlur = 0;
-
-		if( sectionOffset >= -(windowHeight) && sectionOffset <= 0 ) {
-			// section entering the viewport
-			translateY = (-sectionOffset)*100/windowHeight;
-
-			switch(animationName) {
-				case 'opacity':
-					translateY = 0;
-					// scale = (sectionOffset + 5*windowHeight)*0.2/windowHeight;
-					opacity = (sectionOffset + windowHeight)/(windowHeight);
-					break;
-			}
-
-		} else if( sectionOffset > 0 && sectionOffset <= windowHeight ) {
-			//section leaving the viewport - still has the '.visible' class
-			translateY = (-sectionOffset)*100/windowHeight;
-
-			switch(animationName) {
-				case 'opacity':
-					translateY = 0;
-					// scale = (sectionOffset + 5*windowHeight)*0.2/windowHeight;
-					opacity = ( windowHeight - sectionOffset )/windowHeight;
-					break;
-				case 'fixed':
-					translateY = 0;
-					break;
-				case 'parallax':
-					translateY = (-sectionOffset)*50/windowHeight;
-					break;
-			}
-
-		} else if( sectionOffset < -(windowHeight) ) {
-			//section not yet visible
-			translateY = 100;
-
-			switch(animationName) {
-				case 'opacity':
-					translateY = 0;
-					// scale = 0.8;
-					opacity = 0;
-					break;
-			}
-
-		} else {
-			//section not visible anymore
-			translateY = -100;
-
-			switch(animationName) {
-				case 'opacity':
-					translateY = 0;
-					// scale = 1.2;
-					opacity = 0;
-					break;
-				case 'fixed':
-					translateY = 0;
-					break;
-				case 'parallax':
-					translateY = -50;
-					break;
-			}
-		}
-
-		return [translateY, scale, rotateX, opacity, boxShadowBlur];
-	}
-
-	function transformSection(element, translateY, scaleValue, rotateXValue, opacityValue, boxShadow) {
-		//transform sections - normal scroll
-		element.velocity({
-			translateY: translateY+'vh',
-			scale: scaleValue,
-			rotateX: rotateXValue,
-			opacity: opacityValue,
-			boxShadowBlur: boxShadow+'px',
-			translateZ: 0
-		}, 0);
-	}
-
 
 	self.initialize()
 }
@@ -1834,14 +1696,16 @@ function newsSliderInit() {
  * modal window
  * */
 function modalWindowInit() {
+	var modalIsOpen = false;
 
 	// modal video
 	$('.modal-video').on('click', function() {
 		var href = $(this).attr('href');
 		if (window.innerWidth >= 1024) {
-			var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container modal__container__video"><div class="modal__video__wrap"><iframe src="' + href + '" frameborder="0" allowfullscreen></iframe></div><a class="modal__close"><span>Close</span></a></div></div></div></div>';
+			var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container modal__container__video"><div class="modal__video__wrap"><iframe src="' + href + '" frameborder="0" allowfullscreen></iframe></div></div></div><a class="modal__close"><span>Close</span></a></div></div>';
 			$('body').addClass('body--no-scroll');
 			$('body').append(data);
+			modalIsOpen = true;
 			$('.modal').show(0, function() {
 				$('.modal').addClass('modal--active');
 			});
@@ -1857,6 +1721,7 @@ function modalWindowInit() {
 			var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container"><div class="modal__img__wrap"><img src="' + href +'" alt="' + alt + '" /><a class="modal__close"><span>Close</span></a></div></div></div></div></div>';
 			$('body').addClass('body--no-scroll');
 			$('body').append(data);
+			modalIsOpen = true;
 			$('.modal').show(0, function() {
 				$('.modal').addClass('modal--active');
 			});
@@ -1864,14 +1729,26 @@ function modalWindowInit() {
 		}
 	});
 
-	// modal close
+	// modal close on click to btn close
 	$('body').on('click', '.modal__close, .modal__wrap', function() {
+		closeModalWindow();
+	});
+
+	// modal close on click to "Esc" key
+	$(document).keyup(function(e) {
+		if (modalIsOpen && e.keyCode == 27) {
+			closeModalWindow();
+		}
+	});
+
+	// close modal window
+	function closeModalWindow() {
 		$('.modal').removeClass('modal--active');
-		setTimeout(function() {
+		setTimeout(function () {
 			$('.modal').remove();
 			$('body').removeClass('body--no-scroll');
 		}, 500);
-	});
+	}
 
 	// modal no close
 	$('body').on('click', '.modal__img__wrap, .modal__video__wrap', function(e) {
