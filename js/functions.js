@@ -749,14 +749,16 @@ function secondNav() {
 	var nav = '.side';
 	var activeClassForNav = 'active',
 		activeClassForSection = 'active-section',
+		animateClassForSection = 'animate-section',
 		delay = 300,
-		bufferZone = 80,
+		bufferZone = 120,
 		scrollTop = 0,
 		prevScroll = -1,
 		sectionIsAnimated = false,
 		sectionArr,
 		directScrollToTop,
 		timeoutSetActive,
+		timeoutSetAnimate,
 		timeoutPosition;
 
 	self.initialize = function() {
@@ -772,7 +774,7 @@ function secondNav() {
 
 		sectionIsAnimated = true;
 
-		var dur = duration || 0.3;
+		var dur = duration || 0.5;
 
 		prevScroll = scrollTop;
 
@@ -802,7 +804,7 @@ function secondNav() {
 	};
 
 	var setScroll = function() {
-		var $initialNavItem, $whileSection, $activeSection, $currentSection;
+		var $initialNavItem, $whileSection, $activeSection, $currentSection, $animateSection;
 
 		$initialNavItem = $(nav).find('li').eq(0);
 
@@ -810,13 +812,16 @@ function secondNav() {
 		$activeSection = $whileSection = $currentSection;
 
 		$initialNavItem.addClass(activeClassForNav);
-		$currentSection.addClass(activeClassForSection);
+		$currentSection.addClass(activeClassForSection).addClass(animateClassForSection);
 
 		var $nextSection = sectionArr[1];
 
 		$scrollArea.on('scroll', function() {
 
 			scrollTop = $scrollArea.scrollTop();
+
+			/*get direct scroll*/
+			directScrollToTop = prevScroll > scrollTop;
 
 			var scrollAreaHeight = $scrollArea.outerHeight();
 
@@ -826,6 +831,19 @@ function secondNav() {
 				var offset = $currentSection.position().top,
 
 					sectionOffset = scrollTop - offset;
+				console.log("sectionOffset: ", sectionOffset);
+				console.log("scrollAreaHeight: ", -(scrollAreaHeight + bufferZone));
+
+				if (
+					!directScrollToTop && sectionOffset > -(scrollAreaHeight - bufferZone)
+					||
+					directScrollToTop && sectionOffset - scrollAreaHeight < -(scrollAreaHeight + bufferZone)
+				) {
+
+					console.log("$currentSection.attr('data-side-nav'): ", $currentSection.attr('data-side-nav'));
+
+					$animateSection = $currentSection;
+				}
 
 				if (sectionOffset >= -(scrollAreaHeight/2)) {
 					$activeSection = $currentSection;
@@ -837,7 +855,14 @@ function secondNav() {
 				}
 			}
 
-			clearTimeout(timeoutSetActive);
+			clearTimeout(timeoutSetAnimate);
+
+			/*add animate class*/
+			timeoutSetAnimate = setTimeout(function () {
+
+				$animateSection.addClass(animateClassForSection);
+
+			}, 100);
 
 			/*add active class*/
 			timeoutSetActive = setTimeout(function () {
@@ -856,8 +881,6 @@ function secondNav() {
 			clearTimeout(timeoutPosition);
 
 			if ($nextSection) {
-				/*get direct scroll*/
-				directScrollToTop = prevScroll > scrollTop;
 
 				timeoutPosition = setTimeout(function () {
 
@@ -1766,6 +1789,18 @@ function modalWindowInit() {
 /*modal window end*/
 
 /**
+ * up z-index
+ * */
+function upZindex() {
+	var $briefInner = $('.brief__inner');
+	$briefInner.on('mouseenter', function () {
+		$briefInner.parent().removeClass('zindex-up');
+		$(this).parent().addClass('zindex-up');
+	})
+}
+/* up z-index end */
+
+/**
  *!  ready/load/resize document
  * */
 
@@ -1785,6 +1820,7 @@ jQuery(document).ready(function(){
 	imagesGalleryInit();
 	newsSliderInit();
 	modalWindowInit();
+	upZindex();
 
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();
