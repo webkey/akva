@@ -831,16 +831,17 @@ function secondNav() {
 				var offset = $currentSection.position().top,
 
 					sectionOffset = scrollTop - offset;
-				console.log("sectionOffset: ", sectionOffset);
-				console.log("scrollAreaHeight: ", -(scrollAreaHeight + bufferZone));
+
+
+				// console.log("$currentSection: ", $currentSection.attr('data-side-nav'));
+				// console.log("sectionOffset: ", sectionOffset - $currentSection.outerHeight());
+				// console.log("cond: ", -(scrollAreaHeight - bufferZone));
 
 				if (
 					!directScrollToTop && sectionOffset > -(scrollAreaHeight - bufferZone)
 					||
-					directScrollToTop && sectionOffset - scrollAreaHeight < -(scrollAreaHeight + bufferZone)
+					directScrollToTop && (sectionOffset + bufferZone) > -1
 				) {
-
-					console.log("$currentSection.attr('data-side-nav'): ", $currentSection.attr('data-side-nav'));
 
 					$animateSection = $currentSection;
 				}
@@ -849,7 +850,7 @@ function secondNav() {
 					$activeSection = $currentSection;
 				}
 
-				if ( sectionOffset >= 0 ) {
+				if ( sectionOffset > -1 ) {
 					$whileSection = $currentSection;
 					$nextSection = sectionArr[i + 1];
 				}
@@ -862,7 +863,7 @@ function secondNav() {
 
 				$animateSection.addClass(animateClassForSection);
 
-			}, 100);
+			}, 50);
 
 			/*add active class*/
 			timeoutSetActive = setTimeout(function () {
