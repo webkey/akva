@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,700,700i&subset=cyrillic,cyrillic-ext');
+@import url('https://fonts.googleapis.com/css?family=PT+Serif:400,700i|Roboto:400,400i,700,700i&subset=cyrillic');
 @import url(normalize.css);
 @import url(widgets.css);
 
@@ -62,7 +62,7 @@ html{
 	font-size: 62.5%;
 }
 body{
-	font-family: 'Roboto Condensed', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-size: 1.8rem;
 	line-height: 1.7;
 	font-weight: 300;
@@ -77,23 +77,26 @@ h1, h2, h3, h4, h5, h6{
 	color: #000;
 }
 h1{
-	font-family: 'academy-bold', sans-serif;
+	font-family: 'PT Serif', serif;
+	font-weight: 700;
+	font-style: italic;
 	font-size: 60px;
 	line-height: 68px;
 	color: #024383;
-	text-transform: uppercase;
-	padding: 0 0 20px;
+	padding: 0 0 50px;
 	overflow: hidden;
 }
 h2{
-	font-family: 'arnopro-regular', sans-serif;
-	font-size: 40px;
-	line-height: 48px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 700;
+	font-size: 36px;
+	line-height: 42px;
 	color: #2cb3f3;
 	padding: 0 0 20px;
 }
 h3{
-	font-family: 'arnopro-bold', sans-serif;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 700;
 	font-size: 16px;
 	line-height: 18px;
 	padding: 0 0 15px;
@@ -192,7 +195,7 @@ strong em{
 	margin-bottom: 30px;
 }
 .text__description{
-	font-family: 'arnopro-regular', sans-serif;
+	font-family: 'PT Serif', serif;
 	font-size: 1.3em;
 	line-height: 1.5;
 	color: #000;
@@ -2058,7 +2061,7 @@ label{
 	position: absolute;
 	left: 50%;
 	top: 100%;
-	font-family: 'arnopro-regular', sans-serif;
+	font-family: 'arnopro-regular', serif;
 	font-size: 1.8rem;
 	line-height: 1.2;
 	color: #fff;
@@ -2193,9 +2196,9 @@ label{
 .section-aside__title{
 	display: block;
 	text-align: center;
-	font-family: 'arnopro-regular', sans-serif;
+	font-family: 'PT Serif', serif;
 	color: #fff;
-	font-size: 1.8rem;
+	font-size: 1.6rem;
 	line-height: 2;
 	font-weight: normal;
 	text-transform: uppercase;
@@ -2246,9 +2249,9 @@ label{
 	position: relative;
 	margin: 0;
 	padding: 30px 0;
-	font-family: 'arnopro-regular', sans-serif;
-	font-size: 2.4rem;
-	line-height: 1.25;
+	font-family: 'PT Serif', serif;
+	font-size: 2.1rem;
+	line-height: 1.4;
 	color: #fff;
 }
 .section-aside blockquote .q:before,
@@ -2272,11 +2275,11 @@ label{
 }
 .section-aside blockquote .q:after{
 	content: '”';
-	bottom: 0;
+	bottom: 9px;
 	margin-bottom: -0.80em;
 }
 .section-aside blockquote ul{
-	font-family: 'Roboto Condensed', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-size: 1.8rem;
 	line-height: 1.7;
 	color: #45b0e3;
@@ -2293,6 +2296,7 @@ label{
 	position: relative;
 	display: inline-block;
 	color: #fff;
+	margin: 0 4px 0 0;
 }
 /*section aside end*/
 
@@ -2302,9 +2306,10 @@ label{
 	position: relative;
 	overflow: hidden;
 	margin: 0 auto;
-	font-family: 'arnopro-regular', sans-serif;
-	font-size: 2.4rem;
-	line-height: 1.25;
+	font-family: 'PT Serif', serif;
+	font-weight: normal;
+	font-size: 2.2rem;
+	line-height: 1.4;
 	text-decoration: none;
 	color: #fff;
 	width: 215px;
@@ -2462,12 +2467,13 @@ label{
 }
 .benefits__list svg {
 	position:absolute;
-	right: 65px;
+	right: 45px;
 	bottom: 0;
 }
 .benefits__list svg text {
-	font-family: 'arnopro-bold', sans-serif;
-	font-size: 7em;
+	font-family: 'PT Serif', serif;
+	font-weight: bold;
+	font-size: 6em;
 	line-height: 1;
 	stroke:none;
 }
@@ -2483,7 +2489,7 @@ label{
 	top: 0;
 	bottom: 0;
 	right: 0;
-	background: #fffdf2;
+	background: #fffefa;
 	z-index: -1;
 }
 .history-slider-bg > div{
@@ -2499,10 +2505,10 @@ label{
 	opacity: 0;
 }
 .no-js .history-slider-bg > div:first-child{
-	/*visibility: visible;*/
-	/*opacity: 0.2;*/
-	/*-webkit-filter: grayscale(0);*/
-	/*filter: grayscale(0);*/
+	visibility: visible;
+	opacity: 0.2;
+	-webkit-filter: grayscale(0);
+	filter: grayscale(0);
 }
 .history-slider-bg > div.active{
 	visibility: visible;
@@ -2603,8 +2609,9 @@ label{
 }
 .history-periods li{
 	position: relative;
-	font-family: 'arnopro-regular', sans-serif;
-	font-size: 3.0rem;
+	font-family: 'PT Serif', serif;
+	font-weight: normal;
+	font-size: 2.8rem;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-touch-callout: none;
@@ -2614,7 +2621,8 @@ label{
 	user-select: none;
 }
 .active-section .history-periods li.active{
-	font-family: 'arnopro-bold', sans-serif;
+	font-family: 'PT Serif', serif;
+	font-weight: bold;
 }
 
 .history-periods li:before{
@@ -2743,9 +2751,10 @@ label{
 
 /*technologies section*/
 .images-gallery{
-	position: absolute;
-	width: 100%;
-	bottom: 0;
+	/*position: absolute;*/
+	/*width: 100%;*/
+	/*bottom: 0;*/
+	padding: 0 0 30px;
 }
 .images-gallery__list{
 	margin: 0;
@@ -2753,8 +2762,20 @@ label{
 .images-gallery__inner{
 	display: block;
 	position: relative;
-	cursor: pointer;
 	overflow: hidden;
+	opacity: 0.35;
+	cursor: default !important;
+	-webkit-transition-property: opacity;
+	transition-property: opacity;
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
+}
+.slick-current .images-gallery__inner{
+	opacity: 1;
+	cursor: url('../img/cursor-zoom-in.png'), zoom-in !important;
+}
+.images-gallery__inner img{
+	max-height: 400px;
 }
 .images-gallery__inner:after{
 	content: '';
@@ -2774,7 +2795,7 @@ label{
 	-webkit-transition-duration: 0.6s;
 	transition-duration: 0.6s;
 }
-.images-gallery__inner:hover:after{
+.slick-current .images-gallery__inner:hover:after{
 	visibility: visible;
 	opacity: 1;
 	-webkit-transition-duration: 0.2s;
@@ -2798,7 +2819,7 @@ label{
 .news-slider__list, .news-slider__list.slick-dotted{
 	position: relative;
 	z-index: 2;
-	min-height: 360px;
+	min-height: 300px;
 }
 .news-slider__list .slick-prev{
 	left: auto;
@@ -2827,17 +2848,16 @@ label{
 .news-slider__title{
 	display: block;
 	padding-bottom: 0.5em;
-	font-family: 'arnopro-regular', sans-serif;
+	font-family: 'PT Serif', serif;
 	font-size: 2.4rem;
 	line-height: 1.5;
 	color: #000;
 }
-.news-slider__text{}
 .news-slider__counter{
 	position: absolute;
 	left: 50%;
 	top: 70px;
-	font-family: 'arnopro-regular', sans-serif;
+	font-family: 'arnopro-regular', serif;
 	font-size: 15rem;
 	line-height: 1.6;
 	color: #e5e5e5;
@@ -2856,7 +2876,7 @@ label{
 	user-select: none;
 }
 .news-slider__counter .slide__curr{
-	font-family: 'arnopro-bold', sans-serif;
+	font-family: 'arnopro-bold', serif;
 	font-size: 1.6em;
 	line-height: 1;
 }
@@ -2935,10 +2955,10 @@ label{
 .brief__title{
 	display: block;
 	text-align: center;
-	font-family: 'arnopro-regular', sans-serif;
+	font-family: 'PT Serif', serif;
 	font-weight: normal;
-	font-size: 1.8rem;
-	line-height: 1.7;
+	font-size: 1.6rem;
+	line-height: 1.9;
 	text-transform: uppercase;
 }
 .brief__title-full{
@@ -2950,20 +2970,22 @@ label{
 }
 .brief__title-short{
 	display: block;
-	font-family: 'arnopro-bold', sans-serif;
-	font-size: 8rem;
-	line-height: 1;
+	font-family: 'PT Serif', serif;
+	font-weight: bold;
+	font-size: 6.2rem;
+	line-height: 1.2;
 	color: #45b0e3;
 	text-align: center;
 }
 .brief__title-add{
 	display: block;
 	color: #b2b2b2;
-	font-family: 'arnopro-regular', sans-serif;
-	font-size: 1.8rem;
-	line-height: 1.7;
-	text-align: center;
+	font-family: 'PT Serif', serif;
+	font-weight: normal;
 	font-style: normal;
+	font-size: 1.6rem;
+	line-height: 1.9;
+	text-align: center;
 }
 .brief__body{
 	position: absolute;
@@ -3079,7 +3101,8 @@ label{
 	height: 100%;
 	text-decoration: none;
 	color: #fff;
-	font-family: 'arnopro-regular', sans-serif;
+	font-family: 'PT Serif', serif;
+	font-weight: normal;
 	background: #45b0e3;
 	font-size: 0;
 	line-height: 0;
@@ -3129,8 +3152,8 @@ label{
 	vertical-align: middle;
 	padding: 5% 13%;
 	width: calc(100% - 4px);
-	font-size: 1.8rem;
-	line-height: 1.3;
+	font-size: 1.6rem;
+	line-height: 1.5;
 	letter-spacing: normal;
 }
 
@@ -3140,9 +3163,10 @@ label{
 }
 
 .foreign__title{
-	font-family: 'arnopro-regular', sans-serif;
-	font-size: 1.8rem;
-	line-height: 1.3;
+	font-family: 'PT Serif', serif;
+	font-weight: normal;
+	font-size: 1.6rem;
+	line-height: 1.5;
 	color: #3a3a3a;
 	text-align: center;
 	padding: 1em;
@@ -3366,7 +3390,7 @@ label{
 .info-bar__list{
 	margin: 0;
 	padding: 0;
-	font-family: 'arnopro-regular', sans-serif;
+	font-family: 'arnopro-regular', serif;
 	line-height: 1.2;
 	color: #fff;
 }
@@ -3415,7 +3439,7 @@ label{
 }
 .load-btn__content em{
 	font-size: 0.86em;
-	font-family: 'arnopro-regular', sans-serif;
+	font-family: 'arnopro-regular', serif;
 	font-style: normal;
 	text-transform: uppercase;
 	color: #45b0e3;
@@ -3426,7 +3450,7 @@ label{
 	display: block;
 	margin: 0;
 	padding: 0 0 0.4em;
-	font-family: 'arnopro-regular', sans-serif;
+	font-family: 'arnopro-regular', serif;
 	font-size: 1.6rem;
 	line-height: 1.2;
 	color: #fff;
@@ -3584,7 +3608,7 @@ label{
 	vertical-align: top;
 	padding: 0.2em 0.3em;
 	min-width: 3em;
-	font-family: 'arnopro-regular', sans-serif;
+	font-family: 'PT Serif', serif;
 	font-size: 1.4rem;
 	line-height: 1.4;
 	color: #262626;
@@ -3618,13 +3642,15 @@ label{
 	vertical-align: middle;
 	padding: 0 0 50px;
 }
-.main-nav a {
+.main-nav a{
 	display: block;
 	position: relative;
-	font-family: 'arnopro-regular', Arial, Helvetica, sans-serif;
+	/*font-family: 'arnopro-regular', serif;*/
+	font-family: 'PT Serif', serif;
+	font-weight: 400;
 	padding: 5em 0 1.5em;
+	font-size: 1.2rem;
 	line-height: 1.3;
-	font-size: 1.4rem;
 	text-align: center;
 	color: #fff;
 	text-transform: uppercase;
@@ -3833,7 +3859,7 @@ label{
 	vertical-align: top;
 	padding: 13px 20px 11px;
 	background: #034f9c;
-	font-family: 'arnopro-regular', sans-serif;
+	font-family: 'arnopro-regular', serif;
 	font-size: 1.6rem;
 	line-height: 1.2;
 	letter-spacing: 0.05em;
@@ -3916,7 +3942,7 @@ label{
 .guide-opener span{
 	display: inline-block;
 	vertical-align: middle;
-	font-family: 'arnopro-regular', sans-serif;
+	font-family: 'arnopro-regular', serif;
 	text-transform: uppercase;
 	font-size: 1.4rem;
 	line-height: 1.4;
@@ -4033,7 +4059,7 @@ label{
 }
 .add-menu__content{
 	padding: 0 9%;
-	font-family: 'Roboto Condensed', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-size: 1.6rem;
 	line-height: 1.25;
 	color: #fff;
@@ -4057,7 +4083,7 @@ label{
 	float: right;
 	width: 25%;
 	height: 100%;
-	font-family: 'Roboto Condensed', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	line-height: 1.25;
 	color: #fff;
 	text-align: center;
@@ -4207,9 +4233,9 @@ li.active .side__circle:before,
 	display: inline-block;
 	vertical-align: middle;
 	width: 160px;
-	font-family: 'arnopro-regular', sans-serif;
-	font-size: 1.4rem;
-	line-height: 1.2;
+	font-family: 'PT Serif', serif;
+	font-size: 1.3rem;
+	line-height: 1.4;
 	text-align: left;
 	letter-spacing: normal;
 	white-space: normal;
@@ -4300,6 +4326,10 @@ li.active .side__circle:before,
 	width: 100%;
 	height: 100%;
 	z-index: 9999;
+	cursor: url('../img/cursor-close.png'), auto;
+}
+.modal--img .modal__wrap{
+	cursor: url('../img/cursor-zoom-out.png'), zoom-out;
 }
 .modal__content{
 	position: relative;
