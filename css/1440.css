@@ -34,12 +34,34 @@ h2 {
 /*main slider end*/
 
 /*about*/
+.section:before { width: 260px; }
 .section__holder{
 	padding: 30px 0;
+	margin-right: 260px;
 }
-.section__foot{
-	padding-bottom: 40px;
+.section__foot{ padding-bottom: 40px; }
+
+/*section aside*/
+.section-aside{ width: 260px; }
+.section-aside blockquote .q {
+	font-size: 1.6rem;
 }
+.section-aside blockquote .q:before,
+.section-aside blockquote .q:after {
+	font-size: 8rem;
+}
+.section-aside__align{
+	padding: 10px 20px;
+}
+/*section aside end*/
+
+/*btn play video*/
+.btn-video{
+	font-size: 1.8rem;
+	line-height: 1.4;
+	width: 180px;
+}
+/*btn play video end*/
 /*about end*/
 
 /*benefits section*/
@@ -75,15 +97,15 @@ h2 {
 .foreign__nav {
 	width: 180px;
 }
-.foreign__panels {
-	width: calc(100% - 180px - 2px);
-	padding: 0 4%;
-}
 .foreign__tab {
 	height: 100px;
 }
 .foreign__tab a > span {
 	font-size: 1.4rem;
+}
+.foreign__panels {
+	width: calc(100% - 180px - 2px);
+	padding: 0 4%;
 }
 /*foreign end*/
 

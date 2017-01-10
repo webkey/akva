@@ -529,6 +529,17 @@ function equalHeightInit() {
 			remove: false
 		});
 	}
+
+	var $foreignNav = $('.foreign__nav');
+
+	if ($foreignNav.length) {
+		$foreignNav.children().matchHeight({
+			byRow: true,
+			property: 'height',
+			target: null,
+			remove: false
+		});
+	}
 }
 /* equal height end */
 
@@ -776,6 +787,7 @@ function secondNav() {
 		findNavItems();
 		setScroll();
 		setActions();
+		showSide();
 	};
 
 	var tweenScroll = new TimelineLite();
@@ -799,7 +811,7 @@ function secondNav() {
 	}
 
 	var setActions = function() {
-		$(nav).on('click', "a", function(e) {
+		$(nav).find('ul').on('click', "a", function(e) {
 			e.preventDefault();
 
 			var $thisItem = $(this);
@@ -843,18 +855,25 @@ function secondNav() {
 
 					sectionOffset = scrollTop - offset;
 
-
-				// console.log("$currentSection: ", $currentSection.attr('data-side-nav'));
-				// console.log("sectionOffset: ", sectionOffset - $currentSection.outerHeight());
-				// console.log("cond: ", -(scrollAreaHeight - bufferZone));
-
 				if (
 					!directScrollToTop && sectionOffset > -(scrollAreaHeight - bufferZone)
 					||
-					directScrollToTop && (sectionOffset + bufferZone) > -1
+					directScrollToTop && sectionOffset > -(bufferZone - 1)
 				) {
-
 					$animateSection = $currentSection;
+
+					/*add animate class*/
+					if (window.innerWidth < 992) {
+						$animateSection.addClass(animateClassForSection);
+					} else {
+						clearTimeout(timeoutSetAnimate);
+
+						timeoutSetAnimate = setTimeout(function () {
+
+							$animateSection.addClass(animateClassForSection);
+
+						}, 50);
+					}
 				}
 
 				if (sectionOffset >= -(scrollAreaHeight/2)) {
@@ -866,15 +885,6 @@ function secondNav() {
 					$nextSection = sectionArr[i + 1];
 				}
 			}
-
-			clearTimeout(timeoutSetAnimate);
-
-			/*add animate class*/
-			timeoutSetAnimate = setTimeout(function () {
-
-				$animateSection.addClass(animateClassForSection);
-
-			}, 50);
 
 			/*add active class*/
 			timeoutSetActive = setTimeout(function () {
@@ -890,54 +900,57 @@ function secondNav() {
 			}, 250);
 
 			/*scroll position correction*/
-			clearTimeout(timeoutPosition);
+			if (DESKTOP && window.innerWidth > 992) {
+				clearTimeout(timeoutPosition);
 
-			if ($nextSection) {
+				if ($nextSection) {
 
-				timeoutPosition = setTimeout(function () {
+					timeoutPosition = setTimeout(function () {
 
-					var offsetWhile = $whileSection.position().top;
-					var offsetNext = $nextSection.position().top;
-					var whileSectionHeight = $whileSection.outerHeight();
+						var offsetWhile = $whileSection.position().top;
+						var offsetNext = $nextSection.position().top;
+						var whileSectionHeight = $whileSection.outerHeight();
 
-					if (offsetWhile !== scrollTop && (offsetWhile + bufferZone) > scrollTop && whileSectionHeight <= scrollAreaHeight) {
+						if (offsetWhile !== scrollTop && (offsetWhile + bufferZone) > scrollTop && whileSectionHeight <= scrollAreaHeight) {
 
-						// console.log("------------ while (1) ------------");
-						scrollToSection($whileSection);
+							// console.log("------------ while (1) ------------");
+							scrollToSection($whileSection);
 
-						return;
-					}
+							return;
+						}
 
-					if ((offsetWhile + whileSectionHeight - bufferZone) <= scrollTop) {
+						if ((offsetWhile + whileSectionHeight - bufferZone) <= scrollTop) {
 
-						// console.log("------------ next (1) -----------");
-						scrollToSection($nextSection);
+							// console.log("------------ next (1) -----------");
+							scrollToSection($nextSection);
 
-						return;
-					}
+							return;
+						}
 
-					if (!directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight)) {
+						if (!directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight)) {
 
-						// console.log("------------ next (2) -----------");
-						scrollToSection($nextSection);
+							// console.log("------------ next (2) -----------");
+							scrollToSection($nextSection);
 
-						return;
-					}
+							return;
+						}
 
-					if (directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight) && whileSectionHeight <= scrollAreaHeight) {
+						if (directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight) && whileSectionHeight <= scrollAreaHeight) {
 
-						// console.log("------------ while (2) ------------");
-						scrollToSection($whileSection);
+							// console.log("------------ while (2) ------------");
+							scrollToSection($whileSection);
 
-						return;
-					}
+							return;
+						}
 
-					// console.log("------------ no move ------------");
+						// console.log("------------ no move ------------");
 
-				}, delay);
+					}, delay);
 
-				prevScroll = scrollTop;
+				}
 			}
+
+			prevScroll = scrollTop;
 		});
 	};
 
@@ -955,8 +968,29 @@ function secondNav() {
 		createNavigation()
 	};
 
+	var showSide = function () {
+		var showSideClass = 'show-side';
+		var $html = $('html');
+
+		$('.btn-side').on('click', function (e) {
+			e.stopPropagation();
+
+			$html.toggleClass(showSideClass, !$html.hasClass(showSideClass));
+
+			e.preventDefault();
+		});
+
+		$('.side').on('click', function (e) {
+			e.stopPropagation();
+		});
+
+		$(document).on('click', function () {
+			$html.removeClass(showSideClass);
+		});
+	};
+
 	var createNavigation = function() {
-		var navTpl = '<nav class="side"><ul></li></nav>';
+		var navTpl = '<nav class="side"><a class="btn-side"><i></i></a><ul></ul></nav>';
 
 		$('body').append(navTpl);
 
@@ -1752,32 +1786,33 @@ function modalWindowInit() {
 	// modal video
 	$('.modal-video').on('click', function() {
 		var href = $(this).attr('href');
-		if (window.innerWidth >= 1024) {
-			var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container modal__container__video"><div class="modal__video__wrap"><iframe src="' + href + '" frameborder="0" allowfullscreen></iframe></div></div></div><a class="modal__close"><span>Close</span></a></div></div>';
-			$body.addClass('body--no-scroll');
-			$body.append(data);
-			modalIsOpen = true;
-			$('.modal').addClass('modal--video').show(0, function() {
-				$('.modal').addClass('modal--active');
-			});
-			return false;
-		}
+		var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container modal__container__video"><div class="modal__video__wrap"><iframe src="' + href + '" frameborder="0" allowfullscreen></iframe></div></div></div><a class="modal__close"><span>Close</span></a></div></div>';
+
+		$body.addClass('body--no-scroll');
+		$body.append(data);
+		modalIsOpen = true;
+		$('.modal').addClass('modal--video').show(0, function() {
+			$('.modal').addClass('modal--active');
+		});
+
+		return false;
 	});
 
 	// modal img
 	$body.on('click', '.slick-current .modal-img', function() {
+		console.log("1: ", 1);
 		var href = $(this).attr('href');
 		var alt = $(this).find('img').attr('alt');
-		if (window.innerWidth >= 1024) {
-			var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container"><div class="modal__img__wrap"><img src="' + href +'" alt="' + alt + '" /></div></div></div><a class="modal__close"><span>Close</span></a></div></div>';
-			$body.addClass('body--no-scroll');
-			$body.append(data);
-			modalIsOpen = true;
-			$('.modal').addClass('modal--img').show(0, function() {
-				$('.modal').addClass('modal--active');
-			});
-			return false;
-		}
+		var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container"><div class="modal__img__wrap"><img src="' + href +'" alt="' + alt + '" /></div></div></div><a class="modal__close"><span>Close</span></a></div></div>';
+
+		$body.addClass('body--no-scroll');
+		$body.append(data);
+		modalIsOpen = true;
+		$('.modal').addClass('modal--img').show(0, function() {
+			$('.modal').addClass('modal--active');
+		});
+
+		return false;
 	});
 
 	// modal close on click to btn close

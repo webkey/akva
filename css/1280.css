@@ -12,8 +12,6 @@
 	margin-left: calc(-190px/2 + 10px);
 	/*half width of btn opener guide + 10px*/
 }
-/*.main-slider-bg,*/
-/*.main-slider-desks,*/
 .main-slider-img,
 .main-slider-caption{
 	-webkit-backface-visibility: visible;
@@ -24,7 +22,6 @@
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
 }
-/*.guide-show .main-slider-bg,*/
 .guide-show .main-slider-desks,
 .guide-show .main-slider-img,
 .guide-show .main-slider-caption{
