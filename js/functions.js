@@ -15,7 +15,18 @@ $(window).resize(function () {
 /*resize only width end*/
 
 /**
- *!  placeholder
+ * device detected
+ * */
+var DESKTOP = device.desktop();
+//console.log('DESKTOP: ', DESKTOP);
+var MOBILE = device.mobile();
+//console.log('MOBILE: ', MOBILE);
+var TABLET = device.tablet();
+//console.log('MOBILE: ', MOBILE);
+/*device detected end*/
+
+/**
+ *! placeholder
  *  */
 function placeholderInit(){
 	$('[placeholder]').placeholder();
@@ -1017,7 +1028,8 @@ var secondaryNav;
 		self.preparationAnimation();
 		self.initSwitcher();
 		self.toggleSwitcher();
-		self.toggleImageSlider();
+		self.toggleImageView();
+		self.hideImgView();
 	};
 
 	HistorySlider.prototype.initSwitcher = function() {
@@ -1060,8 +1072,6 @@ var secondaryNav;
 			
 			self.togglePhotoShowClass(false);
 
-			self.bgImgShow = false;
-
 			setTimeout(function () {
 				self.scrollToSection();
 			}, 100)
@@ -1077,7 +1087,7 @@ var secondaryNav;
 
 		$content.css({
 			'display': 'block',
-			'position': 'relative',
+			'position': 'relative'
 		});
 
 		var $curPanels = $(self.switcherPanel, $content);
@@ -1203,7 +1213,7 @@ var secondaryNav;
 		});
 	};
 
-	/*images slider init*/
+	/*images view toggle*/
 	HistorySlider.prototype.imagesSliderInit = function() {
 		var self = this;
 		var $photosSlider = self.$photosSlider;
@@ -1254,8 +1264,6 @@ var secondaryNav;
 		//<a href="#" class="show-photos-js"><span class="photos-count">0</span></a>
 
 		var self = this;
-
-		console.log("self.currentSwitcher: ", self.currentSwitcher);
 
 		var currentImagesSlider = self.getImagesSlider[self.currentSwitcher];
 		var $currentShowPhotosBtn = self.$showPhotosBtn;
@@ -1310,7 +1318,7 @@ var secondaryNav;
 		$bgImg.eq(self.currentSwitcher).addClass(activeClass);
 	};
 
-	HistorySlider.prototype.toggleImageSlider = function () {
+	HistorySlider.prototype.toggleImageView = function () {
 		var self = this;
 
 		self.$showPhotosBtn.on('click', function (e) {
@@ -1352,7 +1360,20 @@ var secondaryNav;
 
 		})
 	};
-	/*images slider init end*/
+
+	HistorySlider.prototype.hideImgView = function () {
+		var self = this;
+
+		self.$bgImg.on('click', function (e) {
+			e.preventDefault();
+
+			if (self.options.bgImg && self.bgImgShow) {
+				self.togglePhotoShowClass();
+			}
+
+		})
+	};
+	/*images view toggle end*/
 
 	HistorySlider.prototype.scrollToSection = function () {
 		var $scrollArea = $('.main');
@@ -1378,11 +1399,9 @@ function historySwitcher(){
 			section: '.section-history',
 			switcher: '.history-sliders-js',
 			switcherPanel: '.history-slider__item',
-			// switcherPanel: ['.history-slider__item', '.history-periods__item'],
 			switcherNavItem: '.history-periods li',
 			switcherNavAnchor: '.history-periods a',
 			bgImg: '.history-slider-bg > div',
-			// photosSlider: '.history-slider__images',
 			showPhotosBtn: '.show-photos-js',
 			activeSwitcher: 0
 		});

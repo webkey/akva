@@ -1084,7 +1084,7 @@ label{
 	position: fixed;
 	top: 0;
 	left: 0;
-	z-index: 10;
+	z-index: 20;
 	width: 100%;
 	height: 50px;
 	text-align: center;
@@ -2094,7 +2094,6 @@ label{
 	width: 320px;
 	height: 100%;
 	background: #0f2032;
-	z-index: -1;
 }
 
 .section__holder{
@@ -2169,6 +2168,7 @@ label{
 	background: #02274d no-repeat 50% 50%;
 	-webkit-background-size: cover;
 	background-size: cover;
+	z-index: 2;
 }
 .no-touchevents .section-aside{
 	right: 17px;
@@ -2509,6 +2509,10 @@ label{
 /*benefits section end*/
 
 /*history section*/
+.section-history{
+	position: relative;
+	background: none;
+}
 .history-slider-bg{
 	position: absolute;
 	left: 0;
@@ -2516,7 +2520,9 @@ label{
 	bottom: 0;
 	right: 0;
 	background: #fffefa;
-	z-index: -1;
+}
+.show-photo .history-slider-bg{
+	cursor: url("../img/cursor-close-shadow.png"), auto;
 }
 .history-slider-bg > div{
 	position: absolute;
@@ -2538,7 +2544,7 @@ label{
 }
 .history-slider-bg > div.active{
 	visibility: visible;
-	opacity: 0.2;
+	opacity: 0.1;
 }
 
 .history-slider{
@@ -2591,11 +2597,14 @@ label{
 	color: #7a6240;
 	font-size: 1.8rem;
 	border-radius: 50%;
-	border: 2px solid #024383;
-	-webkit-transition-property: background;
-	transition-property: background;
+	border: 2px solid rgba(2, 67, 131, 0.35);
+	-webkit-transition-property: border-color;
+	transition-property: border-color;
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
+}
+.no-touchevents .btn-show-photos:hover{
+	border-color: #024383;
 }
 .btn-show-photos svg{
 	position: absolute;
@@ -2604,29 +2613,12 @@ label{
 	width: 26px;
 	height: 26px;
 	margin: -13px 0 0 -13px;
-	visibility: hidden;
-	opacity: 0;
 }
 .btn-show-photos svg path{
 	fill: #024383;
 	-webkit-transition: fill 0.2s;
 	transition: fill 0.2s;
 }
-.btn-show-photos svg:nth-child(1){
-	visibility: visible;
-	opacity: 1;
-}
-
-.show-photo .btn-show-photos svg:nth-child(1){
-	visibility: hidden;
-	opacity: 0;
-}
-.show-photo .btn-show-photos svg:nth-child(2){
-	visibility: visible;
-	opacity: 1;
-}
-.show-photo .btn-show-photos{ background: #024383; }
-.show-photo .btn-show-photos svg path{ fill: #fff; }
 
 .history-periods{
 	line-height: 1;
@@ -2721,15 +2713,14 @@ label{
 }
 
 /*show photo*/
-.section-history .section__title,
-.history-slider{
-	-webkit-transition-property: opacity, visibility;
-	transition-property: opacity, visibility;
-	-webkit-transition-duration: 0.2s;
-	transition-duration: 0.2s;
+.section-history .section__holder{
+	-webkit-transition-property: visibility, opacity;
+	transition-property: visibility, opacity;
+	-webkit-transition-duration: 0.33s;
+	transition-duration: 0.33s;
 }
-.section-history.show-photo .section__title,
-.show-photo .history-slider{
+.show-photo .section__holder,
+.show-photo .section__holder > *{
 	visibility: hidden;
 	opacity: 0;
 }
@@ -2753,23 +2744,21 @@ label{
 	animation: grayscale-off 1.2s forwards;
 }
 @-webkit-keyframes grayscale-on {
-	0% { -webkit-filter: grayscale(0); }
+	0% { -webkit-filter: grayscale(80%); }
 	100% { -webkit-filter: grayscale(100%); }
 }
 @keyframes grayscale-on {
-	0% { filter: grayscale(0); }
+	0% { filter: grayscale(80%); }
 	100% { filter: grayscale(100%); }
 }
 @-webkit-keyframes grayscale-off {
 	0% { -webkit-filter: grayscale(100%); }
-	100% { -webkit-filter: grayscale(0); }
+	100% { -webkit-filter: grayscale(80%); }
 }
 @keyframes grayscale-off {
 	0% { filter: grayscale(100%); }
-	100% { filter: grayscale(0); }
+	100% { filter: grayscale(80%); }
 }
-
-
 /*show photo end*/
 /*history section end*/
 
@@ -3332,7 +3321,7 @@ label{
 	line-height: 1.2;
 	color: #fff;
 	background: #023466;
-	z-index: 12;
+	z-index: 30;
 	-webkit-transform: translate(-260px, 0);
 	-ms-transform: translate(-260px, 0);
 	transform: translate(-260px, 0);
@@ -3342,6 +3331,8 @@ label{
 	transition-property: transform;
 	-webkit-transition-duration: 0.33s;
 	transition-duration: 0.33s;
+	-webkit-transition-timing-function: ease-in-out;
+	transition-timing-function: ease-in-out;
 }
 .info-bar:before,
 .info-bar:after{
@@ -3562,7 +3553,7 @@ label{
 	width: 100%;
 	height: 100%;
 	background: rgba(0, 0, 0, 0.5);
-	z-index: 8;
+	z-index: 10;
 	visibility: hidden;
 	opacity: 0;
 	-webkit-backface-visibility: hidden;
@@ -3587,13 +3578,15 @@ label{
 	height: 100vh;
 	overflow: hidden;
 	background: #024383;
-	z-index: 11;
+	z-index: 25;
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
 	-webkit-transition-property: -webkit-transform;
 	transition-property: transform;
 	-webkit-transition-duration: 0.33s;
 	transition-duration: 0.33s;
+	-webkit-transition-timing-function: ease-in-out;
+	transition-timing-function: ease-in-out;
 }
 .sidebar-holder{
 	position: relative;
