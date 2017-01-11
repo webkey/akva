@@ -902,7 +902,7 @@ function secondNav() {
 			}, 250);
 
 			/*scroll position correction*/
-			if (DESKTOP && !document.all && !window.atob && window.innerWidth > 992) {
+			if (DESKTOP && !document.documentMode && window.innerWidth > 992) {
 				// if not device, if not ie all versions, if viewport more then 992 px
 				clearTimeout(timeoutPosition);
 
