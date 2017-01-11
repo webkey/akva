@@ -540,6 +540,17 @@ function equalHeightInit() {
 			remove: false
 		});
 	}
+
+	var $productsList = $('.products__list');
+
+	if ($productsList.length) {
+		$productsList.children().matchHeight({
+			byRow: true,
+			property: 'height',
+			target: null,
+			remove: false
+		});
+	}
 }
 /* equal height end */
 
@@ -1868,7 +1879,7 @@ jQuery(document).ready(function(){
 	hoverClassInit();
 	equalHeightInit();
 	// fixedHeader();
-	// walkPages();
+	walkPages();
 	historySwitcher();
 	tabSwitcher();
 	addBottomSpacer();
