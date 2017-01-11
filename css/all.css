@@ -2571,7 +2571,7 @@ label{
 .dart-top,
 .dart-bottom{
 	position: absolute;
-	height: 50vh;
+	height: 100vh;
 	width: 0;
 	left: 50%;
 	z-index: -1;

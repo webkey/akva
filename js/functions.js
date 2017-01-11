@@ -1762,10 +1762,7 @@ function newsSliderInit() {
 				responsive: [
 					{
 						breakpoint: 640,
-						settings: {
-							slidesToShow: 2,
-							slidesToScroll: 2
-						}
+						settings: {}
 					}
 				]
 			}).on('beforeChange', function (event, slick, currentSlide, nextSlide) {

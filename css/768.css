@@ -1,8 +1,21 @@
 @media only screen and (max-width: 767px){}
 
+h1 {
+	font-size: 3.8rem;
+}
+h2 {
+	font-size: 2.6rem;
+}
+.text__description {
+	font-size: 1.1em;
+}
 /*MAIN BLOCKS*/
 .wrapper{
 	padding-top: 50px;
+}
+.text-layout {
+	padding-left: 20px;
+	padding-right: 20px;
 }
 /*MAIN BLOCKS end*/
 
@@ -13,7 +26,8 @@
 /*HEADER end*/
 
 /*MAIN*/
-.main{
+.main,
+.main.about{
 	height: calc(100vh - 50px);
 	padding-left: 0;
 }
@@ -161,6 +175,26 @@
 	display: none;
 }
 /*guide end*/
+
+/*about*/
+/*about end*/
+
+/*water section*/
+/*brief*/
+
+/*brief end*/
+
+.section-water .section-bottom-spacer,
+.section-water{
+	display: none;
+}
+/*water section end*/
+
+/*technologies section*/
+.images-gallery__inner img {
+	max-height: 200px;
+}
+/*technologies section end*/
 /*MAIN end*/
 
 /*info bar*/
@@ -322,3 +356,9 @@
 }
 /*add menu end*/
 /*ASIDE end*/
+
+/*side navigation*/
+.side{
+	display: none;
+}
+/*side navigation end*/
