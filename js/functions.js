@@ -774,8 +774,8 @@ function secondNav() {
 		animateClassForSection = 'animate-section',
 		delay = 300,
 		bufferZone = 120,
-		scrollTop = 0,
 		prevScroll = -1,
+		scrollTop = 0,
 		sectionIsAnimated = false,
 		sectionArr,
 		directScrollToTop,
@@ -845,6 +845,8 @@ function secondNav() {
 
 			/*get direct scroll*/
 			directScrollToTop = prevScroll > scrollTop;
+			// console.log("prevScroll - scrollTop: " + prevScroll + ", " + scrollTop);
+			// console.log("Вверх? (до scrollToSection()): ", directScrollToTop);
 
 			var scrollAreaHeight = $scrollArea.outerHeight();
 
@@ -900,7 +902,8 @@ function secondNav() {
 			}, 250);
 
 			/*scroll position correction*/
-			if (DESKTOP && window.innerWidth > 992) {
+			if (DESKTOP && !document.all && !window.atob && window.innerWidth > 992) {
+				// if not device, if not ie all versions, if viewport more then 992 px
 				clearTimeout(timeoutPosition);
 
 				if ($nextSection) {
@@ -916,7 +919,7 @@ function secondNav() {
 							// console.log("------------ while (1) ------------");
 							scrollToSection($whileSection);
 
-							return;
+							return false;
 						}
 
 						if ((offsetWhile + whileSectionHeight - bufferZone) <= scrollTop) {
@@ -924,7 +927,7 @@ function secondNav() {
 							// console.log("------------ next (1) -----------");
 							scrollToSection($nextSection);
 
-							return;
+							return false;
 						}
 
 						if (!directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight)) {
@@ -932,7 +935,7 @@ function secondNav() {
 							// console.log("------------ next (2) -----------");
 							scrollToSection($nextSection);
 
-							return;
+							return false;
 						}
 
 						if (directScrollToTop && (offsetNext + bufferZone) < (scrollTop + scrollAreaHeight) && whileSectionHeight <= scrollAreaHeight) {
@@ -940,7 +943,7 @@ function secondNav() {
 							// console.log("------------ while (2) ------------");
 							scrollToSection($whileSection);
 
-							return;
+							return false;
 						}
 
 						// console.log("------------ no move ------------");

@@ -1112,8 +1112,8 @@ label{
 	height: 100%;
 	width: 100%;
 	background: url(../img/depict-info.svg) no-repeat 50% 50%;
-	-webkit-background-size: 6px;
-	background-size: 6px;
+	-webkit-background-size: 6px 20px;
+	background-size: 6px 20px;
 	-webkit-transition-property: visibility, opacity, -webkit-transform;
 	transition-property: visibility, opacity, transform;
 	-webkit-transition-duration: 0.2s;
@@ -2135,9 +2135,13 @@ label{
 	transition-timing-function: ease-out;
 }
 .animate-section .section__title,
+.no-js .section__title,
 .animate-section .section__body,
+.no-js .section__body,
 .animate-section .section__foot,
-.animate-section .brief{
+.no-js .section__foot,
+.animate-section .brief,
+.no-js .brief{
 	opacity: 1;
 	visibility: visible;
 	-webkit-transform: translate(0, 0);
@@ -2521,9 +2525,6 @@ label{
 	right: 0;
 	background: #fffefa;
 }
-.show-photo .history-slider-bg{
-	cursor: url("../img/cursor-close-shadow.png"), auto;
-}
 .history-slider-bg > div{
 	position: absolute;
 	left: 0;
@@ -2842,7 +2843,7 @@ label{
 }
 .slick-current .images-gallery__inner{
 	opacity: 1;
-	cursor: url('../img/cursor-zoom-in.png'), zoom-in !important;
+	cursor: url('../img/cursor-zoom-in.png'), pointer !important;
 }
 .images-gallery__inner img{
 	max-height: 400px;
@@ -4488,7 +4489,7 @@ li.active .side__circle:before{
 	cursor: url('../img/cursor-close.png'), auto;
 }
 .modal--img .modal__wrap{
-	cursor: url('../img/cursor-zoom-out.png'), zoom-out;
+	cursor: url('../img/cursor-zoom-out.png'), pointer;
 }
 .modal__content{
 	position: relative;
