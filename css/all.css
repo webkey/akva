@@ -153,7 +153,7 @@ img{
 	max-width: 100%;
 }
 .mark {
-	color: #cf2f09;
+	color: #006ad2;
 	font-style: inherit;
 	font-weight: inherit;
 }
@@ -341,7 +341,7 @@ button{
 	top: 21px;
 	height: 0;
 	width: 0;
-	border: 5px solid #cf2f09;
+	border: 5px solid #006ad2;
 	box-sizing: border-box;
 }
 .user-content ul > li:first-child:before{ top: 7px; }
@@ -349,7 +349,7 @@ button{
 	position: relative;
 	display: inline-block;
 	text-align: left;
-	color: #cf2f09;
+	color: #006ad2;
 	content: counter(section) ;
 	padding: 0 4px 0 0;
 	min-width: 20px;
@@ -462,7 +462,7 @@ table th{
 	display: block;
 	margin: 0;
 	background-color: #f5f5f5;
-	border-left: 4px solid #cf2f09;
+	border-left: 4px solid #006ad2;
 	padding: 18px 32px 28px 42px;
 }
 .user-content blockquote q{
@@ -547,7 +547,7 @@ textarea{
 	padding: 12px 18px;
 	background: #fff;
 	box-shadow: none;
-	border: 1px solid #0059a6;
+	border: 1px solid #e6e6e6;
 	-webkit-transition: 0.2s;
 	transition: 0.2s;
 	box-sizing: border-box;
@@ -600,7 +600,7 @@ input[type="password"]:focus,
 input[type="email"]:focus,
 input[type="search"]:focus,
 textarea:focus{
-	box-shadow: inset 0 0 5px #0059a6;
+	border-color: #c7c7c7;
 }
 /*form focus end*/
 
@@ -676,7 +676,7 @@ input[type="checkbox"] + label:before,
 	top: 50%;
 	margin-top: -9px;
 	border-radius: 0;
-	border: 1px solid #cf2f09;
+	border: 1px solid #006ad2;
 	box-sizing: border-box;
 }
 input[type="checkbox"] + label:after,
@@ -719,7 +719,7 @@ input[type="checkbox"] + span:after{
 	left: 0;
 	top: 50%;
 	border-radius: 2px;
-	background: #cf2f09;
+	background: #006ad2;
 	-webkit-transition-property: opacity;
 	transition-property: opacity;
 	-webkit-transition-duration: 0.2s;
@@ -794,7 +794,7 @@ input[type="radio"] + span:before{
 	top: 50%;
 	margin-top: -9px;
 	border-radius: 50px;
-	border: 1px solid #cf2f09;
+	border: 1px solid #006ad2;
 	box-sizing: border-box;
 }
 input[type="radio"] + label:after,
@@ -824,7 +824,7 @@ input[type="radio"] + span>i:after {
 	margin-top: -5px;
 	border-radius: 50%;
 	overflow: hidden;
-	background: #cf2f09;
+	background: #006ad2;
 
 	-webkit-animation:bounceout 0s;
 	-webkit-animation-iteration-count:1;
@@ -913,62 +913,184 @@ label{
 .form-mark{
 	display: inline-block;
 	vertical-align: top;
-	color: #cf2f09;
+	color: #006ad2;
 }
 /*form layout end*/
 
 /*form select*/
+/*select overall*/
 .select{
 	position: relative;
-	margin: 0;
-	background: #fff;
-	border: 1px solid #0059a6;
-	display: block;
-	box-sizing: border-box;
+	margin: 0 0 20px;
+	width: 100%;
 }
-.select select{
+.input-wrap .select{ margin-bottom: 0; }
+.select .cselect{ width: 100%; }
+.select select,
+.select button.cselect .select-inner{
 	display: block;
-	font: 14px/16px Arial, Helvetica, sans-serif;
-	color: #333;
-	-webkit-font-smoothing: antialiased;
-	padding: 8px 13px;
-	-webkit-appearance: none;
-	-moz-appearance: none;
+	overflow: hidden;
+	text-overflow: '';
+	cursor: pointer;
+	padding: 13px 40px 13px 18px;
 	white-space: nowrap;
 	text-indent: 0;
-	text-overflow: '';
 	width: 100%;
-	border: none;
-	background: transparent;
-	overflow: hidden;
-	cursor: pointer;
-	border-radius: 4px;
+	border: 1px solid #ccc;
+	background: #fff;
+	-webkit-font-smoothing: antialiased;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	box-shadow: none;
+	-webkit-transition-property: background, border, color, box-shadow;
+	transition-property: background, border, color, box-shadow;
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
 	box-sizing: border-box;
 	outline: none;
 }
+.select select,
+.select button.cselect,
+.select button.cselect .select-inner{
+	font-family: 'PT Sans', sans-serif;
+	font-size: 16px;
+	line-height: 22px;
+	text-transform: none;
+	color: #666;
+}
+.select select{
+	font-size: 16px;
+	line-height: 18px;
+	height: 50px;
+	padding: 15px 40px 15px 18px;
+}
+.select button.cselect{ z-index: 2; }
+.select select:focus,
+.select button.cselect:focus .select-inner,
+.select button.cselect.ui-state-active .select-inner{
+	color: #666;
+	border-color: #666;
+}
+
 .select:before,
-.select:after{
+.select:after,
+button.cselect .ui-icon .arrow-select:before,
+button.cselect .ui-icon .arrow-select:after{
 	content: '';
 	position: absolute;
-	right: 20px;
+	right: 22px;
 	top: 50%;
-	height: 0;
-	width: 8px;
-	margin-top: -2px;
-	border-top: 2px solid #0059a6;
+	width: 10px;
+	height: 3px;
+	background: #262626;
+	border-radius: 2px;
+	margin-top: -1px;
 	box-sizing: border-box;
+	z-index: 1;
 }
-.select:before{
+.select:before,
+button.cselect .ui-icon .arrow-select:before{
 	-webkit-transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
 	transform: rotate(45deg);
 }
-.select:after{
+.select:after,
+button.cselect .ui-icon .arrow-select:after{
 	-webkit-transform: rotate(-45deg);
 	-ms-transform: rotate(-45deg);
 	transform: rotate(-45deg);
-	right: 15px;
+	right: 17px;
 }
+/*select overall end*/
+
+/*multiselect button*/
+button.cselect{
+	display:block;
+	position:relative;
+	padding:0;
+	margin:0;
+	border:none;
+	border-radius: 0;
+	background:none;
+}
+button.cselect .ui-icon{
+	position:absolute;
+	right:0;
+	top:0;
+	height:100%;
+	width:45px;
+	display:block;
+	background: none;
+}
+button.cselect .ui-icon .arrow-select{
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+	width: 45px;
+}
+button.cselect .select-text{
+	display:block;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	white-space:nowrap;
+	min-height: 20px;
+}
+/*multiselect button end*/
+
+/*multiselect menu*/
+div.cselect.ui-multiselect-menu{
+	padding:2px 0;
+	margin:0;
+}
+div.cselect .ui-multiselect-checkboxes{
+	padding:0;
+	margin:0;
+	list-style-type:none;
+	height: auto !important;
+	max-height:322px;
+	overflow:auto;
+	border-radius: 0;
+	background-color:#fff;
+	border: 1px solid #666;
+}
+div.cselect .ui-multiselect-checkboxes li{
+	padding: 0;
+	overflow: hidden;
+}
+div.cselect .ui-multiselect-checkboxes li:first-child{ border-radius: 4px 4px 0 0; }
+div.cselect .ui-multiselect-checkboxes li:last-child{ border-radius: 0 0 4px 4px; }
+div.cselect .ui-multiselect-checkboxes label input{
+	position:absolute;
+	left:-9999px;
+}
+div.cselect .ui-multiselect-checkboxes label{
+	display:block;
+	cursor:pointer;
+	font: 16px/22px 'PT Sans', sans-serif;
+	text-transform: none;
+	color: #262626;
+	font-weight: normal;
+	padding:12px 18px;
+	border: none;
+	background: #fff;
+	-webkit-transition-property: background, color;
+	transition-property: background, color;
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
+}
+.desktop div.cselect .ui-multiselect-checkboxes label:hover{
+	background-color: #eaeaea;
+	color: #666;
+}
+div.cselect .ui-multiselect-checkboxes label.ui-state-active{
+	background-color: #f3f3f3;
+	color: #666;
+}
+div.cselect .ui-multiselect-checkboxes input[type="radio"] + span{ padding-left: 0; }
+div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:before,
+div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content: none; }
+/*multiselect menu end*/
 /*form select end*/
 /*FORM STYLE end*/
 
@@ -3394,6 +3516,7 @@ label{
 	padding-top: 100px;
 }
 .products__list{
+	position: relative;
 	padding-bottom: 1px;
 	margin: 0 -1px;
 	width: calc(100% + 2px);
@@ -3423,15 +3546,27 @@ label{
 	transition-duration: 0.6s;
 }
 .no-touchevents .products__inner:hover{
-	background: rgba(0, 0, 0, 0.11);
+	background: rgba(24, 34, 46, 0.29);
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
 }
 .products__img{
 	margin: 0 0 1.5em;
+	position: relative;
+}
+.products__img:before{
+	content: '';
+	display: block;
+	padding-top: 100%;
 }
 .products__img img{
+	position: absolute;
+	left: 50%;
+	top: 50%;
 	max-height: 260px;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 }
 .products__title{
 	display: block;
@@ -3883,7 +4018,7 @@ label{
 	display: block;
 	position: relative;
 	font-family: 'PT Serif', serif;
-	padding: 5em 0 1.5em;
+	padding: 7em 0 1.8em;
 	font-size: 1.2rem;
 	line-height: 1.3;
 	text-align: center;
@@ -3921,15 +4056,16 @@ label{
 	display: block;
 }
 .main-nav a svg {
-	width: 2.8em;
-	height: 2.8em;
+	width: 3.6em;
+	height: 3.6em;
 	position: absolute;
 	left: 50%;
+	bottom: 50%;
 	right: auto;
-	-webkit-transform: translateX(-50%);
-	-ms-transform: translateX(-50%);
-	transform: translateX(-50%);
-	top: 1.3em;
+	margin-bottom: 1.2em;
+	-webkit-transform: translate(-50%, 50%);
+	-ms-transform: translate(-50%, 50%);
+	transform: translate(-50%, 50%);
 }
 .main-nav a svg path{
 	-webkit-transition-property: fill;

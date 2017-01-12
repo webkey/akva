@@ -33,6 +33,109 @@ function placeholderInit(){
 }
 /*placeholder end*/
 
+/**!
+ *  multiselect init
+ * */
+/*! add ui position add class */
+function addPositionClass(position, feedback, obj){
+	removePositionClass(obj);
+	obj.css( position );
+	obj
+		.addClass( feedback.vertical )
+		.addClass( feedback.horizontal );
+}
+
+/*! add ui position remove class */
+function removePositionClass(obj){
+	obj.removeClass('top');
+	obj.removeClass('bottom');
+	obj.removeClass('center');
+	obj.removeClass('left');
+	obj.removeClass('right');
+}
+
+function customSelect(select){
+	if ( select.length ) {
+		selectArray = [];
+		select.each(function(selectIndex, selectItem){
+			var placeholderText = $(selectItem).attr('data-placeholder');
+			var flag = true;
+			if ( placeholderText === undefined ) {
+				placeholderText = $(selectItem).find(':selected').html();
+				flag = false;
+			}
+			var classes = $(selectItem).attr('class');
+			selectArray[selectIndex] = $(selectItem).multiselect({
+				header: false,
+				height: 'auto',
+				minWidth: 50,
+				selectedList: 1,
+				classes: classes,
+				multiple: false,
+				noneSelectedText: placeholderText,
+				show: ['fade', 100],
+				hide: ['fade', 100],
+				create: function(event){
+					var select = $(this);
+					var button = $(this).multiselect('getButton');
+					var widget = $(this).multiselect('widget');
+					button.wrapInner('<span class="select-inner"></span>');
+					button.find('.ui-icon').append('<i class="arrow-select"></i>')
+						.siblings('span').addClass('select-text');
+					widget.find('.ui-multiselect-checkboxes li:last')
+						.addClass('last')
+						.siblings().removeClass('last');
+					if ( flag ) {
+						$(selectItem).multiselect('uncheckAll');
+						$(selectItem)
+							.multiselect('widget')
+							.find('.ui-state-active')
+							.removeClass('ui-state-active')
+							.find('input')
+							.removeAttr('checked');
+					}
+				},
+				selectedText: function(number, total, checked){
+					var checkedText = checked[0].title;
+					return checkedText;
+				},
+				position: {
+					my: 'left top',
+					at: 'left bottom',
+					using: function( position, feedback ) {
+						addPositionClass(position, feedback, $(this));
+					}
+				}
+			});
+		});
+		$(window).resize(selectResize);
+	}
+}
+
+function selectResize(){
+	if ( selectArray.length ) {
+		$.each(selectArray, function(i, el){
+			var checked = $(el).multiselect('getChecked');
+			var flag = true;
+			if ( !checked.length ) {
+				flag = false
+			}
+			$(el).multiselect('refresh');
+			if ( !flag ) {
+				$(el).multiselect('uncheckAll');
+				$(el)
+					.multiselect('widget')
+					.find('.ui-state-active')
+					.removeClass('ui-state-active')
+					.find('input')
+					.removeAttr('checked');
+			}
+			$(el).multiselect('close');
+		});
+	}
+}
+/* multiselect init end */
+
 /**
  *! print
  * */
@@ -1955,13 +2058,7 @@ function upZindex() {
  * image lazy load
  * */
 function imgLazyLoad() {
-	$('.products__img img').unveil(100, function () {
-		$(this).load(function() {
-			setTimeout(function () {
-				filtersProducts();
-			}, 150)
-		});
-	});
+	$('.products__img img').unveil();
 }
 /*image lazy load end*/
 
@@ -1969,34 +2066,110 @@ function imgLazyLoad() {
  * filer products
  * */
 function filtersProducts() {
-	var $grid = $('.products__list').isotope({
-		// options
-		itemSelector: '.products__item',
-		layoutMode: 'fitRows',
-		stagger: 10,
-		transitionDuration: 400,
-		hiddenStyle: {
-			opacity: 0,
-			// transform: 'scale(0.001)'
-			transform: 'scale(1)'
-		},
-		visibleStyle: {
-			opacity: 1,
-			transform: 'scale(1)'
-		}
-	});
+	// external js:
+	// 1) isotope.pkgd.js (widgets.js)
+	// 2) imagesLoaded PACKAGED v4.1.1 (widgets.js)
+	// 3) jQuery Unveil (widgets.js)
+
+	// var $grid = $('.products__list').isotope({
+	// 	// options
+	// 	itemSelector: '.products__item',
+	// 	layoutMode: 'fitRows',
+	// 	stagger: 10,
+	// 	transitionDuration: 400,
+	// 	hiddenStyle: {
+	// 		opacity: 0,
+	// 		// transform: 'scale(0.001)'
+	// 		transform: 'scale(1)'
+	// 	},
+	// 	visibleStyle: {
+	// 		opacity: 1,
+	// 		transform: 'scale(1)'
+	// 	}
+	// });
+
+	// // bind filter button click
+	// $('.filter-js').on( 'click', 'a', function() {
+	// 	var filterValue = $( this ).attr('data-filter');
+	// 	$grid.isotope({ filter: filterValue });
+	// });
+	//
+	// // change is-checked class on buttons
+	// $('.filter-js').on( 'click', 'a', function() {
+	// 	$( '.filter-js a' ).removeClass('selected');
+	// 	$( this ).addClass('selected');
+	// });
+
+	if (!$('.products-filter').length) return;
+
+	function getHashFilter() {
+		// get filter=filterName
+		var matches = location.hash.match( /filter=([^&]+)/i );
+		var hashFilter = matches && matches[1];
+		return hashFilter && decodeURIComponent( hashFilter );
+	}
+
+	// init Isotope
+	var $grid = $('.products__list');
 
 	// bind filter button click
-	$('.filter-js').on( 'click', 'a', function() {
-		var filterValue = $( this ).attr('data-filter');
-		$grid.isotope({ filter: filterValue });
+	var $filterButtonGroup = $('.filter-js');
+	$filterButtonGroup.on( 'click', 'a', function(e) {
+		e.preventDefault();
+
+		var filterAttr = $( this ).attr('data-filter');
+		// set filter in hash
+		location.hash = 'filter=' + encodeURIComponent( filterAttr );
 	});
 
-	// change is-checked class on buttons
-	$('.filter-js').on( 'click', 'a', function() {
-		$( '.filter-js a' ).removeClass('selected');
-		$( this ).addClass('selected');
+	var isIsotopeInit = false;
+
+	function onHashchange() {
+		var hashFilter = getHashFilter();
+		if ( !hashFilter && isIsotopeInit ) {
+			return;
+		}
+		isIsotopeInit = true;
+		// filter isotope
+		$grid.isotope({
+			itemSelector: '.products__item',
+			layoutMode: 'fitRows',
+			stagger: 10,
+			percentPosition: true,
+			transitionDuration: 400,
+			hiddenStyle: {
+				opacity: 0,
+				// transform: 'scale(0.001)'
+				transform: 'scale(1)'
+			},
+			visibleStyle: {
+				opacity: 1,
+				transform: 'scale(1)'
+			},
+			// use filterFns
+			filter: hashFilter
+		});
+
+		// set selected class on button
+		if ( hashFilter ) {
+			$filterButtonGroup.find('a').removeClass('selected');
+			$filterButtonGroup.find('[data-filter="' + hashFilter + '"]').addClass('selected');
+		}
+	}
+
+	// layout Isotope after each image loads
+	$grid.imagesLoaded().progress( function() {
+		$grid.isotope('layout');
 	});
+
+	$grid.on( 'arrangeComplete', function() {
+		$('.main').trigger('changeSize'); // triggered function of change size the container for reinit events load images ( jQuery Unveil (widgets.js))
+	});
+
+	$(window).on( 'hashchange', onHashchange );
+
+	// trigger event handler to init Isotope
+	onHashchange();
 }
 /*filters products end*/
 
@@ -2007,6 +2180,9 @@ function filtersProducts() {
 
 jQuery(document).ready(function(){
 	placeholderInit();
+	if (!Modernizr.touchevents) {
+		customSelect($('select.cselect'));
+	}
 	printShow();
 	mainSlider();
 	classToggle();
@@ -2024,7 +2200,7 @@ jQuery(document).ready(function(){
 	modalWindowInit();
 	upZindex();
 	imgLazyLoad();
-	// filtersProducts();
+	filtersProducts();
 
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();
