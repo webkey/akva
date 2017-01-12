@@ -516,6 +516,91 @@ function hoverClassInit(){
 /*toggle hover class end*/
 
 /**
+ * toggle sub navigation
+* */
+function toggleSubNav() {
+	var $mainNav = $('.main-nav'),
+		$mainNavItem = $('.main-nav a'),
+		$subNav = $('.sub-nav'),
+		$currentSubNav,
+		$currentItem,
+		activeClass = 'sub-nav-opened',
+		submenuId,
+		timeout,
+		delay = 50;
+
+	if ($subNav.length) {
+
+		$mainNav.on('mouseenter', 'a', function () {
+
+			$currentItem = $(this);
+			submenuId = $currentItem.attr('data-submenu');
+			$currentSubNav = $('#' + submenuId);
+
+			if (!submenuId) {
+				clearTimeout(timeout);
+
+				timeout = setTimeout(function () {
+					hideSubNav();
+				}, delay);
+
+				return;
+			}
+
+			clearTimeout(timeout);
+
+			timeout = setTimeout(function () {
+				hideSubNav();
+				showSubNav($currentItem, $currentSubNav);
+			}, delay);
+
+		}).on('mouseleave', 'a', function () {
+
+			clearTimeout(timeout);
+
+			timeout = setTimeout(function () {
+				hideSubNav();
+			}, delay);
+
+		});
+
+		$('body').on('mouseenter', '.sub-nav', function () {
+			$currentSubNav = $(this);
+			submenuId = $currentSubNav.attr('id');
+
+			if (!submenuId) return;
+
+			$currentItem = $mainNav.find('[data-submenu=' + submenuId +']');
+
+			clearTimeout(timeout);
+
+			showSubNav($currentItem, $currentSubNav);
+
+		}).on('mouseleave', '.sub-nav', function () {
+
+			clearTimeout(timeout);
+
+			timeout = setTimeout(function () {
+				hideSubNav();
+			}, delay);
+
+		});
+
+	}
+
+	function hideSubNav() {
+		$mainNavItem.removeClass(activeClass);
+		$subNav.removeClass(activeClass);
+	}
+
+	function showSubNav(item, nav) {
+		item.addClass(activeClass);
+		nav.addClass(activeClass);
+	}
+}
+/*toggle sub navigation end*/
+
+/**
  *! equal height
  * */
 function equalHeightInit() {
@@ -1027,8 +1112,8 @@ function secondNav() {
 var secondaryNav;
 /*scroll to section end*/
 
-/**!
- * history
+/**
+ *! history
  * */
 (function ($) {
 	var HistorySlider = function (settings) {
@@ -1927,6 +2012,7 @@ jQuery(document).ready(function(){
 	classToggle();
 	parallaxMainSlider();
 	hoverClassInit();
+	toggleSubNav();
 	equalHeightInit();
 	// fixedHeader();
 	// walkPages();

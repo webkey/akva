@@ -3412,20 +3412,20 @@ label{
 	display: block;
 	position: relative;
 	height: 100%;
-	padding: 12%;
+	padding: 10%;
 	color: #fff;
 	text-decoration: none;
 	text-align: center;
 	box-shadow: 0 0 0 1px #4d555f;
-	z-index: 2;
-	-webkit-transition-property: box-shadow;
-	transition-property: box-shadow;
-	-webkit-transition-duration: 0.2s;
-	transition-duration: 0.2s;
+	-webkit-transition-property: background-color;
+	transition-property: background-color;
+	-webkit-transition-duration: 0.6s;
+	transition-duration: 0.6s;
 }
 .no-touchevents .products__inner:hover{
-	box-shadow: 0 0 0 1px #777e86;
-	z-index: 3;
+	background: rgba(0, 0, 0, 0.11);
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
 }
 .products__img{
 	margin: 0 0 1.5em;
@@ -3442,7 +3442,10 @@ label{
 .products__type{
 	display: block;
 	text-align: center;
-	font-size: 0.8em;
+	font-size: 0.7em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.41);
+	padding: 0 0 1em;
 }
 
 /*products end*/
@@ -3513,16 +3516,9 @@ label{
 	transition-duration: 0.4s;
 }
 .no-touchevents .products-filter__list a:hover > span{
-	-webkit-transform: scale(1.1);
-	-ms-transform: scale(1.1);
-	transform: scale(1.1);
+	border-color: transparent;
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
-}
-.no-touchevents .products-filter__list a.selected:hover > span{
-	-webkit-transform: scale(1);
-	-ms-transform: scale(1);
-	transform: scale(1);
 }
 /*products filter end*/
 /*CONTENT end*/
@@ -3895,8 +3891,8 @@ label{
 	text-transform: uppercase;
 	text-decoration: none;
 	border-right: 1px solid transparent;
-	-webkit-transition-property: background-color, border-color, color;
-	transition-property: background-color, border-color, color;
+	-webkit-transition-property: background-color, border-color, color, box-shadow;
+	transition-property: background-color, border-color, color, box-shadow;
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
 }
@@ -3943,19 +3939,33 @@ label{
 	fill: #fff;
 }
 .main-nav a.selected,
+.main-nav a.sub-nav-opened,
 .no-touchevents .main-nav a:hover{
 	background-color: #fff;
 	color: #024383;
 	z-index: 2;
 	border-right-color: #e6e6e6;
 }
+.main-nav a.selected{
+	box-shadow: inset 0 -1px 0 #e6e6e6, inset 0 1px 0 #e6e6e6;
+	z-index: 4;
+}
+.no-touchevents .main-nav a.selected:hover{
+	box-shadow: inset 0 -1px 0 #fff, inset 0 1px 0 #fff;
+	z-index: 4;
+}
 .main-nav a.selected:before,
-.no-touchevents .main-nav a:hover:before,
 .main-nav a.selected:after,
+.main-nav a.sub-nav-opened:before,
+.main-nav a.sub-nav-opened:after,
+.no-touchevents .main-nav a:hover:before{
+	background: #e6e6e6;
+}
 .no-touchevents .main-nav a:hover:after{
 	background: #fff;
 }
 .main-nav a.selected > svg path,
+.main-nav a.sub-nav-opened > svg path,
 .no-touchevents .main-nav a:hover > svg path{
 	fill: #024383;
 }
@@ -3976,8 +3986,25 @@ label{
 	width: 205px;
 	height: 100vh;
 	background: #fff;
-	z-index: 9;
+	z-index: 10;
 	overflow: hidden;
+	visibility: hidden;
+	opacity: 0;
+	box-shadow: inset -1px 0 0 #e6e6e6, inset 0 1px 0 #e6e6e6;
+	-webkit-transition-property: visibility, opacity, -webkit-transform;
+	transition-property: visibility, opacity, transform;
+	-webkit-transition-duration: 0s;
+	transition-duration: 0s;
+}
+.catalog ~ .sub-nav,
+.sub-nav.sub-nav-opened{
+	-webkit-transform: rotateY(0deg);
+	transform: rotateY(0deg);
+	visibility: visible;
+	opacity: 1;
+}
+.catalog ~ .sub-nav{
+	box-shadow: none;
 }
 .sub-nav__list{
 	height: 100vh;
@@ -4006,10 +4033,14 @@ label{
 	text-decoration: none;
 	border: 0 solid #e6e6e6;
 	border-bottom-width: 1px;
+	box-shadow: inset -1px 0 0 #e6e6e6;
 	-webkit-transition-property: background-color, border-color, color;
 	transition-property: background-color, border-color, color;
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
+}
+.catalog ~ .sub-nav .sub-nav__list a{
+	box-shadow: none;
 }
 .sub-nav__list a:before{
 	content: '';
@@ -4039,8 +4070,11 @@ label{
 	width: calc(100% - 54px - 10px);
 	/*100% - icon's width and margin right - 10px*/
 }
-.sub-nav__list a.selected{
+.sub-nav__list a.selected,
+.sub-nav__list a:active,
+.no-touchevents .sub-nav__list a:active{
 	color: #024383;
+	background-color: #e6e6e6;
 }
 .no-touchevents .sub-nav__list a:hover{
 	background: #f7f7f7;
