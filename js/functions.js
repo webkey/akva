@@ -545,7 +545,7 @@ function equalHeightInit() {
 
 	if ($productsList.length) {
 		$productsList.children().matchHeight({
-			byRow: true,
+			byRow: false,
 			property: 'height',
 			target: null,
 			remove: false
@@ -1867,6 +1867,56 @@ function upZindex() {
 /* up z-index end */
 
 /**
+ * image lazy load
+ * */
+function imgLazyLoad() {
+	$('.products__img img').unveil(100, function () {
+		$(this).load(function() {
+			setTimeout(function () {
+				filtersProducts();
+			}, 150)
+		});
+	});
+}
+/*image lazy load end*/
+
+/**
+ * filer products
+ * */
+function filtersProducts() {
+	var $grid = $('.products__list').isotope({
+		// options
+		itemSelector: '.products__item',
+		layoutMode: 'fitRows',
+		stagger: 10,
+		transitionDuration: 400,
+		hiddenStyle: {
+			opacity: 0,
+			// transform: 'scale(0.001)'
+			transform: 'scale(1)'
+		},
+		visibleStyle: {
+			opacity: 1,
+			transform: 'scale(1)'
+		}
+	});
+
+	// bind filter button click
+	$('.filter-js').on( 'click', 'a', function() {
+		var filterValue = $( this ).attr('data-filter');
+		$grid.isotope({ filter: filterValue });
+	});
+
+	// change is-checked class on buttons
+	$('.filter-js').on( 'click', 'a', function() {
+		$( '.filter-js a' ).removeClass('selected');
+		$( this ).addClass('selected');
+	});
+}
+/*filters products end*/
+
+
+/**
  *!  ready/load/resize document
  * */
 
@@ -1879,7 +1929,7 @@ jQuery(document).ready(function(){
 	hoverClassInit();
 	equalHeightInit();
 	// fixedHeader();
-	walkPages();
+	// walkPages();
 	historySwitcher();
 	tabSwitcher();
 	addBottomSpacer();
@@ -1887,6 +1937,8 @@ jQuery(document).ready(function(){
 	newsSliderInit();
 	modalWindowInit();
 	upZindex();
+	imgLazyLoad();
+	// filtersProducts();
 
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();
