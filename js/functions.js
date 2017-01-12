@@ -218,7 +218,7 @@ function printShow() {
 
 function parallaxMainSlider() {
 	var delta = 30;
-	var img = '.main-slider-img';
+	var img = '.index .main-slider-img';
 
 	if (document.querySelector(img)) {
 		new ParallaxJs({
@@ -228,7 +228,7 @@ function parallaxMainSlider() {
 		});
 	}
 
-	var caption = '.main-slider-caption__holder';
+	var caption = '.index .main-slider-caption__holder';
 
 	if (document.querySelector(caption)) {
 		new ParallaxJs({
@@ -238,7 +238,7 @@ function parallaxMainSlider() {
 		});
 	}
 
-	var desk = '.main-slider-desks';
+	var desk = '.index .main-slider-desks';
 
 	if (document.querySelector(desk)) {
 		new ParallaxJs({
@@ -248,7 +248,7 @@ function parallaxMainSlider() {
 		});
 	}
 
-	var bg = '.main-slider-bg';
+	var bg = '.index .main-slider-bg';
 
 	if (document.querySelector(bg)) {
 		new ParallaxJs({
@@ -275,6 +275,7 @@ function mainSlider() {
 		activeClassPrev = 'active-prev',
 		activeClassNext = 'active-next',
 		hideClass = 'hide',
+		touchSwipe = false,
 		index = 0,
 		indexNext, indexPrev;
 
@@ -284,7 +285,7 @@ function mainSlider() {
 		images,
 		'.ms-bg-js',
 		'.ms-desks-js',
-		'.main-slider-title-js'
+		'.ms-title-js'
 		// '.ms-dots-js button'
 	];
 
@@ -351,40 +352,41 @@ function mainSlider() {
 		return index;
 	});
 
-	$($container).swipe({
-		swipeRight: function (e) {
-			var $currentSlider = $(this);
-			var length = $currentSlider.find(images).length;
+	if (touchSwipe) {
+		$($container).swipe({
+			swipeRight: function (e) {
+				var $currentSlider = $(this);
+				var length = $currentSlider.find(images).length;
 
-			if (index <= 0) {
-				index = index - 1 + length;
-			} else {
-				index = index - 1;
+				if (index <= 0) {
+					index = index - 1 + length;
+				} else {
+					index = index - 1;
+				}
+
+				switchStateTab($currentSlider, $tab, index);
+
+				slidesCounter($currentSlider, index, length);
+
+				return index;
+			}, swipeLeft: function (e) {
+				var $currentSlider = $(this);
+				var length = $currentSlider.find(images).length;
+
+				if (index >= length - 1) {
+					index = index + 1 - length;
+				} else {
+					index = index + 1;
+				}
+
+				switchStateTab($currentSlider, $tab, index);
+
+				slidesCounter($currentSlider, index, length);
+
+				return index;
 			}
-
-			switchStateTab($currentSlider,$tab,index);
-
-			slidesCounter($currentSlider,index,length);
-
-			return index;
-		},
-		swipeLeft: function (e) {
-			var $currentSlider = $(this);
-			var length = $currentSlider.find(images).length;
-
-			if (index >= length - 1) {
-				index = index + 1 - length;
-			} else {
-				index = index + 1;
-			}
-
-			switchStateTab($currentSlider,$tab,index);
-
-			slidesCounter($currentSlider,index,length);
-
-			return index;
-		}
-	});
+		});
+	}
 
 	function switchStateTab(content,tab,index) {
 		var length = content.find(images).length;

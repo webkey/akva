@@ -1544,10 +1544,11 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	-moz-transition: -moz-transform 0.5s 0s;
 	transition: transform 0.5s 0s;
 }
-.about.main{
+.main.about{
 	padding-left: 171px;
 }
-.catalog.main{
+.main.catalog,
+.main.products-card{
 	padding-left: 325px;
 }
 .products-filter{
@@ -1828,10 +1829,12 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 .main-slider{
 	position: relative;
 	overflow: hidden;
-	/*height: 100vh;*/
-	height: calc(100vh - 120px);
+	height: 100vh;
 	box-sizing: border-box;
 	background: #27303b;
+}
+.index .main-slider{
+	height: calc(100vh - 120px);
 }
 
 .main-slider-bg{
@@ -1847,9 +1850,9 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	top: -2%;
 	width: 104%;
 	height: 104%;
+	background: #27303b no-repeat center center;
 	-webkit-background-size: cover;
 	background-size: cover;
-	background: #27303b no-repeat center center;
 	-webkit-transform: scale(1.05, 1.05);
 	-ms-transform: scale(1.05, 1.05);
 	transform: scale(1.05, 1.05);
@@ -2203,6 +2206,313 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	display: none;
 }
 /*main slider end*/
+
+/*product card*/
+.card{
+	position: relative;
+	overflow: hidden;
+	height: 100vh;
+	box-sizing: border-box;
+	background: #27303b;
+}
+.index .card{
+	height: calc(100vh - 120px);
+}
+
+.card-bg{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: #27303b;
+}
+.card-bg__item{
+	position: absolute;
+	left: -2%;
+	top: -2%;
+	width: 104%;
+	height: 104%;
+	background: no-repeat center center;
+	-webkit-background-size: cover;
+	background-size: cover;
+	opacity: 0;
+	visibility: hidden;
+	will-change: transform, opacity, visibility;
+	-webkit-transition-property: -webkit-transform, opacity, visibility;
+	transition-property: -webkit-transform, opacity, visibility;
+	-webkit-transition-duration: 3s;
+	transition-duration: 3s;
+}
+.card-bg__item.active{
+	opacity: 1;
+	visibility: visible;
+}
+
+.bg-clip{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.5);
+	-webkit-filter: blur(15px);
+	filter: blur(15px);
+	clip-path: polygon(20% 10%, 70% 10%, 70% 70%, 20% 70%);
+	clip: rect(90.1px 705.6px 630.7px 201.6px);
+}
+
+.card-figure{
+	position: relative;
+	height: 100vh;
+	width: 50%;
+}
+.card-img{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 316px;
+	height: calc(100% - 65px*2);
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+.card-img__item{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: no-repeat -9999px -9999px;
+
+	opacity: 0;
+	visibility: hidden;
+	-webkit-transform: translateX(-40%) scale(0.96, 0.96);
+	-ms-transform: translateX(-40%) scale(0.96, 0.96);
+	transform: translateX(-40%) scale(0.96, 0.96);
+	will-change: transform;
+	-webkit-transition-property: -webkit-transform, opacity, visibility;
+	transition-property: transform, opacity, visibility;
+	-webkit-transition-duration: 0.7s, 0.35s, 0.35s;
+	transition-duration: 0.7s, 0.35s, 0.35s;
+}
+.card-img__item:before{
+	content: '';
+	position: absolute;
+	background: url(../img/bottle-shadow.png) no-repeat;
+	height: 79px;
+	width: 842px;
+	left: -260px;
+	bottom: -23px;
+	z-index: -1;
+}
+.card-img__item:after{
+	content: '';
+	display: block;
+	width: 100%;
+	height: 100%;
+	background: no-repeat 50% 100%;
+	background-image: inherit;
+	-webkit-background-size: contain;
+	background-size: contain;
+}
+.card-img__item.active{
+	opacity: 1;
+	visibility: visible;
+	-webkit-transform: translateX(0) scale(1, 1);
+	-ms-transform: translateX(0) scale(1, 1);
+	transform: translateX(0) scale(1, 1);
+	-webkit-transition-duration: 0.7s, 0.5s, 0.5s;
+	transition-duration: 0.7s, 0.5s, 0.5s;
+}
+
+.card-nav{
+	height: 100vh;
+	/*50% - bottom panel - half of this element's height*/
+	width: 600px;
+	position: absolute;
+	right: 5vw;
+	top: 0;
+	color: #fff;
+	text-align: right;
+	background: rgba(0, 0, 0, 0.08);
+}
+.card-nav:before{
+	content: '';
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+}
+.card-nav__align{
+	display: inline-block;
+	vertical-align: middle;
+	width: calc(100% - 10px);
+	text-align: left;
+}
+
+/*products filter*/
+.set{
+	text-align: center;
+}
+.set__list{
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+}
+.set__list li{
+	display: table-cell;
+}
+.set__list a{
+	display: block;
+	background: #024383;
+	padding: 15px;
+	text-decoration: none;
+	font-family: 'PT Serif', serif;
+	font-size: 16px;
+	line-height: 20px;
+	color: #fff;
+	text-transform: uppercase;
+	border-left: 1px solid rgba(255, 255, 255, 0.11);
+	-webkit-transition-property: color, background;
+	transition-property: color, background;
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
+}
+.set__list li:first-child a{
+	border-left: none;
+}
+.set__list a.selected{
+	color: #024383;
+	background: #fff;
+}
+.set__list a > span{
+	display: inline-block;
+	border-bottom: 1px dotted rgba(255, 255, 255, 0.64);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-transition-property: -webkit-transform, border-color;
+	transition-property: transform, border-color;
+	-webkit-transition-duration: 0.4s;
+	transition-duration: 0.4s;
+}
+.no-touchevents .set__list a:hover > span{
+	border-color: transparent;
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
+}
+/*products filter end*/
+
+.card-nav__feature{
+	position: relative;
+}
+
+.card-caption{
+	height: 50vh;
+	border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.card-caption__item{
+	position: relative;
+	height: 100%;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	opacity: 0;
+	visibility: hidden;
+	-webkit-transform: translate(40%, 0) scale(0.96, 0.96);
+	-ms-transform: translate(40%, 0) scale(0.96, 0.96);
+	transform: translate(40%, 0) scale(0.96, 0.96);
+	will-change: transform;
+	-webkit-transition-property: -webkit-transform, opacity, visibility;
+	transition-property: transform, opacity, visibility;
+	-webkit-transition-duration: 0.7s, 0.5s, 0.5s;
+	transition-duration: 0.7s, 0.5s, 0.5s;
+}
+.card-caption__item:first-child{ margin-left: 0; }
+.card-caption__item.active{
+	opacity: 1;
+	visibility: visible;
+	-webkit-transform: translate(0, 0) scale(1, 1);
+	-ms-transform: translate(0, 0) scale(1, 1);
+	transform: translate(0, 0) scale(1, 1);
+}
+
+.card-arrow{
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: 50%;
+	font-size: 1px;
+	line-height: 1;
+	height: 50em;
+	width: 50em;
+	background: none;
+	border: none;
+	cursor: pointer;
+	-webkit-transform: translate(0, -50%);
+	-ms-transform: translate(0, -50%);
+	transform: translate(0, -50%);
+	z-index: 2;
+}
+.card-arrow > span{
+	display: block;
+	height: 100%;
+	width: 100%;
+	border-radius: 50%;
+	background-color: transparent;
+	border: 2px solid rgba(255, 255, 255, 0.41);
+	-webkit-transition-property: border-color, background-color;
+	transition-property: border-color, background-color;
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
+}
+.card-arrow:active > span{
+	-webkit-transform: scale(0.96, 0.96);
+	-ms-transform: scale(0.96, 0.96);
+	transform: scale(0.96, 0.96);
+}
+.no-touchevents .card-arrow:hover > span{
+	background-color: #fff;
+	border-color: #fff;
+}
+.card-arrow__prev{
+	left: 35px;
+}
+.card-arrow__next{
+	right: 35px;
+}
+.card-arrow svg{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -6px 0 0 -4px;
+	width: 8px;
+	height: 13px;
+}
+.card-arrow svg path{
+	fill: #fff;
+	stroke-width: 2;
+	-webkit-transition: fill 0.2s;
+	transition: fill 0.2s;
+}
+
+.no-touchevents .card-arrow:hover svg path{
+	fill: #2cb3f3;
+}
+/*product card end*/
 
 /*about*/
 .section{
@@ -4133,13 +4443,15 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	transition-duration: 0s;
 }
 .catalog ~ .sub-nav,
+.products-card ~ .sub-nav,
 .sub-nav.sub-nav-opened{
 	-webkit-transform: rotateY(0deg);
 	transform: rotateY(0deg);
 	visibility: visible;
 	opacity: 1;
 }
-.catalog ~ .sub-nav{
+.catalog ~ .sub-nav,
+.products-card ~ .sub-nav{
 	box-shadow: none;
 }
 .sub-nav__list{
@@ -4175,7 +4487,8 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
 }
-.catalog ~ .sub-nav .sub-nav__list a{
+.catalog ~ .sub-nav .sub-nav__list a,
+.products-card ~ .sub-nav .sub-nav__list a{
 	box-shadow: none;
 }
 .sub-nav__list a:before{
@@ -4511,6 +4824,11 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	transition-property: transform, background-color;
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
+	/*for ie*/
+	-webkit-transform: translateY(100%) translateY(-120px);
+	-ms-transform: translateY(100%) translateY(-120px);
+	transform: translateY(100%) translateY(-120px);
+	/*for other*/
 	-webkit-transform: translateY(calc(100% - 120px));
 	-ms-transform: translateY(calc(100% - 120px));
 	transform: translateY(calc(100% - 120px));
