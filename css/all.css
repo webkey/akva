@@ -251,13 +251,16 @@ button{
 /*btn-default*/
 [class*="btn-default"]{
 	position: relative;
-	font-size: 16px;
-	line-height: 20px;
-	color: #fff;
 	padding: 12px 25px;
-	border: 1px solid transparent;
-	background: #d32e2e;
-	box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+	margin: 0;
+	font-family: 'PT Serif', serif;
+	font-size: 1.4rem;
+	line-height: 1.2;
+	letter-spacing: 0.1em;
+	color: #fff;
+	text-transform: uppercase;
+	border: none;
+	background: #024383;
 	box-sizing: border-box;
 	-webkit-transition-property: color, background, box-shadow, -webkit-transform;
 	transition-property: color, background, box-shadow, transform;
@@ -265,14 +268,9 @@ button{
 	transition-duration: 0.2s;
 }
 [class*="btn-default"]:hover{
-	background: #b41e18;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
-	-webkit-transform: translate(0, -4px);
-	-ms-transform: translate(0, -4px);
-	transform: translate(0, -4px);
+	background: #003161;
 }
 [class*="btn-default"]:active{
-	box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 	-webkit-transition-duration: 0.1s;
 	transition-duration: 0.1s;
 	-webkit-transform: translate(0, 0);
@@ -2248,7 +2246,8 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	position: fixed;
 	left: 400px;
 	height: 100vh;
-	width: 800px;
+	width: calc(100% - 600px - 570px);
+	z-index: 5;
 }
 .card-img{
 	position: absolute;
@@ -2480,10 +2479,6 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	vertical-align: top;
 	width: 100%;
 	margin-left: -100%;
-	white-space: normal;
-	font-size: 16px;
-	line-height: 1.8;
-	letter-spacing: normal;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-touch-callout: none;
@@ -2508,11 +2503,40 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	opacity: 1;
 	visibility: visible;
 }
+.card-feature__short,
+.card-feature__full{
+	display: inline-block;
+	vertical-align: top;
+	width: 100%;
+	margin-left: -100%;
+	white-space: normal;
+	font-size: 16px;
+	line-height: 1.8;
+	letter-spacing: normal;
+	-webkit-transition-property: opacity, visibility;
+	transition-property: opacity, visibility;
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
+}
 .card-feature__short{
-	display: none;
+	margin-left: 0;
+}
+.active .card-feature__short{
+	visibility: visible;
+	opacity: 1;
+}
+.full-info .card-feature__short{
+	visibility: hidden;
+	opacity: 0;
 }
 .card-feature__full{
+	visibility: hidden;
+	opacity: 0;
 	border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.full-info .active .card-feature__full{
+	visibility: visible;
+	opacity: 1;
 }
 
 .card-caption{
@@ -2547,6 +2571,12 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	color: #fff;
 	text-transform: uppercase;
 	padding-bottom: 1em;
+}
+.card-caption__text{
+	padding: 0 0 40px;
+}
+.card-caption__foot{
+	text-align: center;
 }
 
 .card-info{
@@ -2603,6 +2633,76 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	line-height: 1.2;
 	text-transform: uppercase;
 	color: #808080;
+}
+.btn-short-info{
+	overflow: hidden;
+	height: 50em;
+	width: 50em;
+	position: absolute;
+	right: 30px;
+	top: 30px;
+	margin: 0;
+	padding: 0;
+	font-size: 1px;
+	line-height: 1;
+	text-indent: -9999px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	text-decoration: none;
+	z-index: 2;
+}
+.btn-short-info > span{
+	display: block;
+	position: relative;
+	height: 100%;
+	width: 100%;
+	border-radius: 50%;
+	background-color: transparent;
+	border: 2px solid rgba(255, 255, 255, 0.41);
+	-webkit-transition-property: border-color, background-color;
+	transition-property: border-color, background-color;
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
+}
+.btn-short-info > span:before,
+.btn-short-info > span:after{
+	content: '';
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	height: 2em;
+	width: 21em;
+	border-radius: 2em;
+	background: #fff;
+	-webkit-transition-property: background;
+	transition-property: background;
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
+	margin: -1em 0 0 -11em;
+}
+.btn-short-info > span:before{
+	-webkit-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+.btn-short-info > span:after{
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+.btn-short-info:active > span{
+	-webkit-transform: scale(0.96, 0.96);
+	-ms-transform: scale(0.96, 0.96);
+	transform: scale(0.96, 0.96);
+}
+.no-touchevents .btn-short-info:hover > span{
+	background-color: #fff;
+	border-color: #fff;
+}
+.no-touchevents .btn-short-info:hover > span:before,
+.no-touchevents .btn-short-info:hover > span:after{
+	background: #2cb3f3;
 }
 
 .card-arrow{
@@ -4608,7 +4708,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	overflow-x: hidden;
 	position: relative;
 	overflow-y: auto;
-	padding: 0 0 70px;
+	padding: 0 0 89px;
 }
 .no-touchevents .sub-nav__list{
 	min-width: calc(100% + 20px);
@@ -4616,7 +4716,8 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 .sub-nav__list > li{
 	width: inherit;
 }
-.sub-nav__list a{
+.sub-nav__list a,
+.all-ranges a{
 	display: block;
 	position: relative;
 	padding: 10% 12%;
@@ -4627,6 +4728,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	color: #3a3a3a;
 	text-transform: uppercase;
 	text-decoration: none;
+	background: #fff;
 	border: 0 solid #e6e6e6;
 	border-bottom-width: 1px;
 	box-shadow: inset -1px 0 0 #e6e6e6;
@@ -4638,12 +4740,6 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 .catalog ~ .sub-nav .sub-nav__list a,
 .products-card ~ .sub-nav .sub-nav__list a{
 	box-shadow: none;
-}
-.sub-nav__list a:before{
-	content: '';
-	display: inline-block;
-	vertical-align: middle;
-	height: 100%;
 }
 .sub-nav__list a svg {
 	display: inline-block;
@@ -4669,25 +4765,39 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 }
 .sub-nav__list a.selected,
 .sub-nav__list a:active,
-.no-touchevents .sub-nav__list a:active{
+.no-touchevents .sub-nav__list a:active,
+.all-ranges a:active,
+.no-touchevents .all-ranges a:active{
 	color: #024383;
 	background-color: #e6e6e6;
 }
-.no-touchevents .sub-nav__list a:hover{
+.no-touchevents .sub-nav__list a:hover,
+.no-touchevents .all-ranges a:hover{
 	background: #f7f7f7;
 }
 .sub-nav__list a.selected > svg path{
 	fill: #024383;
 }
 
-.sub-nav__list > li.all-ranges{
+.all-ranges{
 	position: absolute;
 	bottom: 0;
 	left: 0;
+	width: inherit;
+	height: 90px;
+	z-index: 5;
 }
-.sub-nav__list > li.all-ranges a{
+.all-ranges a{
 	border-top-width: 1px;
+	height: 100%;
 }
+.all-ranges a:before{
+	content: '';
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+}
+
 
 
 /*sub navigation end*/

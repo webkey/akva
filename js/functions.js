@@ -2175,6 +2175,28 @@ function filtersProducts() {
 }
 /*filters products end*/
 
+/**
+ * toggle info
+ * */
+function toggleInfo() {
+	var $body = $('body');
+	var infoContainer = '.info-js';
+	var fullInfoClass = 'full-info';
+
+	$body.on('click', '.more-info-js', function (e) {
+		e.preventDefault();
+
+		$(this).closest(infoContainer).addClass(fullInfoClass);
+	});
+
+	$body.on('click', '.short-info-js', function (e) {
+		e.preventDefault();
+
+		$(this).closest(infoContainer).removeClass(fullInfoClass);
+	})
+}
+/*toggle info end*/
+
 
 /**
  *!  ready/load/resize document
@@ -2203,6 +2225,7 @@ jQuery(document).ready(function(){
 	upZindex();
 	imgLazyLoad();
 	filtersProducts();
+	toggleInfo();
 
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();

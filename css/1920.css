@@ -17,7 +17,12 @@
 /*SIDEBAR*/
 /*main navigation*/
 .main-nav a{
-	padding: 4.4em 0 1em;
+	padding: 4.7em 0 1.3em;
+}
+.main-nav a svg {
+	width: 3.2em;
+	height: 3.2em;
+	margin-bottom: 1em;
 }
 /*main navigation end*/
 /*SIDEBAR end*/

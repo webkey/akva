@@ -23,13 +23,11 @@
 	height: calc(100% - 100px);
 }
 .main-nav a{
-	/*font-size: 1.2rem;*/
-	padding: 3.8em 0 1.2em;
+	padding: 4.4em 0 1.6em;
 }
 .main-nav a svg{
-	width: 2.4em;
-	height: 2.4em;
-	top: 1em;
+	width: 2.8em;
+	height: 2.8em;
 }
 /*main navigation end*/
 .btn-info_sidebar{
