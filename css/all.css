@@ -952,7 +952,7 @@ label{
 .select select,
 .select button.cselect,
 .select button.cselect .select-inner{
-	font-family: 'PT Sans', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
 	line-height: 22px;
 	text-transform: none;
@@ -980,9 +980,9 @@ button.cselect .ui-icon .arrow-select:after{
 	position: absolute;
 	right: 22px;
 	top: 50%;
-	width: 10px;
-	height: 3px;
-	background: #262626;
+	width: 12px;
+	height: 2px;
+	background: #b3b3b3;
 	border-radius: 2px;
 	margin-top: -1px;
 	box-sizing: border-box;
@@ -999,7 +999,7 @@ button.cselect .ui-icon .arrow-select:after{
 	-webkit-transform: rotate(-45deg);
 	-ms-transform: rotate(-45deg);
 	transform: rotate(-45deg);
-	right: 17px;
+	right: 15px;
 }
 /*select overall end*/
 
@@ -1058,8 +1058,6 @@ div.cselect .ui-multiselect-checkboxes li{
 	padding: 0;
 	overflow: hidden;
 }
-div.cselect .ui-multiselect-checkboxes li:first-child{ border-radius: 4px 4px 0 0; }
-div.cselect .ui-multiselect-checkboxes li:last-child{ border-radius: 0 0 4px 4px; }
 div.cselect .ui-multiselect-checkboxes label input{
 	position:absolute;
 	left:-9999px;
@@ -1067,7 +1065,7 @@ div.cselect .ui-multiselect-checkboxes label input{
 div.cselect .ui-multiselect-checkboxes label{
 	display:block;
 	cursor:pointer;
-	font: 16px/22px 'PT Sans', sans-serif;
+	font: 16px/22px 'Roboto', sans-serif;
 	text-transform: none;
 	color: #262626;
 	font-weight: normal;
@@ -1079,7 +1077,7 @@ div.cselect .ui-multiselect-checkboxes label{
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
 }
-.desktop div.cselect .ui-multiselect-checkboxes label:hover{
+.no-touchevents div.cselect .ui-multiselect-checkboxes label:hover{
 	background-color: #eaeaea;
 	color: #666;
 }
@@ -1087,7 +1085,7 @@ div.cselect .ui-multiselect-checkboxes label.ui-state-active{
 	background-color: #f3f3f3;
 	color: #666;
 }
-div.cselect .ui-multiselect-checkboxes input[type="radio"] + span{ padding-left: 0; }
+div.cselect .ui-multiselect-checkboxes input[type="radio"] + span{ padding: 0; }
 div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:before,
 div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content: none; }
 /*multiselect menu end*/
@@ -2211,7 +2209,8 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 .card{
 	position: relative;
 	overflow: hidden;
-	height: 100vh;
+	/*height: 100vh;*/
+	min-height: 100vh;
 	box-sizing: border-box;
 	background: #27303b;
 }
@@ -2220,11 +2219,13 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 }
 
 .card-bg{
-	position: absolute;
+	position: fixed;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
+	height: 100%;
+	width: 100%;
 	background: #27303b;
 }
 .card-bg__item{
@@ -2236,36 +2237,18 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	background: no-repeat center center;
 	-webkit-background-size: cover;
 	background-size: cover;
-	opacity: 0;
-	visibility: hidden;
 	will-change: transform, opacity, visibility;
 	-webkit-transition-property: -webkit-transform, opacity, visibility;
 	transition-property: -webkit-transform, opacity, visibility;
 	-webkit-transition-duration: 3s;
 	transition-duration: 3s;
 }
-.card-bg__item.active{
-	opacity: 1;
-	visibility: visible;
-}
-
-.bg-clip{
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background: rgba(0, 0, 0, 0.5);
-	-webkit-filter: blur(15px);
-	filter: blur(15px);
-	clip-path: polygon(20% 10%, 70% 10%, 70% 70%, 20% 70%);
-	clip: rect(90.1px 705.6px 630.7px 201.6px);
-}
 
 .card-figure{
-	position: relative;
+	position: fixed;
+	left: 400px;
 	height: 100vh;
-	width: 50%;
+	width: 800px;
 }
 .card-img{
 	position: absolute;
@@ -2326,33 +2309,32 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	transition-duration: 0.7s, 0.5s, 0.5s;
 }
 
-.card-nav{
-	height: 100vh;
-	/*50% - bottom panel - half of this element's height*/
+.card-description{
+	min-height: 100vh;
 	width: 600px;
-	position: absolute;
-	right: 5vw;
-	top: 0;
+	margin-left: auto;
+	margin-right: 6%;
+	padding: 6vh 0;
 	color: #fff;
 	text-align: right;
 	background: rgba(0, 0, 0, 0.08);
 }
-.card-nav:before{
+.card-description:before{
 	content: '';
 	display: inline-block;
 	vertical-align: middle;
 	height: 100%;
 }
-.card-nav__align{
+.card-description__align{
 	display: inline-block;
 	vertical-align: middle;
 	width: calc(100% - 10px);
 	text-align: left;
 }
 
-/*products filter*/
 .set{
-	text-align: center;
+	position: relative;
+	padding-bottom: 6vh;
 }
 .set__list{
 	display: table;
@@ -2364,17 +2346,26 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 }
 .set__list a{
 	display: block;
+	overflow: hidden;
+	position: relative;
 	background: #024383;
-	padding: 15px;
-	text-decoration: none;
+	padding: 0 1em;
+	height: 50px;
 	font-family: 'PT Serif', serif;
-	font-size: 16px;
-	line-height: 20px;
+	font-size: 1.6rem;
+	line-height: 50px;
+	letter-spacing: 0.1em;
+	text-align: center;
 	color: #fff;
+	text-decoration: none;
+	white-space: nowrap;
 	text-transform: uppercase;
+	-ms-text-overflow: ellipsis;
+	text-overflow: ellipsis;
 	border-left: 1px solid rgba(255, 255, 255, 0.11);
-	-webkit-transition-property: color, background;
-	transition-property: color, background;
+	box-shadow: inset 0 -1px 0 transparent;
+	-webkit-transition-property: color, background, box-shadow;
+	transition-property: color, background, box-shadow;
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
 }
@@ -2384,20 +2375,14 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 .set__list a.selected{
 	color: #024383;
 	background: #fff;
+	box-shadow: inset 0 -1px 0 #e5e5e5;
 }
 .set__list a > span{
 	display: inline-block;
+	line-height: 1.25;
 	border-bottom: 1px dotted rgba(255, 255, 255, 0.64);
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	-webkit-transition-property: -webkit-transform, border-color;
-	transition-property: transform, border-color;
+	-webkit-transition-property: border-color;
+	transition-property: border-color;
 	-webkit-transition-duration: 0.4s;
 	transition-duration: 0.4s;
 }
@@ -2406,20 +2391,99 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
 }
-/*products filter end*/
 
-.card-nav__feature{
+.set__row{
+	height: 50px;
 	position: relative;
+	padding-right: 150px;
+}
+.set__all-prod{
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 50px;
+	width: 150px;
+	background: #fff;
+	text-decoration: none;
+	font-size: 16px;
+	line-height: 50px;
+	color: #3a3a3a;
+	text-align: center;
+	overflow: hidden;
+	white-space: nowrap;
+	-ms-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	border-left: 1px solid #e6e6e6;
+}
+.set__all-prod > span{
+	display: inline-block;
+	border-bottom: 1px solid #d9d9d9;
+	line-height: 1.25;
+	-webkit-transition-property: border-color;
+	transition-property: border-color;
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
+}
+.no-touchevents .set__all-prod:hover > span{
+	border-bottom-color: transparent;
+}
+.set__select{
+	width: 100%;
+	margin: 0;
+}
+.set__select select,
+.set__select button.cselect .select-inner,
+div.cselect .ui-multiselect-checkboxes label{
+	font-family: 'Roboto', sans-serif;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 22px;
+	letter-spacing: 0.025em;
+	color: #3a3a3a;
+	padding: 14px 40px 14px 18px;
+}
+.set__select select,
+.set__select button.cselect .select-inner{
+	border: none;
+	padding-right: 40px;
+}
+div.select-alt.ui-multiselect-menu {
+	padding: 0;
+	margin: 0;
+}
+div.select-alt .ui-multiselect-checkboxes{
+	border: none;
+}
+div.select-alt .ui-multiselect-checkboxes label{
+	border-top: 1px solid #e6e6e6;
+}
+.no-touchevents div.select-alt .ui-multiselect-checkboxes label:hover{
+	background-color: #f7f7f7;
+	color: #024383;
+}
+div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
+	background-color: #e6e6e6;
+	color: #024383;
 }
 
-.card-caption{
-	height: 50vh;
-	border: 1px solid rgba(255, 255, 255, 0.15);
+.card-feature{
+	position: relative;
+	/*height: 675px;*/
+	white-space: nowrap;
+	font-size: 0;
+	line-height: 1;
+	letter-spacing: -4px;
 }
 
-.card-caption__item{
-	position: relative;
-	height: 100%;
+.card-feature__item{
+	display: inline-block;
+	vertical-align: top;
+	width: 100%;
+	margin-left: -100%;
+	white-space: normal;
+	font-size: 16px;
+	line-height: 1.8;
+	letter-spacing: normal;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-touch-callout: none;
@@ -2431,26 +2495,117 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 
 	opacity: 0;
 	visibility: hidden;
-	-webkit-transform: translate(40%, 0) scale(0.96, 0.96);
-	-ms-transform: translate(40%, 0) scale(0.96, 0.96);
-	transform: translate(40%, 0) scale(0.96, 0.96);
 	will-change: transform;
 	-webkit-transition-property: -webkit-transform, opacity, visibility;
 	transition-property: transform, opacity, visibility;
-	-webkit-transition-duration: 0.7s, 0.5s, 0.5s;
-	transition-duration: 0.7s, 0.5s, 0.5s;
+	-webkit-transition-duration: 0.33s;
+	transition-duration: 0.33s;
 }
-.card-caption__item:first-child{ margin-left: 0; }
-.card-caption__item.active{
+.card-feature__item:first-child{
+	margin-left: 0;
+}
+.card-feature__item.active{
 	opacity: 1;
 	visibility: visible;
-	-webkit-transform: translate(0, 0) scale(1, 1);
-	-ms-transform: translate(0, 0) scale(1, 1);
-	transform: translate(0, 0) scale(1, 1);
+}
+.card-feature__short{
+	display: none;
+}
+.card-feature__full{
+	border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.card-caption{
+	height: 515px;
+	text-align: center;
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.6rem;
+	line-height: 1.8;
+	color: #fff;
+	padding: 0 6%;
+}
+.card-caption:before,
+.card-caption:after{
+	content: '';
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+}
+.card-caption__align{
+	display: inline-block;
+	vertical-align: middle;
+	width: calc(100% - 10px);
+	text-align: center;
+	max-width: 450px;
+}
+.card-caption__title{
+	font-family: 'PT Serif', serif;
+	font-weight: bold;
+	font-size: 3.6rem;
+	line-height: 1.2;
+	letter-spacing: 0.05em;
+	color: #fff;
+	text-transform: uppercase;
+	padding-bottom: 1em;
+}
+
+.card-info{
+	width: 100%;
+}
+.card-info:after{
+	content: '';
+	display: block;
+	clear: both;
+}
+.card-info__item{
+	float: left;
+	width: 40%;
+	padding: 12px 30px;
+	border: 0 solid rgba(255, 255, 255, 0.15);
+	border-top-width: 1px;
+	font-size: 0;
+	line-height: 0;
+	letter-spacing: -4px;
+}
+.card-info__item:nth-child(even){
+	width: 60%;
+	border-left-width: 1px;
+}
+.card-info__item svg{
+	display: inline-block;
+	vertical-align: middle;
+	width: 36px;
+	height: 36px;
+	margin-right: 30px;
+}
+.card-info__item svg path{
+	fill: #fff;
+}
+.card-info__text{
+	display: inline-block;
+	vertical-align: middle;
+	width: calc(100% - 66px - 6px);
+	/*100% - width and right margin of the icon - 6px*/
+	font-size: 1.6rem;
+	line-height: 1.4;
+	letter-spacing: normal;
+}
+.card-info__value{
+	font-family: 'PT Serif', serif;
+	font-size: 2.0rem;
+	line-height: 1.2;
+	color: #fff;
+	padding-bottom: 0.2em;
+}
+.card-info__label{
+	font-family: 'PT Serif', serif;
+	font-size: 1.4rem;
+	line-height: 1.2;
+	text-transform: uppercase;
+	color: #808080;
 }
 
 .card-arrow{
-	overflow: hidden;
 	margin: 0;
 	padding: 0;
 	position: absolute;
@@ -2462,6 +2617,7 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	background: none;
 	border: none;
 	cursor: pointer;
+	text-decoration: none;
 	-webkit-transform: translate(0, -50%);
 	-ms-transform: translate(0, -50%);
 	transform: translate(0, -50%);
@@ -3924,11 +4080,11 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 .products-filter__list a{
 	display: block;
 	background: #024383;
-	padding: 15px;
+	padding: 1em;
 	text-decoration: none;
 	font-family: 'PT Serif', serif;
-	font-size: 16px;
-	line-height: 20px;
+	font-size: 1.6rem;
+	line-height: 1.25em;
 	color: #fff;
 	text-transform: uppercase;
 	border-left: 1px solid rgba(255, 255, 255, 0.11);
@@ -3947,16 +4103,8 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 .products-filter__list a > span{
 	display: inline-block;
 	border-bottom: 1px dotted rgba(255, 255, 255, 0.64);
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	-webkit-transition-property: -webkit-transform, border-color;
-	transition-property: transform, border-color;
+	-webkit-transition-property: border-color;
+	transition-property: border-color;
 	-webkit-transition-duration: 0.4s;
 	transition-duration: 0.4s;
 }
