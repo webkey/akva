@@ -259,6 +259,14 @@ button{
 	letter-spacing: 0.1em;
 	color: #fff;
 	text-transform: uppercase;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 	border: none;
 	background: #024383;
 	box-sizing: border-box;
@@ -273,9 +281,9 @@ button{
 [class*="btn-default"]:active{
 	-webkit-transition-duration: 0.1s;
 	transition-duration: 0.1s;
-	-webkit-transform: translate(0, 0);
-	-ms-transform: translate(0, 0);
-	transform: translate(0, 0);
+	-webkit-transform: scale(0.96);
+	-ms-transform: scale(0.96);
+	transform: scale(0.96);
 }
 /*btn-default end*/
 
@@ -2253,7 +2261,7 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	width: 316px;
+	width: 50%;
 	height: calc(100% - 65px*2);
 	-webkit-transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%);
@@ -2284,7 +2292,7 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	background: url(../img/bottle-shadow.png) no-repeat;
 	height: 79px;
 	width: 842px;
-	left: -260px;
+	left: -225px;
 	bottom: -23px;
 	z-index: -1;
 }
@@ -2513,10 +2521,13 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	font-size: 16px;
 	line-height: 1.8;
 	letter-spacing: normal;
-	-webkit-transition-property: opacity, visibility;
-	transition-property: opacity, visibility;
+	border: 1px solid transparent;
+	-webkit-transition-property: opacity, visibility, max-height;
+	transition-property: opacity, visibility, max-height;
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
+	-webkit-transition-delay: 0s, 0s, 0.2s;
+	transition-delay: 0s, 0s, 0.2s;
 }
 .card-feature__short{
 	margin-left: 0;
@@ -2532,35 +2543,47 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 .card-feature__full{
 	visibility: hidden;
 	opacity: 0;
-	border: 1px solid rgba(255, 255, 255, 0.15);
+	overflow: hidden;
+	max-height: 100px;
+	border-color: rgba(255, 255, 255, 0.15);
 }
 .full-info .active .card-feature__full{
 	visibility: visible;
 	opacity: 1;
+	max-height: 9999px;
+	-webkit-transition-delay: 0s;
+	transition-delay: 0s;
 }
 
 .card-caption{
-	height: 515px;
 	text-align: center;
 	font-family: 'Roboto', sans-serif;
 	font-size: 1.6rem;
 	line-height: 1.8;
 	color: #fff;
-	padding: 0 6%;
+	padding: 3em;
 }
-.card-caption:before,
-.card-caption:after{
+.card-feature__short .card-caption{
+	min-height: calc(100vh - 360px);
+	/*100% window's height - space*/
+}
+.card-feature__short .card-caption:before,
+.card-feature__short .card-caption:after{
 	content: '';
 	display: inline-block;
 	vertical-align: middle;
-	height: 100%;
+	min-height: calc(100vh - 360px - 6em);
+	/*100% window's height - space - vertical padding*/
 }
 .card-caption__align{
 	display: inline-block;
-	vertical-align: middle;
+	vertical-align: top;
 	width: calc(100% - 10px);
 	text-align: center;
 	max-width: 450px;
+}
+.card-feature__short .card-caption__align{
+	vertical-align: middle;
 }
 .card-caption__title{
 	font-family: 'PT Serif', serif;
@@ -2573,10 +2596,15 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	padding-bottom: 1em;
 }
 .card-caption__text{
-	padding: 0 0 40px;
+	margin-bottom: 3em;
 }
 .card-caption__foot{
 	text-align: center;
+}
+.card-caption__align > *:last-child,
+.card-caption__text > *:last-child{
+	margin-bottom: 0;
+	padding-bottom: 0;
 }
 
 .card-info{
@@ -2636,11 +2664,11 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 }
 .btn-short-info{
 	overflow: hidden;
-	height: 50em;
-	width: 50em;
+	height: 42em;
+	width: 42em;
 	position: absolute;
-	right: 30px;
-	top: 30px;
+	right: 1px;
+	top: 1px;
 	margin: 0;
 	padding: 0;
 	font-size: 1px;
@@ -2657,9 +2685,10 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	position: relative;
 	height: 100%;
 	width: 100%;
-	border-radius: 50%;
+	/* border-radius: 50%; */
 	background-color: transparent;
-	border: 2px solid rgba(255, 255, 255, 0.41);
+	border: solid rgba(255, 255, 255, 0.15);
+	border-width: 0 0 1px 1px;
 	-webkit-transition-property: border-color, background-color;
 	transition-property: border-color, background-color;
 	-webkit-transition-duration: 0.2s;
@@ -2671,15 +2700,15 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	height: 2em;
-	width: 21em;
+	height: 1em;
+	width: 18em;
 	border-radius: 2em;
-	background: #fff;
+	background: rgba(255, 255, 255, 0.54);
 	-webkit-transition-property: background;
 	transition-property: background;
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
-	margin: -1em 0 0 -11em;
+	margin: 0em 0 0 -10em;
 }
 .btn-short-info > span:before{
 	-webkit-transform: rotate(-45deg);
