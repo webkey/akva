@@ -22,13 +22,6 @@
 .main-nav{
 	height: calc(100% - 100px);
 }
-.main-nav a{
-	padding: 4.4em 0 1.6em;
-}
-.main-nav a svg{
-	width: 2.8em;
-	height: 2.8em;
-}
 /*main navigation end*/
 .btn-info_sidebar{
 	height: 100px;

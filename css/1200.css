@@ -154,3 +154,16 @@
 	padding: 2em 1em;
 }
 /*foreign end*/
+
+/*SIDEBAR*/
+/*main navigation*/
+.main-nav a {
+	padding: 4.8em 0 1.2em;
+}
+.main-nav a svg {
+	width: 3em;
+	height: 3em;
+	margin-bottom: 1em;
+}
+/*main navigation end*/
+/*SIDEBAR end*/

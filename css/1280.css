@@ -134,8 +134,30 @@
 }
 /*guide end*/
 
+/*products filter*/
+.products-filter__list a{
+	font-size: 1.4rem;
+}
+.products-filter__list li{
+	float: left;
+	width: 140px;
+}
+/*products filter end*/
+
+/*SIDEBAR*/
+/*main navigation*/
+/*.main-nav a {
+	padding: 7em 0 1.8em;
+}
+.main-nav a svg {
+	width: 3.6em;
+	height: 3.6em;
+	margin-bottom: 1.2em;
+}*/
+/*main navigation end*/
+/*SIDEBAR end*/
+
 /*ASIDE*/
-.aside{ }
 /*add menu*/
 .add-menu__title {
 	padding: 0 5%;

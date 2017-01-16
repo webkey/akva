@@ -634,12 +634,12 @@ function toggleSubNav() {
 		timeout,
 		delay = 50;
 
-	if ($subNav.length) {
+	if ($subNav.length && !Modernizr.touchevents) {
 
 		$mainNav.on('mouseenter', 'a', function () {
 
 			$currentItem = $(this);
-			submenuId = $currentItem.attr('data-submenu');
+			submenuId = $currentItem.attr('data-submenu-id');
 			$currentSubNav = $('#' + submenuId);
 
 			if (!submenuId) {
@@ -675,7 +675,7 @@ function toggleSubNav() {
 
 			if (!submenuId) return;
 
-			$currentItem = $mainNav.find('[data-submenu=' + submenuId +']');
+			$currentItem = $mainNav.find('[data-submenu-id=' + submenuId +']');
 
 			clearTimeout(timeout);
 
@@ -693,6 +693,24 @@ function toggleSubNav() {
 
 	}
 
+	if (Modernizr.touchevents) {
+		$('body').on('click', '.btn-subnav-js', function (e) {
+			e.preventDefault();
+
+			$subNav.toggleClass(activeClass);
+
+			e.stopPropagation();
+		});
+
+		$subNav.on('click', function (e) {
+			e.stopPropagation();
+		});
+
+		$(document).on('click', function () {
+			$subNav.removeClass(activeClass);
+		})
+	}
+
 	function hideSubNav() {
 		$mainNavItem.removeClass(activeClass);
 		$subNav.removeClass(activeClass);
@@ -704,6 +722,36 @@ function toggleSubNav() {
 	}
 }
 /*toggle sub navigation end*/
+
+/**
+ * change sub navigation's state
+ * */
+function subNavState() {
+	var $subNav = $('.sub-nav');
+	if ($subNav.length) {
+		var $subNavWrap = $('.sub-nav__align');
+		var $subNavList = $('.sub-nav__list');
+		var modifiers = {
+			hasScroll: 'nav-has-scroll',
+			isScrolled: 'nav-is-scrolled'
+		};
+
+		$(window).on('load resize', function () {
+			$subNav.toggleClass(modifiers.hasScroll, ($subNavWrap.outerHeight() < $subNavList.outerHeight()));
+
+			setScroll();
+		});
+
+		$subNavWrap.on('scroll', function () {
+			setScroll();
+		});
+
+		function setScroll() {
+			$subNav.toggleClass(modifiers.isScrolled, $subNavWrap.scrollTop() > 0);
+		}
+	}
+}
+/*change sub navigation's state end*/
 
 /**
  *! equal height
@@ -2197,7 +2245,6 @@ function toggleInfo() {
 }
 /*toggle info end*/
 
-
 /**
  *!  ready/load/resize document
  * */
@@ -2213,6 +2260,7 @@ jQuery(document).ready(function(){
 	parallaxMainSlider();
 	hoverClassInit();
 	toggleSubNav();
+	subNavState();
 	equalHeightInit();
 	// fixedHeader();
 	// walkPages();
