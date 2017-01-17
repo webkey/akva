@@ -126,8 +126,6 @@
 }
 .touchevents .catalog ~ .sub-nav > *,
 .touchevents .products-card ~ .sub-nav > *{
-	width: calc(100vw - 120px);
-	/*window's width - sidebar's width*/
 	visibility: hidden;
 	opacity: 0;
 	will-change: width, height;
@@ -142,8 +140,6 @@
 
 .touchevents .catalog ~ .sub-nav.sub-nav-opened,
 .touchevents .products-card ~ .sub-nav.sub-nav-opened{
-	width: calc(100vw - 120px);
-	/*window's width - sidebar's width*/
 	height: 100vh;
 	border-radius: 0;
 	-webkit-transform: translate(0, 0);
@@ -156,6 +152,13 @@
 	opacity: 1;
 	-webkit-transition-delay: 0.2s;
 	transition-delay: 0.2s;
+}
+.touchevents .catalog ~ .sub-nav > *,
+.touchevents .products-card ~ .sub-nav > *,
+.touchevents .catalog ~ .sub-nav.sub-nav-opened,
+.touchevents .products-card ~ .sub-nav.sub-nav-opened{
+	width: calc(100vw - 120px);
+	/*window's width - sidebar's width*/
 }
 /*sub navigation end*/
 /*MAIN end*/

@@ -223,6 +223,38 @@ h2 {
 	padding-top: 0;
 }
 /*products filter end*/
+
+/*sub navigation*/
+.touchevents .catalog ~ .sub-nav.sub-nav-opened,
+.touchevents .products-card ~ .sub-nav.sub-nav-opened{
+	height: calc(100vh - 50px);
+}
+.touchevents .catalog ~ .sub-nav.sub-nav-opened,
+.touchevents .products-card ~ .sub-nav.sub-nav-opened,
+.touchevents .catalog ~ .sub-nav > *,
+.touchevents .products-card ~ .sub-nav > *{
+	width: calc(100vw);
+}
+.sub-nav__align {
+	height: calc(100vh - 59px - 50px);
+}
+.sub-nav__list a,
+.all-ranges a {
+	padding: 12px 20px 12px 11px;
+}
+.sub-nav__list a svg {
+	width: 36px;
+	height: 36px;
+	margin-right: 6px;
+}
+.all-ranges{
+	height: 60px;
+}
+.sub-nav-opened + .btn-subnav {
+	width: 60px;
+	height: 60px;
+}
+/*sub navigation end*/
 /*MAIN end*/
 
 /*info bar*/

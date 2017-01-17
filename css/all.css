@@ -4758,7 +4758,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 .all-ranges a{
 	display: block;
 	position: relative;
-	padding: 20px;
+	padding: 20px 20px 20px 11px;
 	font-family: 'PT Serif', serif;
 	font-weight: 400;
 	font-size: 1.2rem;
@@ -4782,9 +4782,9 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 .sub-nav__list a svg {
 	display: inline-block;
 	vertical-align: middle;
-	width: 32px;
+	width: 50px;
 	height: 50px;
-	margin-right: 22px;
+	margin-right: 13px;
 }
 .sub-nav__list a svg path{
 	-webkit-transition-property: fill;
@@ -4798,7 +4798,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	vertical-align: middle;
 }
 .sub-nav__list a svg + span{
-	width: calc(100% - 54px - 10px);
+	width: calc(100% - 63px - 10px);
 	/*100% - icon's width and margin right - 10px*/
 }
 .no-touchevents .sub-nav__list a:hover,
@@ -4865,7 +4865,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	height: 22px;
 	left: 50%;
 	top: 50%;
-	margin: -11px 0 0 -11px;
+	margin: -11px 0 0 -13px;
 	-webkit-transition-property: visibility, opacity;
 	transition-property: visibility, opacity;
 	-webkit-transition-duration: 0.2s;
