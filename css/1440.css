@@ -109,6 +109,69 @@ h2 {
 }
 /*foreign end*/
 
+/*product card*/
+.card-figure{
+	right: 500px;
+}
+.card-description{
+	width: 440px;
+	margin-right: 40px;
+	padding: 40px 0;
+}
+.card-description__layout{
+	min-height: calc(100vh - 40px*2);
+}
+.set + .card-description__layout{
+	min-height: calc(100vh - (128px + 40px*2));
+}
+.card-caption {
+	padding: 2em;
+}
+.card-info__value {
+	font-size: 1.8rem;
+	line-height: 1.4;
+}
+
+.set__list a,
+.set__all-prod{
+	height: 44px;
+	font-size: 1.4rem;
+	line-height: 44px;
+}
+.card-caption__title{
+	font-size: 3.0rem;
+	line-height: 1.4;
+}
+.set__select select,
+.set__select button.cselect .select-inner,
+div.cselect .ui-multiselect-checkboxes label {
+	padding-top: 11px;
+	padding-bottom: 11px;
+	padding-left: 13px;
+}
+.set__select select{
+	height: 44px;
+}
+/*product card end*/
+
+/*sub navigation*/
+.sub-nav__align {
+	height: calc(100vh - 67px);
+}
+.sub-nav__list a,
+.all-ranges a {
+	padding: 14px 20px;
+}
+.sub-nav__list a svg {
+	width: 40px;
+	height: 40px;
+	margin-right: 10px;
+}
+.all-ranges{
+	height: 68px;
+}
+/*sub navigation end*/
+
 /*SIDEBAR*/
 /*main navigation*/
 .main-nav ul { padding: 0; }

@@ -2252,17 +2252,25 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 
 .card-figure{
 	position: fixed;
-	left: 400px;
+	left: 325px;
+	right: 700px;
+	top: 0;
+	padding: 0 40px;
 	height: 100vh;
-	width: calc(100% - 600px - 570px);
 	z-index: 5;
+}
+.card-figure__layout{
+	position: relative;
+	height: 100%;
+	max-width: 760px;
+	margin: 0 auto;
 }
 .card-img{
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	width: 50%;
-	height: calc(100% - 65px*2);
+	width: calc(100% - 70px*2);
+	height: 80%;
 	-webkit-transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
@@ -2273,7 +2281,6 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	top: 0;
 	width: 100%;
 	height: 100%;
-	background: no-repeat -9999px -9999px;
 
 	opacity: 0;
 	visibility: hidden;
@@ -2282,25 +2289,15 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	-webkit-transition-duration: 0.6s;
 	transition-duration: 0.6s;
 }
-.card-img__item:before{
-	content: '';
+.card-img__item img{
 	position: absolute;
-	background: url(../img/bottle-shadow.png) no-repeat;
-	height: 79px;
-	width: 842px;
-	left: -225px;
-	bottom: -23px;
-	z-index: -1;
-}
-.card-img__item:after{
-	content: '';
-	display: block;
-	width: 100%;
-	height: 100%;
-	background: no-repeat 50% 100%;
-	background-image: inherit;
-	-webkit-background-size: contain;
-	background-size: contain;
+	left: 50%;
+	top: 50%;
+	max-width: 100%;
+	max-height: 100%;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 }
 .card-img__item.active{
 	opacity: 1;
@@ -2311,17 +2308,23 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	min-height: 100vh;
 	width: 600px;
 	margin-left: auto;
-	margin-right: 6%;
-	padding: 6vh 0;
+	margin-right: 80px;
 	color: #fff;
 	text-align: right;
 	background: rgba(0, 0, 0, 0.08);
+	padding: 80px 0;
 }
-.card-description:before{
+.card-description__layout{
+	min-height: calc(100vh - 80px*2);
+}
+.set + .card-description__layout{
+	min-height: calc(100vh - (140px + 80px*2));
+}
+.card-description__layout:before{
 	content: '';
 	display: inline-block;
 	vertical-align: middle;
-	height: 100%;
+	min-height: inherit;
 }
 .card-description__align{
 	display: inline-block;
@@ -2332,7 +2335,9 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 
 .set{
 	position: relative;
-	padding-bottom: 6vh;
+	padding-bottom: 40px;
+	width: calc(100% - 10px);
+	margin-left: auto;
 }
 .set__list{
 	display: table;
@@ -2391,7 +2396,6 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 }
 
 .set__row{
-	height: 50px;
 	position: relative;
 	padding-right: 150px;
 }
@@ -2439,6 +2443,9 @@ div.cselect .ui-multiselect-checkboxes label{
 	letter-spacing: 0.025em;
 	color: #3a3a3a;
 	padding: 14px 40px 14px 18px;
+}
+.set__select select{
+	height: 50px;
 }
 .set__select select,
 .set__select button.cselect .select-inner{
@@ -2616,6 +2623,12 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	line-height: 0;
 	letter-spacing: -4px;
 }
+.card-info__item:before{
+	content: '';
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+}
 .card-info__item:nth-child(even){
 	width: 60%;
 	border-left-width: 1px;
@@ -2742,6 +2755,10 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	-ms-transform: translate(0, -50%);
 	transform: translate(0, -50%);
 	z-index: 2;
+	display: none;
+}
+.card-figure .card-arrow{
+	display: block;
 }
 .card-arrow > span{
 	display: block;
@@ -2764,12 +2781,8 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	background-color: #fff;
 	border-color: #fff;
 }
-.card-arrow__prev{
-	left: 35px;
-}
-.card-arrow__next{
-	right: 35px;
-}
+.card-arrow__prev{ left: 0; }
+.card-arrow__next{ right: 0; }
 .card-arrow svg{
 	position: absolute;
 	left: 50%;
@@ -4132,6 +4145,11 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 		width: 50%;
 	}
 }
+@media only screen and (max-width: 399px){
+	.products__item{
+		width: 100%;
+	}
+}
 .products__inner{
 	display: block;
 	position: relative;
@@ -4758,7 +4776,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 .all-ranges a{
 	display: block;
 	position: relative;
-	padding: 20px 20px 20px 11px;
+	padding: 20px;
 	font-family: 'PT Serif', serif;
 	font-weight: 400;
 	font-size: 1.2rem;
@@ -4785,6 +4803,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	width: 50px;
 	height: 50px;
 	margin-right: 13px;
+	margin-left: -10px;
 }
 .sub-nav__list a svg path{
 	-webkit-transition-property: fill;
@@ -4872,7 +4891,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	transition-duration: 0.2s;
 }
 .btn-subnav svg path{
-	fill: #000;
+	fill: #024383;
 }
 .btn-subnav > i{
 	position: absolute;
@@ -4902,7 +4921,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	height: 2em;
 	width: 21em;
 	border-radius: 2em;
-	background: #000;
+	background: #024383;
 	-webkit-transition-property: background, -webkit-transform;
 	transition-property: background, transform;
 	-webkit-transition-duration: 0.2s;

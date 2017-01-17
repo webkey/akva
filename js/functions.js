@@ -66,6 +66,7 @@ function customSelect(select){
 			}
 			var classes = $(selectItem).attr('class');
 			selectArray[selectIndex] = $(selectItem).multiselect({
+				// appendTo: ".select",
 				header: false,
 				height: 'auto',
 				minWidth: 50,
@@ -784,6 +785,17 @@ function equalHeightInit() {
 	if ($productsList.length) {
 		$productsList.children().matchHeight({
 			byRow: false,
+			property: 'height',
+			target: null,
+			remove: false
+		});
+	}
+
+	var $cardInfo = $('.card-info');
+
+	if ($cardInfo.length) {
+		$cardInfo.children().matchHeight({
+			byRow: true,
 			property: 'height',
 			target: null,
 			remove: false

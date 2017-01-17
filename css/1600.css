@@ -17,6 +17,26 @@
 }
 /*main slider end*/
 
+/*product card*/
+.card-figure{
+	right: 560px;
+}
+.card-description{
+	width: 480px;
+}
+
+.card-info__item{
+	padding: 12px 20px;
+}
+.card-info__item svg{
+	margin-right: 20px;
+}
+.card-info__text {
+	width: calc(100% - 46px - 6px);
+	font-size: 1.4rem;
+}
+/*product card end*/
+
 /*SIDEBAR*/
 /*main navigation*/
 .main-nav{

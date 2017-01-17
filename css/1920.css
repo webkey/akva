@@ -1,7 +1,5 @@
 @media only screen and (max-width: 1919px){}
 /*info bar*/
-
-/*info bar end*/
 .info-bar__item {
 	padding: 1.5em 15px 1.5em 35px;
 }
@@ -14,6 +12,24 @@
 .info-bar__list dd{
 	padding-bottom: 1em;
 }
+/*info bar end*/
+
+/*product card*/
+.card-figure{
+	right: 620px;
+}
+.card-description{
+	width: 540px;
+	margin-right: 60px;
+	padding: 60px 0;
+}
+.card-description__layout{
+	min-height: calc(100vh - 60px*2);
+}
+.set + .card-description__layout{
+	min-height: calc(100vh - (140px + 60px*2));
+}
+/*product card end*/
 /*SIDEBAR*/
 /*main navigation*/
 .main-nav a{
