@@ -2291,20 +2291,43 @@ jQuery(document).ready(function(){
 		secondaryNav = new secondNav();
 	}
 
-	// var tl = new TimelineLite({paused: true});
-	// tl.to(".card-figure", 10, {scale: "0.5"});
-	// $('.main').on('click', function () {
-	// 	tl.progress(0.5);
-	// });
+	function scrollAnimation(){
+		//normal scroll - use requestAnimationFrame (if defined) to optimize performance
+		(!window.requestAnimationFrame) ? animateSection() : window.requestAnimationFrame(animateSection);
+	}
 
-	// var lastScrollTop = -1;
-	// $('.main').scroll(function() {
-	// 	var scrollPosition = $(this).scrollTop();
-	// 	if (scrollPosition > lastScrollTop) {
-	// 		TweenMax.to(".card-figure", 0, {scale: "-=0.01", ease:SteppedEase.config(1)});
-	// 	} else {
-	// 		TweenMax.to(".card-figure", 0, {scale: "+=0.01", ease:SteppedEase.config(1)});
-	// 	}
-	// 	lastScrollTop = scrollPosition;
-	// });
+	$('.main').on('scroll', scrollAnimation);
+
+	function animateSection() {
+		var scrollTop = $('.main').scrollTop(),
+			windowHeight = $('.main').height();
+
+		var animationValues = setSectionAnimation(scrollTop, windowHeight);
+
+		transformSection(
+			animationValues[0],
+			animationValues[1]
+		);
+	}
+
+	function transformSection(scaleValue, opacityValue) {
+		// $('.card-figure').velocity({
+		// 	scale: scaleValue,
+		// 	opacity: opacityValue
+		// }, 0);
+		TweenMax.to(".card-figure", 0, {
+			scale: scaleValue,
+			opacity: opacityValue
+		});
+	}
+
+	function setSectionAnimation(sectionOffset, windowHeight ) {
+		var scale = 1,
+			opacity = 1;
+
+		scale = (1 - ( sectionOffset * 0.3/windowHeight)).toFixed(5);
+		opacity = ( 1 - ( sectionOffset/windowHeight) ).toFixed(5);
+
+		return [scale, opacity];
+	}
 });
