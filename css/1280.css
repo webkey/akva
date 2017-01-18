@@ -145,12 +145,17 @@
 /*products filter end*/
 
 /*product card*/
-.card-figure {
-	right: 430px;
+.card-figure,
+.card-arrows{
+	right: 440px;
 }
-.card-description {
+.set{
+	width: calc(360px - 10px);
+}
+.card-description{
 	width: 360px;
 }
+
 .card-info__item,
 .card-info__item:nth-child(even){
 	width: 100%;

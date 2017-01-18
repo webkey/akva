@@ -2290,4 +2290,21 @@ jQuery(document).ready(function(){
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();
 	}
+
+	// var tl = new TimelineLite({paused: true});
+	// tl.to(".card-figure", 10, {scale: "0.5"});
+	// $('.main').on('click', function () {
+	// 	tl.progress(0.5);
+	// });
+
+	// var lastScrollTop = -1;
+	// $('.main').scroll(function() {
+	// 	var scrollPosition = $(this).scrollTop();
+	// 	if (scrollPosition > lastScrollTop) {
+	// 		TweenMax.to(".card-figure", 0, {scale: "-=0.01", ease:SteppedEase.config(1)});
+	// 	} else {
+	// 		TweenMax.to(".card-figure", 0, {scale: "+=0.01", ease:SteppedEase.config(1)});
+	// 	}
+	// 	lastScrollTop = scrollPosition;
+	// });
 });

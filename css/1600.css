@@ -18,11 +18,19 @@
 /*main slider end*/
 
 /*product card*/
-.card-figure{
-	right: 560px;
+
+.card-figure,
+.card-arrows{
+	right: 600px;
+}
+.set{
+	width: calc(480px - 10px);
+	margin-top: 60px;
+	margin-right: 60px;
 }
 .card-description{
 	width: 480px;
+	margin-right: 60px;
 }
 
 .card-info__item{

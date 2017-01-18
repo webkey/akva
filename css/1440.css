@@ -110,19 +110,24 @@ h2 {
 /*foreign end*/
 
 /*product card*/
-.card-figure{
-	right: 500px;
+.card-figure,
+.card-arrows{
+	right: 520px;
+	left: 365px;
+}
+.set{
+	width: calc(440px - 10px);
+	margin-top: 40px;
+	margin-right: 40px;
 }
 .card-description{
 	width: 440px;
 	margin-right: 40px;
-	padding: 40px 0;
 }
-.card-description__layout{
-	min-height: calc(100vh - 40px*2);
-}
-.set + .card-description__layout{
-	min-height: calc(100vh - (128px + 40px*2));
+.set ~ .card-description{
+	margin-top: 128px;
+	min-height: calc(100vh - 128px);
+	/*100vh - total height of .set*/
 }
 .card-caption {
 	padding: 2em;
@@ -130,6 +135,7 @@ h2 {
 .card-info__value {
 	font-size: 1.8rem;
 	line-height: 1.4;
+	padding-bottom: 0.4em;
 }
 
 .set__list a,
