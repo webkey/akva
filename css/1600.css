@@ -1,6 +1,6 @@
 @media only screen and (max-width: 1599px){}
 /*main slider*/
-.main-slider{
+.index .main-slider{
 	height: calc(100vh - 100px);
 }
 
