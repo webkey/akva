@@ -159,6 +159,7 @@
 .card-info__item,
 .card-info__item:nth-child(even){
 	width: 100%;
+	border-left-width: 0;
 }
 /*product card end*/
 

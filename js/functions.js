@@ -2121,7 +2121,17 @@ function upZindex() {
  * image lazy load
  * */
 function imgLazyLoad() {
-	$('.products__img img').unveil();
+	var $productsImg = $('.products__img');
+
+	if ($productsImg.length) {
+		$productsImg.find('img').unveil();
+	}
+
+	var $cardImages = $('.card-figure');
+
+	if ($cardImages.length) {
+		$cardImages.find('img').unveil();
+	}
 }
 /*image lazy load end*/
 

@@ -25,4 +25,59 @@
 	margin-top: -20em;
 }
 /*main slider end*/
+
+/*product card*/
+.set__list a{
+	font-size: 1.2rem;
+}
+.set__select select,
+.set__select button.cselect .select-inner,
+div.cselect .ui-multiselect-checkboxes label{
+	font-size: 14px;
+}
+.set,
+.card-description,
+.card-feature__short .card-caption__title {
+	width: 300px;
+}
+.card-arrow{
+	height: 40em;
+	width: 40em;
+}
+.card-feature__short .card-caption__title{
+	font-size: 2rem;
+	padding-top: 20px;
+}
+.active .card-feature__full {
+	padding: 20px 0;
+}
+.card-caption {
+	padding: 1em;
+}
+/*--for device--*/
+.touchevents .card-figure{
+	height: 320px;
+}
+.touchevents .card-description .card-feature__item{
+	padding-top: 320px;
+}
+/*--for device end--*/
+/*product card end*/
+
+/*sub navigation*/
+.touchevents .catalog ~ .sub-nav,
+.touchevents .products-card ~ .sub-nav{
+	width: 40px;
+	height: 40px;
+}
+.btn-subnav {
+	width: 40px;
+	height: 40px;
+}
+.btn-subnav svg {
+	width: 18px;
+	height: 18px;
+	margin: -9px 0 0 -11px;
+}
+/*sub navigation end*/
 /*MAIN end*/

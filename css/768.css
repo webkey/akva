@@ -224,6 +224,23 @@ h2 {
 }
 /*products filter end*/
 
+/*product card*/
+.card-figure,
+.card-arrows,
+.card-feature__short .card-caption__foot {
+	right: 20px;
+	left: 20px;
+}
+.card-arrows {
+	margin-top: 60px;
+}
+.set,
+.card-description,
+.card-feature__short .card-caption__title {
+	width: 460px;
+}
+/*product card end*/
+
 /*sub navigation*/
 .touchevents .catalog ~ .sub-nav.sub-nav-opened,
 .touchevents .products-card ~ .sub-nav.sub-nav-opened{
