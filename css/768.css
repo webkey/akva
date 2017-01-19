@@ -228,8 +228,8 @@ h2 {
 .card-figure,
 .card-arrows,
 .card-feature__short .card-caption__foot {
-	right: 20px;
-	left: 20px;
+	right: 30px;
+	left: 30px;
 }
 .card-arrows {
 	margin-top: 60px;
@@ -237,7 +237,29 @@ h2 {
 .set,
 .card-description,
 .card-feature__short .card-caption__title {
-	width: 460px;
+	width: 420px;
+}
+.card-arrows{
+	top: auto;
+	bottom: 45px;
+	margin: 0;
+	right: auto;
+	width: 130px;
+}
+.card-arrow{
+	margin: 0;
+}
+.card-arrow > span{
+	background: #fff;
+}
+.card-arrow > span svg path{
+	fill: #024383;
+}
+.active .card-feature__full {
+	padding-bottom: 90px;
+}
+.touchevents .overlay-panel{
+	display: block;
 }
 /*product card end*/
 

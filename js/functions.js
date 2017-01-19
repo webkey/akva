@@ -731,30 +731,66 @@ function toggleSubNav() {
  * */
 function subNavState() {
 	var $subNav = $('.sub-nav');
+
 	if ($subNav.length) {
 		var $subNavWrap = $('.sub-nav__align');
 		var $subNavList = $('.sub-nav__list');
 		var modifiers = {
 			hasScroll: 'nav-has-scroll',
-			isScrolled: 'nav-is-scrolled'
+			isScrolled: 'nav-is-scrolled',
+			scrollEnd: 'nav-scroll-end'
 		};
 
 		$(window).on('load resize', function () {
 			$subNav.toggleClass(modifiers.hasScroll, ($subNavWrap.outerHeight() < $subNavList.outerHeight()));
 
 			setScroll();
+			scrollEnd();
 		});
 
 		$subNavWrap.on('scroll', function () {
 			setScroll();
+			scrollEnd();
 		});
 
 		function setScroll() {
-			$subNav.toggleClass(modifiers.isScrolled, $subNavWrap.scrollTop() > 0);
+			$subNav.toggleClass(modifiers.isScrolled, $subNavWrap.scrollTop() > 10);
 		}
 
-		// sub nav for mobile (viewport < 480 px)
+		function scrollEnd() {
+			$subNav.toggleClass(modifiers.scrollEnd, $subNavWrap.scrollTop() >= ($subNavList.outerHeight() - $subNavWrap.outerHeight() - 10));
+		}
+	}
 
+	// sub nav for mobile (viewport < 480 px)
+	if (window.innerWidth < 480 && $subNav.length) {
+		getSubNavItemHeight();
+	}
+
+	$(window).on('resize', function () {
+		if ($subNav.length) {
+			getSubNavItemHeight(false);
+			if (window.innerWidth < 480) {
+				getSubNavItemHeight();
+			}
+		}
+	});
+
+	function getSubNavItemHeight() {
+		var heightLayout = window.innerHeight - 109;
+		var $subNavItem = $subNavList.find('a');
+
+		if ( arguments[0] === false ) {
+			console.log(1);
+
+			$subNavItem.css('height', 'auto');
+
+			return;
+		}
+
+		$.each($subNavItem, function () {
+			$(this).css('height', (heightLayout / ($subNavItem.length / 2)).toFixed(0));
+		})
 	}
 }
 /*change sub navigation's state end*/

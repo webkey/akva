@@ -38,18 +38,22 @@ div.cselect .ui-multiselect-checkboxes label{
 .set,
 .card-description,
 .card-feature__short .card-caption__title {
-	width: 300px;
+	width: auto;
+	margin: 0 20px;
 }
-.card-arrow{
-	height: 40em;
-	width: 40em;
+.set{
+	padding-top: 20px;
+}
+.card-arrows{
+	width: 120px;
 }
 .card-feature__short .card-caption__title{
 	font-size: 2rem;
 	padding-top: 20px;
 }
 .active .card-feature__full {
-	padding: 20px 0;
+	padding-top: 20px;
+	padding-bottom: 90px;
 }
 .card-caption {
 	padding: 1em;
@@ -65,20 +69,36 @@ div.cselect .ui-multiselect-checkboxes label{
 /*product card end*/
 
 /*sub navigation*/
-.touchevents .catalog ~ .sub-nav,
-.touchevents .products-card ~ .sub-nav{
-	width: 40px;
-	height: 40px;
-}
 .sub-nav__list > li {
 	width: 50%;
 	float: left;
 }
+.all-ranges{
+	display: none;
+	position: relative;
+	left: auto;
+	top: auto;
+	bottom: auto;
+	right: auto;
+}
 .sub-nav__list > li.all-ranges{
 	display: block;
+	height: auto;
 }
 .sub-nav__list a {
 	border-width: 0 1px 1px 0;
+	padding: 12px 10px;
+}
+.sub-nav__list a:before{
+	content: '';
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+}
+.sub-nav__list a > div{
+	display: inline-block;
+	vertical-align: middle;
+	width: calc(100% - 5px);
 }
 .sub-nav__list a svg {
 	display: block;
@@ -91,10 +111,6 @@ div.cselect .ui-multiselect-checkboxes label{
 	width: auto;
 	display: block;
 	text-align: center;
-}
-.btn-subnav {
-	width: 40px;
-	height: 40px;
 }
 .btn-subnav svg {
 	width: 18px;
