@@ -112,6 +112,7 @@
 	opacity: 1;
 }
 
+.touchevents .sub-nav{ display: none; }
 .touchevents .catalog ~ .sub-nav,
 .touchevents .products-card ~ .sub-nav{
 	position: fixed;
@@ -121,9 +122,6 @@
 	right: 0;
 	visibility: visible;
 	opacity: 1;
-	width: 50px;
-	height: 50px;
-	border-radius: 30px;
 	overflow: hidden;
 	-webkit-transform: translate(-20px, -20px);
 	-ms-transform: translate(-20px, -20px);
@@ -143,7 +141,16 @@
 	-webkit-transition-duration: 0.33s;
 	transition-duration: 0.33s;
 }
-.touchevents .btn-subnav{
+.btn-subnav,
+.sub-nav{
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+}
+.touchevents .catalog ~ .btn-subnav,
+.touchevents .products-card ~ .btn-subnav,
+.touchevents .catalog ~ .sub-nav,
+.touchevents .products-card ~ .sub-nav{
 	display: block;
 }
 
