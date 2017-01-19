@@ -752,6 +752,9 @@ function subNavState() {
 		function setScroll() {
 			$subNav.toggleClass(modifiers.isScrolled, $subNavWrap.scrollTop() > 0);
 		}
+
+		// sub nav for mobile (viewport < 480 px)
+
 	}
 }
 /*change sub navigation's state end*/
@@ -2456,6 +2459,4 @@ jQuery(document).ready(function(){
 	}
 
 	behaviorElements();
-
-	alert('w: ' + window.innerWidth + "; h: " + window.innerHeight);
 });

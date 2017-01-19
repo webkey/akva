@@ -4711,6 +4711,9 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 .sub-nav__list > li{
 	width: inherit;
 }
+.sub-nav__list > li.all-ranges{
+	display: none;
+}
 .sub-nav__list a,
 .all-ranges a{
 	display: block;
