@@ -39,9 +39,9 @@ h2 {
 
 /*MAIN*/
 /*main slider*/
-.main-slider{
+.index .main-slider{
 	min-height: calc(100vh - 50px);
-	height: 640px;
+	height: 480px;
 }
 
 .main-slider-caption .main-slider__counter,
