@@ -1094,6 +1094,7 @@ function secondNav() {
 		setScroll();
 		setActions();
 		showSide();
+		historyPeriodsFixed();
 	};
 
 	var tweenScroll = new TimelineLite();
@@ -1314,6 +1315,19 @@ function secondNav() {
 					'</li>'
 				)
 		}
+	};
+
+	var historyPeriodsFixed = function () {
+		$scrollArea.on('scroll', function () {
+			var scrollTopPosition = $scrollArea.scrollTop();
+			var $activeBlock = $('.section-history');
+			var offsetStart = $activeBlock.position().top;
+			var $activeNav = $('.section-aside__history');
+			var offsetEnd = offsetStart + $activeBlock.outerHeight() - $activeNav.outerHeight();
+
+			$activeBlock.toggleClass('fixed-history-periods', scrollTopPosition > offsetStart);
+			$activeBlock.toggleClass('hide-history-periods', scrollTopPosition > offsetEnd);
+		})
 	};
 
 	self.initialize()
