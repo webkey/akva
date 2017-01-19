@@ -2268,6 +2268,7 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	-webkit-transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
+	cursor: url(../img/cursor-zoom-in.png), pointer;
 }
 .card-img__item.active{
 	opacity: 1;

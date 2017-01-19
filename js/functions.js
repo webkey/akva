@@ -218,45 +218,47 @@ function printShow() {
 }());
 
 function parallaxMainSlider() {
-	var delta = 30;
-	var img = '.index .main-slider-img';
+	if (DESKTOP && window.innerWidth > 767) {
+		var delta = 30;
+		var img = '.index .main-slider-img';
 
-	if (document.querySelector(img)) {
-		new ParallaxJs({
-			parallaxElement: img,
-			parallaxArea: '.wrapper',
-			parallaxDelta: delta
-		});
-	}
+		if (document.querySelector(img)) {
+			new ParallaxJs({
+				parallaxElement: img,
+				parallaxArea: '.wrapper',
+				parallaxDelta: delta
+			});
+		}
 
-	var caption = '.index .main-slider-caption__holder';
+		var caption = '.index .main-slider-caption__holder';
 
-	if (document.querySelector(caption)) {
-		new ParallaxJs({
-			parallaxElement: '.main-slider-caption__holder',
-			parallaxArea: '.wrapper',
-			parallaxDelta: delta
-		});
-	}
+		if (document.querySelector(caption)) {
+			new ParallaxJs({
+				parallaxElement: '.main-slider-caption__holder',
+				parallaxArea: '.wrapper',
+				parallaxDelta: delta
+			});
+		}
 
-	var desk = '.index .main-slider-desks';
+		var desk = '.index .main-slider-desks';
 
-	if (document.querySelector(desk)) {
-		new ParallaxJs({
-			parallaxElement: desk,
-			parallaxArea: '.wrapper',
-			parallaxDelta: delta
-		});
-	}
+		if (document.querySelector(desk)) {
+			new ParallaxJs({
+				parallaxElement: desk,
+				parallaxArea: '.wrapper',
+				parallaxDelta: delta
+			});
+		}
 
-	var bg = '.index .main-slider-bg';
+		var bg = '.index .main-slider-bg';
 
-	if (document.querySelector(bg)) {
-		new ParallaxJs({
-			parallaxElement: bg,
-			parallaxArea: '.wrapper',
-			parallaxDelta: delta + 30
-		});
+		if (document.querySelector(bg)) {
+			new ParallaxJs({
+				parallaxElement: bg,
+				parallaxArea: '.wrapper',
+				parallaxDelta: delta + 30
+			});
+		}
 	}
 }
 /**
@@ -286,7 +288,8 @@ function mainSlider() {
 		images,
 		'.ms-bg-js',
 		'.ms-desks-js',
-		'.ms-title-js'
+		'.ms-title-js',
+		'.ms-description-js'
 		// '.ms-dots-js button'
 	];
 
@@ -2102,10 +2105,11 @@ function modalWindowInit() {
 	});
 
 	// modal img
-	$body.on('click', '.slick-current .modal-img', function() {
-		var href = $(this).attr('href');
-		var alt = $(this).find('img').attr('alt');
-		var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container"><div class="modal__img__wrap"><img src="' + href +'" alt="' + alt + '" /></div></div></div><a class="modal__close"><span>Close</span></a></div></div>';
+	$body.on('click', '.modal-img', function() {
+		var src = $(this).attr('href') || $(this).attr('data-img-zoom');
+		console.log("src: ", src);
+		var alt = $(this).find('img').attr('alt') || $(this).attr('alt');
+		var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container"><div class="modal__img__wrap"><img src="' + src +'" alt="' + alt + '" /></div></div></div><a class="modal__close"><span>Close</span></a></div></div>';
 
 		$body.addClass('body--no-scroll');
 		$body.append(data);
