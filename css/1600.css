@@ -40,7 +40,7 @@
 	margin-right: 20px;
 }
 .card-info__text {
-	width: calc(100% - 46px - 6px);
+	width: calc(100% - 46px - 10px);
 	font-size: 1.4rem;
 }
 /*product card end*/

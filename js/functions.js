@@ -276,7 +276,7 @@ function mainSlider() {
 		activeClassPrev = 'active-prev',
 		activeClassNext = 'active-next',
 		hideClass = 'hide',
-		touchSwipe = false,
+		touchSwipe = true,
 		index = 0,
 		indexNext, indexPrev;
 
@@ -332,19 +332,9 @@ function mainSlider() {
 		var length = $currentBtn.closest($container).find(images).length;
 
 		if ($currentBtn.data('direction') === "prev") {
-			if (index <= 0) {
-				index = index - 1 + length;
-			} else {
-				index = index - 1;
-			}
-			$currentSlider.trigger('showedPrevSliderItem');
+			mainSliderToPrevSlide($currentSlider, length);
 		} else {
-			if (index >= length - 1) {
-				index = index + 1 - length;
-			} else {
-				index = index + 1;
-			}
-			$currentSlider.trigger('showedNextSliderItem');
+			mainSliderToNextSlide($currentSlider, length);
 		}
 
 		// switchStateTab($currentSlider,$tab);
@@ -355,32 +345,26 @@ function mainSlider() {
 		return index;
 	});
 
-	if (touchSwipe) {
+	if (touchSwipe && !DESKTOP && window.innerWidth < 768) {
 		$($container).swipe({
-			swipeRight: function (e) {
+			swipeRight: function () {
+
 				var $currentSlider = $(this);
 				var length = $currentSlider.find(images).length;
 
-				if (index <= 0) {
-					index = index - 1 + length;
-				} else {
-					index = index - 1;
-				}
+				mainSliderToPrevSlide($currentSlider, length);
 
 				switchStateTab($currentSlider, $tab, index);
 
 				slidesCounter($currentSlider, index, length);
 
 				return index;
-			}, swipeLeft: function (e) {
+			}, swipeLeft: function () {
+
 				var $currentSlider = $(this);
 				var length = $currentSlider.find(images).length;
 
-				if (index >= length - 1) {
-					index = index + 1 - length;
-				} else {
-					index = index + 1;
-				}
+				mainSliderToNextSlide($currentSlider, length);
 
 				switchStateTab($currentSlider, $tab, index);
 
@@ -389,6 +373,24 @@ function mainSlider() {
 				return index;
 			}
 		});
+	}
+
+	function mainSliderToPrevSlide(slider, length) {
+		if (index <= 0) {
+			index = index - 1 + length;
+		} else {
+			index = index - 1;
+		}
+		slider.trigger('showedPrevSliderItem');
+	}
+
+	function mainSliderToNextSlide(slider, length) {
+		if (index >= length - 1) {
+			index = index + 1 - length;
+		} else {
+			index = index + 1;
+		}
+		slider.trigger('showedNextSliderItem');
 	}
 
 	function switchStateTab(content,tab,index) {
@@ -781,7 +783,6 @@ function subNavState() {
 		var $subNavItem = $subNavList.find('a');
 
 		if ( arguments[0] === false ) {
-			console.log(1);
 
 			$subNavItem.css('height', 'auto');
 
@@ -2352,16 +2353,24 @@ function behaviorElements() {
 
 	if ($('.card').length ) {
 		$('.ms-js').on('showedPrevSliderItem showedNextSliderItem', function () {
-			if (DESKTOP && window.innerWidth < viewport && $('.info-js').hasClass('full-info')) {
-				var elementHeight = Math.max.apply(Math, $('.card-feature__short .card-caption__title').map(function () {
-					return $(this).outerHeight(true);
-				}).get());
+			if (window.innerWidth < viewport && $('.info-js').hasClass('full-info')) {
+				if (DESKTOP) {
+					var elementHeight = Math.max.apply(Math, $('.card-feature__short .card-caption__title').map(function () {
+						return $(this).outerHeight(true);
+					}).get());
 
-				TweenMax.to($('.main'), 0.6, {
-					scrollTo: {
-						y: $(window).height() - elementHeight
-					}, ease: Power2.easeInOut
-				});
+					TweenMax.to($('.main'), 0.6, {
+						scrollTo: {
+							y: $(window).height() - elementHeight
+						}, ease: Power2.easeInOut
+					});
+				} else {
+					TweenMax.to($('.main'), 0.6, {
+						scrollTo: {
+							y: 0
+						}, ease: Power2.easeInOut
+					});
+				}
 			}
 		})
 	}
@@ -2489,10 +2498,9 @@ jQuery(document).ready(function(){
 	imgLazyLoad();
 	filtersProducts();
 	toggleInfo();
+	behaviorElements();
 
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();
 	}
-
-	behaviorElements();
 });
