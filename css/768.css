@@ -225,6 +225,19 @@ h2 {
 }
 /*production section end*/
 
+/*foreign*/
+.foreign {
+	padding-top: 0;
+}
+.foreign__tab a > span {
+	padding: 5% 8%;
+	font-size: 1.2rem;
+}
+.foreign__panel {
+	padding: 0;
+}
+/*foreign end*/
+
 /*products filter*/
 .products-filter{
 	position: relative;

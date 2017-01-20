@@ -814,17 +814,6 @@ function equalHeightInit() {
 		});
 	}
 
-	var $foreignNav = $('.foreign__nav');
-
-	if ($foreignNav.length) {
-		$foreignNav.children().matchHeight({
-			byRow: true,
-			property: 'height',
-			target: null,
-			remove: false
-		});
-	}
-
 	var $productsList = $('.products__list');
 
 	if ($productsList.length) {
@@ -847,10 +836,32 @@ function equalHeightInit() {
 		});
 	}
 
+	var $foreignNav = $('.foreign__nav');
+
+	if ($foreignNav.length) {
+		$foreignNav.children().matchHeight({
+			byRow: true,
+			property: 'height',
+			target: null,
+			remove: false
+		});
+	}
+
 	var $foreignTitles = $('.foreign__titles');
 
 	if ($foreignTitles.length) {
 		$foreignTitles.children().matchHeight({
+			byRow: false,
+			property: 'height',
+			target: null,
+			remove: false
+		});
+	}
+
+	var $foreignPanels = $('.foreign__panels');
+
+	if ($foreignPanels.length) {
+		$foreignPanels.children().matchHeight({
 			byRow: false,
 			property: 'height',
 			target: null,
