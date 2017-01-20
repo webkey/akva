@@ -182,6 +182,13 @@ h2 {
 }
 /*guide end*/
 
+/*history section*/
+.fixed-history-periods .section-aside__history {
+	top: 50px;
+	left: 0;
+}
+/*history section end*/
+
 /*water section*/
 .section-water .section-bottom-spacer,
 .section-water{
@@ -194,6 +201,29 @@ h2 {
 	max-height: 200px;
 }
 /*technologies section end*/
+
+/*production section*/
+.news-slider__list,
+.news-slider__list.slick-dotted{
+	padding: 0 0 40px;
+}
+.news-slider__img {
+	float: none;
+	width: auto;
+	margin: 0 0 1em;
+}
+.news-slider__counter {
+	left: 20px;
+	top: auto;
+	bottom: 15px;
+	font-size: 1.8rem;
+	color: #262626;
+	-webkit-transform: translate(0, 0);
+	-ms-transform: translate(0, 0);
+	transform: translate(0, 0);
+	margin-left: 0;
+}
+/*production section end*/
 
 /*products filter*/
 .products-filter{

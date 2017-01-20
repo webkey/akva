@@ -48,10 +48,29 @@
 /*section aside end*/
 /*about end*/
 
+/*benefits*/
+.benefits__list li {
+	padding: 35px 40px;
+	text-align: center;
+	overflow: visible;
+}
+.benefits__list li:after{
+	content: none;
+}
+.benefits__list svg {
+	position: absolute;
+	right: 50%;
+	bottom: 50%;
+	width: 76px;
+	height: 74px;
+	margin: 0 -38px -37px 0;
+	opacity: 0.8;
+}
+/*benefits end*/
+
 /*history section*/
 .section-history{
-	border: solid #d9d9d9;
-	border-width: 1px 0;
+	border: none;
 }
 .section-history .section__holder{
 	margin-right: 0;
@@ -64,12 +83,35 @@
 	left: 0;
 	top: 0;
 	width: 100%;
-	height: 70px;
+	height: auto;
+}
+.section-aside__history:before,
+.section-aside__history:after{
+	content: '';
+	position: absolute;
+	top: 0;
+	height: 100%;
+	width: 60px;
+	pointer-events: none;
+	z-index: 5;
+}
+.section-aside__history:before{
+	left: 0;
+	background: -moz-linear-gradient(left,  rgba(2,39,77,1) 0%, rgba(2,39,77,0) 100%);
+	background: -webkit-linear-gradient(left,  rgba(2,39,77,1) 0%,rgba(2,39,77,0) 100%);
+	background: linear-gradient(to right,  rgba(2,39,77,1) 0%,rgba(2,39,77,0) 100%);
+}
+.section-aside__history:after{
+	right: 0;
+	background: -moz-linear-gradient(left,  rgba(2,39,77,0) 0%, rgba(2,39,77,1) 100%);
+	background: -webkit-linear-gradient(left,  rgba(2,39,77,0) 0%,rgba(2,39,77,1) 100%);
+	background: linear-gradient(to right,  rgba(2,39,77,0) 0%,rgba(2,39,77,1) 100%);
 }
 .fixed-history-periods .section-aside__history {
 	position: fixed;
 	right: 0;
-	left: 170px;
+	top: 0;
+	left: 171px;
 	width: auto;
 }
 .hide-history-periods .section-aside__history {
@@ -85,34 +127,40 @@
 .section-aside__align {
 	display: block;
 	width: 100%;
+	padding: 0;
 }
 .section-aside__title {
-	font-size: 1.4rem;
-	line-height: 1.6;
 	display: none;
 }
+.history-periods{
+	overflow: hidden;
+}
 .history-periods li{
-	display: inline-block;
-	vertical-align: middle;
+	float: left;
+	width: 80px;
 }
 .history-periods li:before {
-	left: 50%;
-	top: 100%;
-	border-color: rgba(255, 255, 255, 0);
-	border-bottom-color: #fff;
-	border-width: 12px 8px;
-	margin: -12px 0 0 -8px;
-	-webkit-transform: translate(0, 100%);
-	-ms-transform: translate(0, 100%);
-	transform: translate(0, 100%);
+	content: none;
 }
 .animate-section .history-periods li.active:before {
 	-webkit-transform: translate(0, 0);
 	-ms-transform: translate(0, 0);
 	transform: translate(0, 0);
 }
-.history-periods a {
-	padding: 1.6vh 0;
+.history-periods a{
+	height: 70px;
+}
+.history-periods a:after {
+	content: '';
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+}
+.history-periods a span{
+	padding: 0;
+	display: inline-block;
+	vertical-align: middle;
+	width: calc(100% - 6px);
 }
 .animate-section .dart-top,
 .animate-section .dart-bottom {

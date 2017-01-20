@@ -846,6 +846,17 @@ function equalHeightInit() {
 			remove: false
 		});
 	}
+
+	var $foreignTitles = $('.foreign__titles');
+
+	if ($foreignTitles.length) {
+		$foreignTitles.children().matchHeight({
+			byRow: false,
+			property: 'height',
+			target: null,
+			remove: false
+		});
+	}
 }
 /* equal height end */
 
@@ -1387,6 +1398,7 @@ var secondaryNav;
 		self.toggleSwitcher();
 		self.toggleImageView();
 		self.hideImgView();
+		self.periodsSliderInit();
 	};
 
 	HistorySlider.prototype.initSwitcher = function() {
@@ -1731,6 +1743,61 @@ var secondaryNav;
 		})
 	};
 	/*images view toggle end*/
+
+	/*init history periods slider*/
+	HistorySlider.prototype.periodsSliderInit = function () {
+		var self = this;
+
+		var options = {
+			itemNav: 'forceCentered',
+			horizontal: 1,
+			smart: 1,
+			activateOn: 'click',
+			mouseDragging: 1,
+			touchDragging: 1,
+			releaseSwing: 1,
+			startAt: 0,
+			scrollBy: 0,
+			speed: 300,
+			elasticBounds: 1,
+			easing: 'easeOutExpo',
+			dragHandle: 1,
+			dynamicHandle: 1,
+			activeClass: 'current-slide',
+
+		};
+		var sly = new Sly($('.history-periods-wrap'), options, {
+			load: function () {
+				$(this.slidee).addClass('sly-init');
+			}
+		}).init();
+
+		if(window.innerWidth > 991) {
+			sly.destroy();
+		}
+
+		$(window).on('debouncedresize', function() {
+
+			if (window.innerWidth < 992 && !$(sly.slidee).hasClass('sly-init')) {
+
+				$(sly.slidee).addClass('sly-init');
+				sly.destroy().init();
+				sly.activate(self.currentSwitcher);
+
+			}
+
+			if (window.innerWidth > 991 && $(sly.slidee).hasClass('sly-init')) {
+
+				$(sly.slidee).removeClass('sly-init');
+				sly.destroy();
+
+			}
+
+			if ($(sly.slidee).hasClass('sly-init')) {
+				sly.reload();
+			}
+		});
+	};
 
 	HistorySlider.prototype.scrollToSection = function () {
 		var $scrollArea = $('.main');
@@ -2084,8 +2151,10 @@ function newsSliderInit() {
 				arrows: true,
 				responsive: [
 					{
-						breakpoint: 640,
-						settings: {}
+						breakpoint: 768,
+						settings: {
+							fade: false
+						}
 					}
 				]
 			}).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
