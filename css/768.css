@@ -540,3 +540,11 @@ h2 {
 	display: none;
 }
 /*side navigation end*/
+
+.modal__align{
+	padding: 0;
+}
+.modal__img__wrap img {
+	max-width: 100vw;
+	max-height: 100vh;
+}
