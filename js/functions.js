@@ -1116,7 +1116,6 @@ function secondNav() {
 		setScroll();
 		setActions();
 		showSide();
-		// historyPeriodsFixed();
 	};
 
 	var tweenScroll = new TimelineLite();
@@ -1338,19 +1337,6 @@ function secondNav() {
 		}
 	};
 
-	// var historyPeriodsFixed = function () {
-	// 	$scrollArea.on('scroll', function () {
-	// 		var scrollTopPosition = $scrollArea.scrollTop();
-	// 		var $activeBlock = $('.section-history');
-	// 		var offsetStart = $activeBlock.position().top;
-	// 		var $activeNav = $('.section-aside__history');
-	// 		var offsetEnd = offsetStart + $activeBlock.outerHeight() - $activeNav.outerHeight();
-	//
-	// 		$activeBlock.toggleClass('fixed-history-periods', scrollTopPosition > offsetStart);
-	// 		$activeBlock.toggleClass('hide-history-periods', scrollTopPosition > offsetEnd);
-	// 	})
-	// };
-
 	self.initialize()
 }
 
@@ -1409,6 +1395,7 @@ var secondaryNav;
 		self.toggleImageView();
 		self.hideImgView();
 		self.periodsSliderInit();
+		self.periodsFixed();
 	};
 
 	HistorySlider.prototype.initSwitcher = function() {
@@ -1809,6 +1796,19 @@ var secondaryNav;
 				sly.reload();
 			}
 		});
+	};
+
+	HistorySlider.prototype.periodsFixed = function () {
+		$('.main').on('scroll', function () {
+			var scrollTopPosition = $(this).scrollTop();
+			var $activeBlock = $('.section-history');
+			var offsetStart = $activeBlock.position().top;
+			var $activeNav = $('.section-aside__history');
+			var offsetEnd = offsetStart + $activeBlock.outerHeight() - $activeNav.outerHeight();
+
+			$activeBlock.toggleClass('fixed-history-periods', scrollTopPosition > offsetStart);
+			$activeBlock.toggleClass('hide-history-periods', scrollTopPosition > offsetEnd);
+		})
 	};
 
 	HistorySlider.prototype.scrollToSection = function () {
