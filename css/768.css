@@ -232,6 +232,9 @@ h2 {
 /*technologies section end*/
 
 /*production section*/
+.news-slider{
+	margin: 0 -20px 3.3em;
+}
 .news-slider__list,
 .news-slider__list.slick-dotted{
 	padding: 0 0 40px;
