@@ -29,6 +29,10 @@ h2 {
 .products-filter{
 	left: 0;
 }
+.slick-arrow{
+	width: 50px;
+	height: 50px;
+}
 /*MAIN BLOCKS end*/
 
 /*HEADER*/
@@ -200,6 +204,10 @@ h2 {
 /*about end*/
 
 /*history section*/
+.section-history .section__holder {
+	min-height: 420px;
+	padding-top: 80px;
+}
 .fixed-history-periods .section-aside__history {
 	top: 50px;
 	left: 0;
@@ -215,6 +223,9 @@ h2 {
 .history-periods li.active span {
 	-webkit-transform: scale(1, 1);
 	transform: scale(1, 1);
+}
+.history-periods a {
+	height: 50px;
 }
 /*history section end*/
 
@@ -233,7 +244,7 @@ h2 {
 
 /*production section*/
 .news-slider{
-	margin: 0 -20px 3.3em;
+	margin: 0 -20px;
 }
 .news-slider__list,
 .news-slider__list.slick-dotted{
@@ -243,6 +254,7 @@ h2 {
 	float: none;
 	width: auto;
 	margin: 0 0 1em;
+	height: 100px;
 }
 .news-slider__counter {
 	left: 20px;
@@ -254,6 +266,9 @@ h2 {
 	-ms-transform: translate(0, 0);
 	transform: translate(0, 0);
 	margin-left: 0;
+}
+.news-slider__title{
+	font-size: 2rem;
 }
 /*production section end*/
 

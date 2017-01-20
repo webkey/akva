@@ -2165,7 +2165,8 @@ function newsSliderInit() {
 					{
 						breakpoint: 768,
 						settings: {
-							fade: false
+							fade: false,
+							dots: false
 						}
 					}
 				]

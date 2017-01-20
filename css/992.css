@@ -149,6 +149,7 @@
 }
 .history-periods a{
 	height: 70px;
+	padding: 0;
 }
 .history-periods a:after {
 	content: '';
