@@ -703,7 +703,7 @@ function toggleSubNav() {
 	}
 
 	if (Modernizr.touchevents) {
-		$('body').on('click', '.btn-subnav-js', function (e) {
+		$('body').on('mousedown touchstart vmousedown', '.btn-subnav-js', function (e) {
 			e.preventDefault();
 
 			$subNav.toggleClass(activeClass);
@@ -711,11 +711,11 @@ function toggleSubNav() {
 			e.stopPropagation();
 		});
 
-		$subNav.on('click', function (e) {
+		$subNav.on('mousedown touchstart vmousedown', function (e) {
 			e.stopPropagation();
 		});
 
-		$(document).on('click', function () {
+		$(document).on('mousedown touchstart vmousedown', function () {
 			$subNav.removeClass(activeClass);
 		})
 	}
