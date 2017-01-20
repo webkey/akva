@@ -60,10 +60,15 @@ div.cselect .ui-multiselect-checkboxes label{
 }
 /*--for device--*/
 .touchevents .card-figure{
-	height: 320px;
+	/*height: 460px;*/
+	height: 550px;
 }
 .touchevents .card-description .card-feature__item{
-	padding-top: 320px;
+	/*padding-top: 460px;*/
+	padding-top: 550px;
+}
+.touchevents .card-img__item {
+	height: 80%;
 }
 /*--for device end--*/
 /*product card end*/
