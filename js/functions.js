@@ -1408,7 +1408,7 @@ var secondaryNav;
 		self.toggleSwitcher();
 		self.toggleImageView();
 		self.hideImgView();
-		self.periodsSliderInit();
+		// self.periodsSliderInit();
 	};
 
 	HistorySlider.prototype.initSwitcher = function() {
