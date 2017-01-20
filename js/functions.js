@@ -1701,7 +1701,7 @@ var secondaryNav;
 	HistorySlider.prototype.toggleImageView = function () {
 		var self = this;
 
-		self.$showPhotosBtn.on('click', function (e) {
+		self.$showPhotosBtn.on('mousedown touchstart vmousedown', function (e) {
 			e.preventDefault();
 
 			if (self.options.bgImg) {
@@ -1744,7 +1744,7 @@ var secondaryNav;
 	HistorySlider.prototype.hideImgView = function () {
 		var self = this;
 
-		self.$bgImg.on('click', function (e) {
+		self.$bgImg.on('mousedown touchstart vmousedown', function (e) {
 			e.preventDefault();
 
 			if (self.options.bgImg && self.bgImgShow) {
