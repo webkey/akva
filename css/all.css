@@ -152,6 +152,9 @@ img{
 	vertical-align: top;
 	max-width: 100%;
 }
+table img{
+	max-width: none;
+}
 .mark {
 	color: #006ad2;
 	font-style: inherit;
@@ -1640,7 +1643,7 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 	box-sizing: border-box;
 	opacity: 0.75;
-	z-index: 6;
+	z-index: 15;
 	text-indent: -9999px;
 	overflow: hidden;
 	cursor: pointer;
@@ -3181,6 +3184,8 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	position:absolute;
 	right: 45px;
 	bottom: 0;
+	width: 76px;
+	height: 72px;
 }
 .benefits__list svg text {
 	font-family: 'PT Serif', serif;
@@ -3362,7 +3367,6 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 .history-periods li{
 	position: relative;
 	font-family: 'PT Serif', serif;
-	font-weight: normal;
 	font-size: 2.8rem;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -3373,8 +3377,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	user-select: none;
 }
 .active-section .history-periods li.active{
-	font-family: 'PT Serif', serif;
-	font-weight: bold;
+	font-weight: 700;
 }
 
 .history-periods li:before{
@@ -3413,9 +3416,6 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	padding: 2vh 0;
 	text-decoration: none;
 	color: #fff;
-}
-.history-periods li:last-child a{
-	padding-bottom: 0;
 }
 
 .history-periods li span{
@@ -3594,6 +3594,9 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	float: left;
 	width: 22%;
 	margin-right: 5%;
+}
+.news-slider__img img{
+	max-height: 100%;
 }
 .news-slider__content{
 	overflow: hidden;
@@ -3920,6 +3923,9 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 .foreign__panel{
 	text-align: center;
 	padding: 1em;
+}
+.foreign__panel img{
+	max-height: 300px;
 }
 
 .foreign__title{
@@ -5380,7 +5386,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	top: 0;
 	width: 51px;
 	padding: 50px 0;
-	min-height: 100vh;
+	height: 100vh;
 	background: rgba(255, 255, 255, 0.89);
 	border-right: 1px solid #e6e6e6;
 	z-index: 9;
@@ -5406,13 +5412,16 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	content: '';
 	display: inline-block;
 	vertical-align: middle;
-	min-height: inherit;
+	height: 100%;
 }
 .side ul{
 	display: inline-block;
 	vertical-align: middle;
 	width: calc(100% - 4px);
 	text-transform: uppercase;
+	overflow-y: auto;
+	overflow-x: hidden;
+	max-height: calc(100vh - 100px);
 }
 .side ul a{
 	display: block;

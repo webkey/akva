@@ -81,7 +81,6 @@ h2 {
 /*technologies section end*/
 
 /*production section*/
-.news-slider__list .slick-arrow{ opacity: 0.35; }
 .no-touchevents .news-slider__list .slick-arrow:hover{ opacity: 1; }
 .news-slider__list .slick-prev{
 	left: 0;
@@ -107,6 +106,7 @@ h2 {
 	width: calc(100% - 180px - 2px);
 	padding: 0 4%;
 }
+.foreign__panel img { max-height: 230px; }
 /*foreign end*/
 
 /*product card*/
