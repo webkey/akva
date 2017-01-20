@@ -443,7 +443,8 @@ function classToggle() {
 	var activeClassGuide = "guide-show";
 
 	// info bar toggle
-	$html.on('click', '.info-btn-js a', function (e) {
+	$html.on('mousedown touchstart vmousedown', '.info-btn-js a', function (e) {
+		console.log(1);
 		if ($('.info-bar-js').length) {
 			e.preventDefault();
 
@@ -453,7 +454,7 @@ function classToggle() {
 	});
 
 	// sidebar toggle
-	$html.on('click', '.btn-menu-js', function (e) {
+	$html.on('mousedown touchstart vmousedown', '.btn-menu-js', function (e) {
 		if ($('.sidebar-js').length) {
 			e.preventDefault();
 
@@ -463,7 +464,7 @@ function classToggle() {
 	});
 
 	// overlay toggle
-	$html.on('click', '.show-panels__overlay', function (e) {
+	$html.on('mousedown touchstart vmousedown', '.show-panels__overlay', function (e) {
 		e.preventDefault();
 
 		$html.removeClass(activeClassInfoBar);
@@ -471,7 +472,7 @@ function classToggle() {
 	});
 
 	// guide toggle
-	$html.on('click', '.guide-opener-js', function (e) {
+	$html.on('mousedown touchstart vmousedown', '.guide-opener-js', function (e) {
 		if ($('.guide').length) {
 			e.preventDefault();
 
@@ -481,7 +482,7 @@ function classToggle() {
 		}
 	});
 
-	$(document).on('click', function (e) {
+	$(document).on('mousedown touchstart vmousedown', function (e) {
 		if ($html.hasClass(activeClassGuide) && !$(e.target).hasClass('guide__align') && !$(e.target).parents().hasClass('guide__align')) {
 			$html.removeClass(activeClassGuide);
 		}
