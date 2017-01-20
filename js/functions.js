@@ -1116,7 +1116,7 @@ function secondNav() {
 		setScroll();
 		setActions();
 		showSide();
-		historyPeriodsFixed();
+		// historyPeriodsFixed();
 	};
 
 	var tweenScroll = new TimelineLite();
@@ -1168,14 +1168,13 @@ function secondNav() {
 
 		var $nextSection = sectionArr[1];
 
-		$scrollArea.on('scroll load', function() {
+		$scrollArea.on('scroll', function() {
+
+			if (window.innerWidth < 767) return;
 
 			scrollTop = $scrollArea.scrollTop();
 
-			/*get direct scroll*/
 			directScrollToTop = prevScroll > scrollTop;
-			// console.log("prevScroll - scrollTop: " + prevScroll + ", " + scrollTop);
-			// console.log("Вверх? (до scrollToSection()): ", directScrollToTop);
 
 			var scrollAreaHeight = $scrollArea.outerHeight();
 

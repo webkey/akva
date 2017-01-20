@@ -182,10 +182,39 @@ h2 {
 }
 /*guide end*/
 
+/*about*/
+.section__title,
+.section__body,
+.section__foot,
+.brief{
+	visibility: visible;
+	opacity: 1;
+	-webkit-transform: translate(0, 0);
+	-ms-transform: translate(0, 0);
+	transform: translate(0, 0);
+}
+.section-aside{
+	opacity: 1;
+	visibility: visible;
+}
+/*about end*/
+
 /*history section*/
 .fixed-history-periods .section-aside__history {
 	top: 50px;
 	left: 0;
+}
+.section-aside__align{
+	opacity: 1;
+	visibility: visible;
+}
+.history-periods li.active {
+	font-family: 'PT Serif', serif;
+	font-weight: 700;
+}
+.history-periods li.active span {
+	-webkit-transform: scale(1, 1);
+	transform: scale(1, 1);
 }
 /*history section end*/
 
