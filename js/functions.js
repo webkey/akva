@@ -1408,7 +1408,7 @@ var secondaryNav;
 		self.toggleSwitcher();
 		self.toggleImageView();
 		self.hideImgView();
-		// self.periodsSliderInit();
+		self.periodsSliderInit();
 	};
 
 	HistorySlider.prototype.initSwitcher = function() {
@@ -1451,9 +1451,11 @@ var secondaryNav;
 			
 			self.togglePhotoShowClass(false);
 
-			setTimeout(function () {
-				self.scrollToSection();
-			}, 100)
+			if (DESKTOP) {
+				setTimeout(function () {
+					self.scrollToSection();
+				}, 100)
+			}
 		});
 
 	};
