@@ -444,7 +444,6 @@ function classToggle() {
 
 	// info bar toggle
 	$html.on('mousedown touchstart vmousedown', '.info-btn-js a', function (e) {
-		console.log(1);
 		if ($('.info-bar-js').length) {
 			e.preventDefault();
 
@@ -1169,7 +1168,7 @@ function secondNav() {
 
 		var $nextSection = sectionArr[1];
 
-		$scrollArea.on('scroll', function() {
+		$scrollArea.on('scroll load', function() {
 
 			scrollTop = $scrollArea.scrollTop();
 
@@ -2202,7 +2201,6 @@ function modalWindowInit() {
 	// modal img
 	$body.on('click', '.modal-img', function() {
 		var src = $(this).attr('href') || $(this).attr('data-img-zoom');
-		console.log("src: ", src);
 		var alt = $(this).find('img').attr('alt') || $(this).attr('alt');
 		var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container"><div class="modal__img__wrap"><img src="' + src +'" alt="' + alt + '" /></div></div></div><a class="modal__close"><span>Close</span></a></div></div>';
 
