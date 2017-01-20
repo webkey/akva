@@ -1339,18 +1339,18 @@ function secondNav() {
 		}
 	};
 
-	var historyPeriodsFixed = function () {
-		$scrollArea.on('scroll', function () {
-			var scrollTopPosition = $scrollArea.scrollTop();
-			var $activeBlock = $('.section-history');
-			var offsetStart = $activeBlock.position().top;
-			var $activeNav = $('.section-aside__history');
-			var offsetEnd = offsetStart + $activeBlock.outerHeight() - $activeNav.outerHeight();
-
-			$activeBlock.toggleClass('fixed-history-periods', scrollTopPosition > offsetStart);
-			$activeBlock.toggleClass('hide-history-periods', scrollTopPosition > offsetEnd);
-		})
-	};
+	// var historyPeriodsFixed = function () {
+	// 	$scrollArea.on('scroll', function () {
+	// 		var scrollTopPosition = $scrollArea.scrollTop();
+	// 		var $activeBlock = $('.section-history');
+	// 		var offsetStart = $activeBlock.position().top;
+	// 		var $activeNav = $('.section-aside__history');
+	// 		var offsetEnd = offsetStart + $activeBlock.outerHeight() - $activeNav.outerHeight();
+	//
+	// 		$activeBlock.toggleClass('fixed-history-periods', scrollTopPosition > offsetStart);
+	// 		$activeBlock.toggleClass('hide-history-periods', scrollTopPosition > offsetEnd);
+	// 	})
+	// };
 
 	self.initialize()
 }
@@ -2433,7 +2433,7 @@ function toggleInfo() {
 /**
  * behaviors card product elements
  * */
-function behaviorElements() {
+function behaviorCardProductsElements() {
 	var viewport = 1200;
 
 	if (DESKTOP && window.innerWidth < viewport) {
@@ -2595,7 +2595,7 @@ jQuery(document).ready(function(){
 	imgLazyLoad();
 	filtersProducts();
 	toggleInfo();
-	behaviorElements();
+	behaviorCardProductsElements();
 
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();
