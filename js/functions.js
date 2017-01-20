@@ -443,7 +443,7 @@ function classToggle() {
 	var activeClassGuide = "guide-show";
 
 	// info bar toggle
-	$html.on('mousedown touchstart vmousedown', '.info-btn-js a', function (e) {
+	$('.info-btn-js a').on('mousedown touchstart vmousedown', function (e) {
 		if ($('.info-bar-js').length) {
 			e.preventDefault();
 
@@ -453,7 +453,7 @@ function classToggle() {
 	});
 
 	// sidebar toggle
-	$html.on('mousedown touchstart vmousedown', '.btn-menu-js', function (e) {
+	$('.btn-menu-js').on('mousedown touchstart vmousedown', function (e) {
 		if ($('.sidebar-js').length) {
 			e.preventDefault();
 
@@ -463,7 +463,7 @@ function classToggle() {
 	});
 
 	// overlay toggle
-	$html.on('mousedown touchstart vmousedown', '.show-panels__overlay', function (e) {
+	$html.on('click', '.show-panels__overlay', function (e) {
 		e.preventDefault();
 
 		$html.removeClass(activeClassInfoBar);
@@ -471,7 +471,7 @@ function classToggle() {
 	});
 
 	// guide toggle
-	$html.on('mousedown touchstart vmousedown', '.guide-opener-js', function (e) {
+	$('.guide-opener-js').on('mousedown touchstart vmousedown', function (e) {
 		if ($('.guide').length) {
 			e.preventDefault();
 
@@ -481,7 +481,7 @@ function classToggle() {
 		}
 	});
 
-	$(document).on('mousedown touchstart vmousedown', function (e) {
+	$(document).on('click', function (e) {
 		if ($html.hasClass(activeClassGuide) && !$(e.target).hasClass('guide__align') && !$(e.target).parents().hasClass('guide__align')) {
 			$html.removeClass(activeClassGuide);
 		}
@@ -702,7 +702,7 @@ function toggleSubNav() {
 	}
 
 	if (Modernizr.touchevents) {
-		$('body').on('mousedown touchstart vmousedown', '.btn-subnav-js', function (e) {
+		$('.btn-subnav-js').on('mousedown touchstart vmousedown', function (e) {
 			e.preventDefault();
 
 			$subNav.toggleClass(activeClass);
@@ -714,9 +714,13 @@ function toggleSubNav() {
 			e.stopPropagation();
 		});
 
-		$(document).on('mousedown touchstart vmousedown', function () {
+		$(document).on('click', function () {
 			$subNav.removeClass(activeClass);
-		})
+		});
+
+		$('.btn-menu-js, .info-btn-js a').on('mousedown touchstart vmousedown', function () {
+			$subNav.removeClass(activeClass);
+		});
 	}
 
 	function hideSubNav() {

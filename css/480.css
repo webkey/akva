@@ -130,3 +130,21 @@ div.cselect .ui-multiselect-checkboxes label{
 }
 /*sub navigation end*/
 /*MAIN end*/
+
+/*SIDEBAR*/
+.sidebar {
+	width: 100vw;
+	border-width: 1px 0 0;
+}
+.main-nav a, .portrait .main-nav a{
+	box-shadow: none;
+	border: none;
+}
+/*SIDEBAR end*/
+
+/*info bar*/
+.info-bar{
+	width: 100vw;
+	border-width: 1px 0 0;
+}
+/*info bar end*/
