@@ -4110,11 +4110,14 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 @media only screen and (max-width: 399px){
 	.products__item{
 		width: 100%;
-		/*min-height: calc(100vh - 50px);*/
+		min-height: calc(100vh - 50px);
 	}
-	/*.products-filter + .products .products__item{
+	.products-filter + .products .products__item{
 		min-height: 0;
-	}*/
+	}
+	.products__item:first-child .products__inner{
+		box-shadow: none;
+	}
 }
 .products__inner{
 	display: block;
