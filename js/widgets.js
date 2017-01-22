@@ -3,6 +3,7 @@
  device.js 0.2.7;
  debouncedresize;
  placeholder v2.0.8;
+ jQuery MultiSelect UI Widget 1.13;
  imagesLoaded PACKAGED v4.1.1;
  TweetMax VERSION: 1.19.0;
  VelocityJS.org (1.2.2);

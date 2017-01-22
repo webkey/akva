@@ -269,6 +269,9 @@ function parallaxMainSlider() {
  *! main slider
  * */
 function mainSlider() {
+	// external js:
+	// 1) Modernizr;
+
 	'use strict';
 
 	var $container = $('.ms-js');
@@ -277,19 +280,17 @@ function mainSlider() {
 	var activeClass = 'active',
 		activeClassPrev = 'active-prev',
 		activeClassNext = 'active-next',
-		hideClass = 'hide',
 		touchSwipe = true,
-		index = 0,
+		index = 1,
 		indexNext, indexPrev;
 
-	var images = '.ms-img-js';
+	var descript = '.ms-description-js';
 
 	var $tab = [
-		images,
+		descript,
+		'.ms-img-js',
 		'.ms-bg-js',
-		'.ms-desks-js',
-		'.ms-title-js',
-		'.ms-description-js'
+		'.ms-desks-js'
 		// '.ms-dots-js button'
 	];
 
@@ -297,7 +298,7 @@ function mainSlider() {
 		var currentSlider = $(this);
 
 		var currentSlideIndex = index;
-		var totalLength = $(images, currentSlider).length;
+		var totalLength = $(descript, currentSlider).length;
 
 		slidesCounter(currentSlider, currentSlideIndex, totalLength);
 	});
@@ -321,7 +322,6 @@ function mainSlider() {
 		var $currentSlider = $currentBtn.closest($container);
 		index = $currentBtn.index();
 
-		// switchStateTab($currentSlider,$tab);
 		switchStateTab($currentSlider,$tab,index);
 
 		return index;
@@ -332,7 +332,7 @@ function mainSlider() {
 
 		var $currentBtn = $(this);
 		var $currentSlider = $currentBtn.closest($container);
-		var length = $currentBtn.closest($container).find(images).length;
+		var length = $currentBtn.closest($container).find(descript).length;
 
 		if ($currentBtn.data('direction') === "prev") {
 			mainSliderToPrevSlide($currentSlider, length);
@@ -340,42 +340,98 @@ function mainSlider() {
 			mainSliderToNextSlide($currentSlider, length);
 		}
 
-		// switchStateTab($currentSlider,$tab);
 		switchStateTab($currentSlider,$tab,index);
-		
-		slidesCounter($currentSlider,index,length);
 
 		return index;
 	});
 
-	if (touchSwipe && !DESKTOP && window.innerWidth < 768) {
-		$($container).swipe({
-			swipeRight: function () {
+	$container.on('mainSliderGoToSlide', function (event, slideIndex) {
+		var $currentSlider = $(event.target);
+		index = slideIndex;
 
-				var $currentSlider = $(this);
-				var length = $currentSlider.find(images).length;
+		switchStateTab($currentSlider,$tab,index);
 
-				mainSliderToPrevSlide($currentSlider, length);
+		return index;
+	});
 
-				switchStateTab($currentSlider, $tab, index);
+	$container.on('mainSliderGoToSlideTag', function (event, slideTag) {
+		var $currentSlider = $(event.target);
+		index = $currentSlider.find('[data-tag="' + slideTag + '"]').index();
 
-				slidesCounter($currentSlider, index, length);
+		switchStateTab($currentSlider,$tab,index);
 
-				return index;
-			}, swipeLeft: function () {
+		return index;
+	});
 
-				var $currentSlider = $(this);
-				var length = $currentSlider.find(images).length;
+	var hash = window.location.hash;
+	console.log("hash: ", hash);
+	if (hash) {
+		$container.trigger('mainSliderGoToSlideTag', hash.substring(1));
+	} else {
+		$container.trigger('mainSliderGoToSlide', index);
+	}
 
-				mainSliderToNextSlide($currentSlider, length);
+	function changeMainSliderByHash() {
+		//set some variables
+		var isAnimating = false,
+			firstLoad = false;
 
-				switchStateTab($currentSlider, $tab, index);
-
-				slidesCounter($currentSlider, index, length);
-
-				return index;
-			}
+		$('.ms-js').on('mainSliderChange', function (event, item, index, tag) {
+			firstLoad = true;
+			window.location.hash = tag;
 		});
+
+
+		//detect the 'popstate' event - e.g. user clicking the back button
+		$(window).on('popstate', function() {
+			console.log("firstLoad: ", firstLoad);
+			if( firstLoad ) {
+				/*
+				 Safari emits a popstate event on page load - check if firstLoad is true before animating
+				 if it's false - the page has just been loaded
+				 */
+				var newPageArray = location.pathname.split('/'),
+					//this is the url of the page to be loaded
+					newPage = newPageArray[newPageArray.length - 1].replace('.html', '');
+
+				console.log("window.location.hash: ", window.location.hash.substring(1));
+				console.log("newPage: ", newPage);
+				if (!isAnimating) {
+					isAnimating = true;
+					newPage = ( newPage == '' ) ? 'index' : newPage;
+					//load new content
+					loadNewContent(newPage, false);
+				}
+			}
+			firstLoad = true;
+		});
+
+		//start animation
+
+		function loadNewContent(newSection, bool) {
+			setTimeout(function () {
+				//animate loading bar
+
+				var url = newSection + '.html';
+
+				console.log("url: ", url);
+				window.history.pushState({path: url}, '', url);
+
+				if (url != window.location && bool) {
+					//add the new page to the window.history
+					//if the new page was triggered by a 'popstate' event, don't add it
+					window.history.pushState({path: url}, '', url);
+				}
+
+			}, 50);
+		}
+	}
+
+	changeMainSliderByHash();
+
+	function getSlideByTag(event, tag) {
+		console.log("tag: ", tag);
+
 	}
 
 	function mainSliderToPrevSlide(slider, length) {
@@ -385,6 +441,8 @@ function mainSlider() {
 			index = index - 1;
 		}
 		slider.trigger('showedPrevSliderItem');
+		// console.log('showedPrevSliderItem');
+		return index;
 	}
 
 	function mainSliderToNextSlide(slider, length) {
@@ -394,10 +452,12 @@ function mainSlider() {
 			index = index + 1;
 		}
 		slider.trigger('showedNextSliderItem');
+		// console.log('showedNextSliderItem');
+		return index;
 	}
 
-	function switchStateTab(content,tab,index) {
-		var length = content.find(images).length;
+	function switchStateTab(slider,tab,index) {
+		var length = slider.find(descript).length;
 
 		// if property "index" length class added
 		// else class removed
@@ -407,31 +467,103 @@ function mainSlider() {
 				indexNext = (index < length - 1) ? index + 1 : 0;
 				indexPrev = (index >= 0) ? index - 1 : length - 1;
 
-				content.find(tab[i])
+				slider.find(tab[i])
 					.eq(index).addClass(activeClass)
 					.siblings().removeClass(activeClass);
 
-				content.find(tab[i])
+				slider.find(tab[i])
 					.eq(indexNext).addClass(activeClassNext)
 					.siblings().removeClass(activeClassNext);
 
-				content.find(tab[i])
+				slider.find(tab[i])
 					.eq(indexPrev).addClass(activeClassPrev)
 					.siblings().removeClass(activeClassPrev);
 			}
 		} else {
-			content.find(tab)
+			slider.find(tab)
 				.eq(index).addClass(activeClass)
 				.siblings().removeClass(activeClass);
 		}
+
+		slidesCounter(slider,index,length);
+
+		var tag = $(descript).eq(index).data('tag');
+
+		console.log('woo!');
+		$(slider).trigger('mainSliderChange', [descript, index, tag]);
 	}
 
 	function slidesCounter(slider, currentSlideIndex, totalLength) {
 		$('.ms-current-slide-js', slider).text(currentSlideIndex + 1);
 		$('.ms-total-js', slider).text(totalLength);
 	}
+
+	if (touchSwipe && !DESKTOP && window.innerWidth < 768) {
+		$($container).swipe({
+			swipeRight: function () {
+
+				var $currentSlider = $(this);
+				var length = $currentSlider.find(descript).length;
+
+				mainSliderToPrevSlide($currentSlider, length);
+
+				switchStateTab($currentSlider, $tab, index);
+
+				// slidesCounter($currentSlider, index, length);
+
+				return index;
+			}, swipeLeft: function () {
+
+				var $currentSlider = $(this);
+				var length = $currentSlider.find(descript).length;
+
+				mainSliderToNextSlide($currentSlider, length);
+
+				switchStateTab($currentSlider, $tab, index);
+
+				// slidesCounter($currentSlider, index, length);
+
+				return index;
+			}
+		});
+	}
 }
 /*main slider end*/
+
+$(function () {
+
+	$('.set__select select').on('change', function(e) {
+		var value = $(this).find('option:selected').val();
+		$('.ms-js').trigger('mainSliderGoToSlideTag', value);
+		e.preventDefault();
+	});
+
+});
+
+/**
+ * change select by product card
+ * */
+function changeSelectByMainSlider() {
+	var $setSelect = $('.set__select select');
+	if ($setSelect.length) {
+		$('.ms-js').on('mainSliderChange', function (event, item, index, tag) {
+
+			console.log("tag: ", tag);
+
+			if (tag === undefined) {
+				console.info('Предупреждение: Атрибут "data-tag" не указан для:');
+				console.log($(item).eq(index));
+			}
+
+			$setSelect.val(tag);
+
+			if (!Modernizr.touchevents) {
+				$setSelect.multiselect('refresh');
+			}
+		})
+	}
+}
+/*change select by product card end*/
 
 /**
  *! info bar toggle
@@ -913,179 +1045,6 @@ function fixedHeader() {
 	})
 }
 /* fixed header on scroll*/
-
-/**
- *! walk pages
- * */
-function walkPages() {
-	//set some variables
-	var isAnimating = false,
-		firstLoad = false,
-		newScaleValue = 1;
-
-	//cache DOM elements
-	var dashboard = $('.cd-side-navigation'),
-		mainContent = $('.cd-main'),
-		loadingBar = $('#cd-loading-bar');
-
-	//select a new section
-	dashboard.on('click', 'a', function(event){
-		event.preventDefault();
-		var target = $(this),
-			//detect which section user has chosen
-			sectionTarget = target.data('menu');
-		if( !target.hasClass('selected') && !isAnimating ) {
-			//if user has selected a section different from the one alredy visible - load the new content
-			triggerAnimation(sectionTarget, true);
-		}
-
-		firstLoad = true;
-	});
-
-	//detect the 'popstate' event - e.g. user clicking the back button
-	$(window).on('popstate', function() {
-		if( firstLoad ) {
-			/*
-			 Safari emits a popstate event on page load - check if firstLoad is true before animating
-			 if it's false - the page has just been loaded
-			 */
-			var newPageArray = location.pathname.split('/'),
-				//this is the url of the page to be loaded
-				newPage = newPageArray[newPageArray.length - 1].replace('.html', '');
-			if( !isAnimating ) triggerAnimation(newPage, false);
-		}
-		firstLoad = true;
-	});
-
-	//scroll to content if user clicks the .cd-scroll icon
-	mainContent.on('click', '.cd-scroll', function(event){
-		event.preventDefault();
-		var scrollId = $(this.hash);
-		$(scrollId).velocity('scroll', { container: $(".cd-section") }, 200);
-	});
-
-	//start animation
-	function triggerAnimation(newSection, bool) {
-		isAnimating =  true;
-		newSection = ( newSection == '' ) ? 'index' : newSection;
-
-		//update dashboard
-		dashboard.find('*[data-menu="'+newSection+'"]').addClass('selected').parent('li').siblings('li').children('.selected').removeClass('selected');
-		//trigger loading bar animation
-		initializeLoadingBar(newSection);
-		//load new content
-		loadNewContent(newSection, bool);
-	}
-
-	function initializeLoadingBar(section) {
-		var	selectedItem =  dashboard.find('.selected'),
-			barHeight = selectedItem.outerHeight(),
-			barTop = selectedItem.offset().top,
-			windowHeight = $(window).height(),
-			maxOffset = ( barTop + barHeight/2 > windowHeight/2 ) ? barTop : windowHeight- barTop - barHeight,
-			scaleValue = ((2*maxOffset+barHeight)/barHeight).toFixed(3)/1 + 0.001;
-
-		//place the loading bar next to the selected dashboard element
-		loadingBar.data('scale', scaleValue).css({
-			height: barHeight,
-			top: barTop
-		}).attr('class', '').addClass('loading '+section);
-	}
-
-	function loadNewContent(newSection, bool) {
-		setTimeout(function(){
-			//animate loading bar
-			loadingBarAnimation();
-
-			//create a new section element and insert it into the DOM
-			var section = $('<div class="main cd-section overflow-hidden '+newSection+'"></div>').prependTo(mainContent);
-
-			section.css({
-				'-webkit-transform':'translateX(-100%)',
-				'-ms-transform':'translateX(-100%)',
-				'transform':'translateX(-100%)'
-			});
-
-			//load the new content from the proper html file
-			section.load(newSection+'.html .cd-section > *', function(event){
-				//finish up the animation and then make the new section visible
-				var scaleMax = loadingBar.data('scale');
-
-				loadingBar.velocity('stop').velocity({
-					scaleY: scaleMax
-				}, 400, function(){
-					//add the .visible class to the new section element -> it will cover the old one
-					section
-						.css({
-							'-webkit-transform':'translateX(0)',
-							'-ms-transform':'translateX(0)',
-							'transform':'translateX(0)'
-						});
-
-					section
-						.prev('.visible').removeClass('visible').end()
-						.addClass('visible')
-						.on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(){
-							resetAfterAnimation(section);
-						});
-
-					//if browser doesn't support transition
-					if( $('.no-csstransitions').length > 0 ) {
-						resetAfterAnimation(section);
-					}
-
-					//init main slider
-					mainSlider();
-
-					//init toggle info bar
-					classToggle();
-
-					var url = newSection+'.html';
-
-					if(url!=window.location && bool){
-						//add the new page to the window.history
-						//if the new page was triggered by a 'popstate' event, don't add it
-						window.history.pushState({path: url},'',url);
-					}
-				});
-			});
-
-		}, 50);
-	}
-
-	function loadingBarAnimation() {
-		var scaleMax = loadingBar.data('scale');
-		if( newScaleValue + 1 < scaleMax) {
-			newScaleValue = newScaleValue + 1;
-		} else if ( newScaleValue + 0.5 < scaleMax ) {
-			newScaleValue = newScaleValue + 0.5;
-		}
-
-		loadingBar.velocity({
-			scaleY: newScaleValue
-		}, 100, loadingBarAnimation);
-	}
-
-	function resetAfterAnimation(newSection) {
-		//once the new section animation is over, remove the old section and make the new one scrollable
-		newSection.removeClass('overflow-hidden').siblings('.cd-section').remove();
-		newSection.css({
-			'-webkit-transform':'none',
-			'-ms-transform':'none',
-			'transform':'none'
-		});
-		isAnimating =  false;
-		//reset your loading bar
-		resetLoadingBar();
-	}
-
-	function resetLoadingBar() {
-		loadingBar.removeClass('loading').velocity({
-			scaleY: 1
-		}, 1);
-	}
-}
-/*walk pages end*/
 
 /**
  *! scroll to section
@@ -2573,6 +2532,179 @@ function behaviorCardProductsElements() {
 /*behaviors card product elements end*/
 
 /**
+ *! walk pages
+ * */
+function walkPages() {
+	//set some variables
+	var isAnimating = false,
+		firstLoad = false,
+		newScaleValue = 1;
+
+	//cache DOM elements
+	var dashboard = $('.cd-side-navigation'),
+		mainContent = $('.cd-main'),
+		loadingBar = $('#cd-loading-bar');
+
+	//select a new section
+	dashboard.on('click', 'a', function(event){
+		event.preventDefault();
+		var target = $(this),
+			//detect which section user has chosen
+			sectionTarget = target.data('menu');
+		if( !target.hasClass('selected') && !isAnimating ) {
+			//if user has selected a section different from the one alredy visible - load the new content
+			triggerAnimation(sectionTarget, true);
+		}
+
+		firstLoad = true;
+	});
+
+	//detect the 'popstate' event - e.g. user clicking the back button
+	$(window).on('popstate', function() {
+		if( firstLoad ) {
+			/*
+			 Safari emits a popstate event on page load - check if firstLoad is true before animating
+			 if it's false - the page has just been loaded
+			 */
+			var newPageArray = location.pathname.split('/'),
+				//this is the url of the page to be loaded
+				newPage = newPageArray[newPageArray.length - 1].replace('.html', '');
+			if( !isAnimating ) triggerAnimation(newPage, false);
+		}
+		firstLoad = true;
+	});
+
+	//scroll to content if user clicks the .cd-scroll icon
+	mainContent.on('click', '.cd-scroll', function(event){
+		event.preventDefault();
+		var scrollId = $(this.hash);
+		$(scrollId).velocity('scroll', { container: $(".cd-section") }, 200);
+	});
+
+	//start animation
+	function triggerAnimation(newSection, bool) {
+		isAnimating =  true;
+		newSection = ( newSection == '' ) ? 'index' : newSection;
+
+		//update dashboard
+		dashboard.find('*[data-menu="'+newSection+'"]').addClass('selected').parent('li').siblings('li').children('.selected').removeClass('selected');
+		//trigger loading bar animation
+		initializeLoadingBar(newSection);
+		//load new content
+		loadNewContent(newSection, bool);
+	}
+
+	function initializeLoadingBar(section) {
+		var	selectedItem =  dashboard.find('.selected'),
+			barHeight = selectedItem.outerHeight(),
+			barTop = selectedItem.offset().top,
+			windowHeight = $(window).height(),
+			maxOffset = ( barTop + barHeight/2 > windowHeight/2 ) ? barTop : windowHeight- barTop - barHeight,
+			scaleValue = ((2*maxOffset+barHeight)/barHeight).toFixed(3)/1 + 0.001;
+
+		//place the loading bar next to the selected dashboard element
+		loadingBar.data('scale', scaleValue).css({
+			height: barHeight,
+			top: barTop
+		}).attr('class', '').addClass('loading '+section);
+	}
+
+	function loadNewContent(newSection, bool) {
+		setTimeout(function(){
+			//animate loading bar
+			loadingBarAnimation();
+
+			//create a new section element and insert it into the DOM
+			var section = $('<div class="main cd-section overflow-hidden '+newSection+'"></div>').prependTo(mainContent);
+
+			section.css({
+				'-webkit-transform':'translateX(-100%)',
+				'-ms-transform':'translateX(-100%)',
+				'transform':'translateX(-100%)'
+			});
+
+			//load the new content from the proper html file
+			section.load(newSection+'.html .cd-section > *', function(event){
+				//finish up the animation and then make the new section visible
+				var scaleMax = loadingBar.data('scale');
+
+				loadingBar.velocity('stop').velocity({
+					scaleY: scaleMax
+				}, 400, function(){
+					//add the .visible class to the new section element -> it will cover the old one
+					section
+						.css({
+							'-webkit-transform':'translateX(0)',
+							'-ms-transform':'translateX(0)',
+							'transform':'translateX(0)'
+						});
+
+					section
+						.prev('.visible').removeClass('visible').end()
+						.addClass('visible')
+						.on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(){
+							resetAfterAnimation(section);
+						});
+
+					//if browser doesn't support transition
+					if( $('.no-csstransitions').length > 0 ) {
+						resetAfterAnimation(section);
+					}
+
+					//init main slider
+					mainSlider();
+
+					//init toggle info bar
+					classToggle();
+
+					var url = newSection+'.html';
+
+					if(url!=window.location && bool){
+						//add the new page to the window.history
+						//if the new page was triggered by a 'popstate' event, don't add it
+						window.history.pushState({path: url},'',url);
+					}
+				});
+			});
+
+		}, 50);
+	}
+
+	function loadingBarAnimation() {
+		var scaleMax = loadingBar.data('scale');
+		if( newScaleValue + 1 < scaleMax) {
+			newScaleValue = newScaleValue + 1;
+		} else if ( newScaleValue + 0.5 < scaleMax ) {
+			newScaleValue = newScaleValue + 0.5;
+		}
+
+		loadingBar.velocity({
+			scaleY: newScaleValue
+		}, 100, loadingBarAnimation);
+	}
+
+	function resetAfterAnimation(newSection) {
+		//once the new section animation is over, remove the old section and make the new one scrollable
+		newSection.removeClass('overflow-hidden').siblings('.cd-section').remove();
+		newSection.css({
+			'-webkit-transform':'none',
+			'-ms-transform':'none',
+			'transform':'none'
+		});
+		isAnimating =  false;
+		//reset your loading bar
+		resetLoadingBar();
+	}
+
+	function resetLoadingBar() {
+		loadingBar.removeClass('loading').velocity({
+			scaleY: 1
+		}, 1);
+	}
+}
+/*walk pages end*/
+
+/**
  *!  ready/load/resize document
  * */
 
@@ -2583,6 +2715,7 @@ jQuery(document).ready(function(){
 	}
 	printShow();
 	mainSlider();
+	changeSelectByMainSlider();
 	classToggle();
 	parallaxMainSlider();
 	hoverClassInit();
