@@ -5592,42 +5592,6 @@ li.active .side__circle:before{
 /*third line menu end*/
 /*btn side end*/
 /*side navigation end*/
-
-/* --------------------------------
-
- Loading Bar
-
--------------------------------- */
-#cd-loading-bar {
-	position: fixed;
-	z-index: 2;
-	left: 120px;
-	width: 4px;
-	visibility: hidden;
-	-webkit-backface-visibility: hidden;
-	backface-visibility: hidden;
-	-webkit-transform: translateZ(0);
-	-ms-transform: translateZ(0);
-	transform: translateZ(0);
-}
-#cd-loading-bar.index {
-	background-color: #83b0b9;
-}
-#cd-loading-bar.services {
-	background-color: #d35657;
-}
-#cd-loading-bar.projects {
-	background-color: #343943;
-}
-#cd-loading-bar.contact {
-	background-color: #e4b162;
-}
-#cd-loading-bar.about {
-	background-color: #e44b36;
-}
-#cd-loading-bar.loading {
-	visibility: visible;
-}
 /*MAIN end*/
 
 /*FOOTER*/
@@ -5802,55 +5766,6 @@ li.active .side__circle:before{
 	display: none;
 }
 /*modal window end*/
-
-/*popup*/
-.pswp__button--arrow--left:before,
-.pswp__button--arrow--right:before{
-	content: none;
-}
-.pswp__button span{
-	pointer-events: none;
-}
-.pswp__button--arrow span{
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	width: 60px;
-	height: 60px;
-	margin: -30px 0 0 -30px;
-	border: 2px solid #fff;
-	border-radius: 50%;
-	box-sizing: border-box;
-}
-.pswp__button--arrow span:before,
-.pswp__button--arrow span:after{
-	content: '';
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	height: 0;
-	width: 17px;
-	border: 1px solid #fff;
-}
-.pswp__button--arrow span:before{
-	-webkit-transform: rotate(45deg);
-	-ms-transform: rotate(45deg);
-	transform: rotate(45deg);
-	margin: 6px 0 0 -12px;
-}
-.pswp__button--arrow span:after{
-	-webkit-transform: rotate(-45deg);
-	-ms-transform: rotate(-45deg);
-	transform: rotate(-45deg);
-	margin: -6px 0 0 -12px;
-}
-.pswp__button--arrow--right span:before{
-	margin: -6px 0 0 -7px;
-}
-.pswp__button--arrow--right span:after{
-	margin: 6px 0 0 -7px;
-}
-/*popup end*/
 
 .browserupgrade {
 	margin: 0.2em 0;
