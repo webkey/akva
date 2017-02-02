@@ -4366,8 +4366,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
 }
-.info-bar-show .show-panels__overlay,
-.sidebar-show .show-panels__overlay{
+.info-bar-show .show-panels__overlay{
 	visibility: visible;
 	opacity: 1;
 }

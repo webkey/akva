@@ -741,6 +741,10 @@ function toggleSubNav() {
 
 		$mainNav.on('mouseenter', 'a', function () {
 
+			if (window.innerWidth < 768) {
+				return;
+			}
+
 			$currentItem = $(this);
 			submenuId = $currentItem.attr('data-submenu-id');
 			$currentSubNav = $('#' + submenuId);
