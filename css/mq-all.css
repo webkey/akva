@@ -1439,6 +1439,7 @@
 	.sidebar:after{ top: 100%; }
 	.sidebar-holder{
 		overflow-y: auto;
+		overflow-x: hidden;
 		padding-top: 0;
 	}
 	.info-bar-show .sidebar {
@@ -1510,6 +1511,11 @@
 	}
 
 	.btn-info_sidebar{ display: none; }
+
+	.sidebar-show .show-panels__overlay{
+		visibility: visible;
+		opacity: 1;
+	}
 	/*SIDEBAR end*/
 
 	/*ASIDE*/
