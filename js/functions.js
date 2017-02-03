@@ -2015,10 +2015,10 @@ function imagesGalleryInit() {
 			]
 		});
 
-		$('body').on('click', '.images-gallery__item', function (e) {
+		$('body').on('click', '.images-gallery__item a', function (e) {
 			e.preventDefault();
 
-			$('.images-gallery__list', $imagesGallery).slick('slickGoTo', $(this).attr('data-slick-index'));
+			$('.images-gallery__list', $imagesGallery).slick('slickGoTo', $(this).parent().attr('data-slick-index'));
 		})
 	}
 }
@@ -2091,20 +2091,30 @@ function modalWindowInit() {
 		return false;
 	});
 
-	// modal img
-	$body.on('click', '.modal-img', function() {
-		var src = $(this).attr('href') || $(this).attr('data-img-zoom');
-		var alt = $(this).find('img').attr('alt') || $(this).attr('alt');
-		var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container"><div class="modal__img__wrap"><img src="' + src +'" alt="' + alt + '" /></div></div></div><a class="modal__close"><span>Close</span></a></div></div>';
+	function showImgModal() {
+		var $this = $(this);
+		var src = $this.attr('href') || $this.attr('data-img-zoom');
+		var alt = $this.find('img').attr('alt') || $this.attr('alt');
+		var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container"><div class="modal__img__wrap"><img src="' + src + '" alt="' + alt + '" /></div></div></div><a class="modal__close"><span>Close</span></a></div></div>';
 
 		$body.addClass('body--no-scroll');
 		$body.append(data);
 		modalIsOpen = true;
-		$('.modal').addClass('modal--img').show(0, function() {
+		$('.modal').addClass('modal--img').show(0, function () {
 			$('.modal').addClass('modal--active');
 		});
 
 		return false;
+	}
+
+	// modal img
+	$body.on('click', '.modal-img', function() {
+		return showImgModal.call(this);
+	});
+
+	// modal img in slider
+	$body.on('click', '.images-gallery .slick-current a', function() {
+		return showImgModal.call(this);
 	});
 
 	// modal close on click to btn close

@@ -153,7 +153,9 @@
 	/*about end*/
 
 	/*benefits section*/
-	.benefits__list li {
+	.benefits__list li,
+	.main .benefits__list li,
+	.main .benefits__list li:first-child{
 		display: inline-block;
 		vertical-align: top;
 		width: 49.98%;
@@ -451,7 +453,9 @@
 
 	/*products filter*/
 	.products-filter__list a{ font-size: 1.4rem; }
-	.products-filter__list li{
+	.products-filter__list li,
+	.main .products-filter__list li,
+	.main .products-filter__list li:first-child{
 		float: left;
 		width: 140px;
 	}
@@ -550,7 +554,9 @@
 		-ms-transform: translate(0, 0);
 		transform: translate(0, 0);
 	}
-	.animate-section .history-periods li.active {
+	.animate-section .history-periods li.active,
+	.main .animate-section .history-periods li.active,
+	.main .animate-section .history-periods li.active:first-child {
 		font-family: 'PT Serif', serif;
 		font-weight: 700;
 	}
@@ -605,7 +611,11 @@
 	/*about end*/
 
 	/*benefits section*/
-	.benefits__list li{ width: 100%; }
+	.benefits__list li,
+	.main .benefits__list li,
+	.main .benefits__list li:first-child{
+		width: 100%;
+	}
 	/*benefits section end*/
 
 	/*brief*/
@@ -829,7 +839,9 @@
 	/*about end*/
 
 	/*benefits*/
-	.benefits__list li {
+	.benefits__list li,
+	.main .benefits__list li,
+	.main .benefits__list li:first-child{
 		padding: 35px 40px;
 		text-align: center;
 		overflow: visible;
@@ -904,13 +916,20 @@
 		padding: 0;
 	}
 	.section-aside__title { display: none; }
-	.history-periods{ overflow: hidden; }
-	.history-periods li{
+	.history-periods,
+	.main .history-periods{ overflow: hidden; }
+	.history-periods li,
+	.main .history-periods li,
+	.main .history-periods li:first-child{
 		float: left;
 		width: 80px;
 	}
-	.history-periods li:before { content: none; }
-	.animate-section .history-periods li.active:before {
+	.history-periods li:before,
+	.main .history-periods li:before,
+	.main .history-periods li:first-child:before{ content: none; }
+	.animate-section .history-periods li.active:before,
+	.main .animate-section .history-periods li.active:before,
+	.main .animate-section .history-periods li.active:first-child{
 		-webkit-transform: translate(0, 0);
 		-ms-transform: translate(0, 0);
 		transform: translate(0, 0);
@@ -1071,7 +1090,8 @@
 
 	/*ASIDE*/
 	.aside { height: auto; }
-	.aside .add-menu {
+	.aside .add-menu,
+	.main .aside .add-menu{
 		float: none;
 		height: 100px;
 		width: auto;
@@ -1276,7 +1296,9 @@
 		opacity: 1;
 		visibility: visible;
 	}
-	.history-periods li.active {
+	.history-periods li.active,
+	.main .history-periods li.active,
+	.main .history-periods li.active:first-child {
 		font-family: 'PT Serif', serif;
 		font-weight: 700;
 	}
@@ -1339,13 +1361,16 @@
 		height: auto;
 	}
 	.products-filter:before{ content: none; }
-	.products-filter__list{
+	.products-filter__list,
+	.main .products-filter__list{
 		display: inline-block;
 		width: 100%;
 		border-width: 0 1px 1px 0;
 		background: #024383;
 	}
-	.products-filter__list li{ width: 50%; }
+	.products-filter__list li,
+	.main .products-filter__list li,
+	.main .products-filter__list li:first-child{ width: 50%; }
 	.products-filter__list a{ border-width: 1px 0 0 1px; }
 	.products-filter ~ .products { padding-top: 0; }
 	/*products filter end*/
@@ -1520,8 +1545,13 @@
 
 	/*ASIDE*/
 	/*add menu*/
-	.aside .add-menu { height: auto; }
-	.add-menu__item {
+	.aside .add-menu,
+	.main .aside .add-menu{
+		height: auto;
+	}
+	.add-menu__item,
+	.main .add-menu__item,
+	.main .add-menu__item:first-child{
 		float: none;
 		height: auto;
 		width: 100%;
