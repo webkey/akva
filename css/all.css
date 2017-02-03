@@ -170,6 +170,7 @@ strong em{
 	line-height: 1.5;
 	color: #000;
 }
+.content{ padding: 0 40px; }
 /*MAIN BLOCKS end*/
 
 /*sp*/
@@ -269,53 +270,54 @@ button{
 /*btn end*/
 
 /*USER CONTENT*/
-.user-content p+h2,
-.user-content ul+h2,
-.user-content ol+h2,
-.user-content p+h3,
-.user-content ul+h3,
-.user-content ol+h3,
-.user-content p+h4,
-.user-content ul+h4,
-.user-content ol+h4,
-.user-content p+h5,
-.user-content ul+h5,
-.user-content ol+h5{ padding-top: 10px; }
+.main p+h2,
+.main ul+h2,
+.main ol+h2,
+.main p+h3,
+.main ul+h3,
+.main ol+h3,
+.main p+h4,
+.main ul+h4,
+.main ol+h4,
+.main p+h5,
+.main ul+h5,
+.main ol+h5{ padding-top: 10px; }
 
 /*list*/
-.user-content ul,
-.user-content ol{
+.main ul,
+.main ol{
 	margin: 0;
 	padding: 0 0 22px;
 	list-style: none;
 }
-.user-content ol{ counter-reset: section; }
-.user-content ul li,
-.user-content ol li{
+.main ol{ counter-reset: section; }
+.main ul li,
+.main ol li{
 	padding: 14px 0 0 20px;
 	position: relative;
 }
-.user-content ol > li{
+.main ol > li{
 	counter-increment: section;
 	height: 1%;
 	overflow: hidden;
 	padding-left: 20px;
 }
-.user-content ul li:first-child,
-.user-content ol > li:first-child{ padding-top: 0; }
-.user-content ul > li:before,
-.user-content ol ul > li:first-child:before{
+.main ul li:first-child,
+.main ol > li:first-child{ padding-top: 0; }
+.main ul > li:before,
+.main ol ul > li:first-child:before{
 	content: '';
 	position: absolute;
 	left: 0;
-	top: 21px;
+	top: 25px;
 	height: 0;
 	width: 0;
-	border: 5px solid #006ad2;
+	border: 4px solid #006ad2;
+	border-radius: 50%;
 	box-sizing: border-box;
 }
-.user-content ul > li:first-child:before{ top: 7px; }
-.user-content ol > li:before{
+.main ul > li:first-child:before{ top: 11px; }
+.main ol > li:before{
 	position: relative;
 	display: inline-block;
 	text-align: left;
@@ -326,33 +328,33 @@ button{
 	margin-left: -20px;
 	box-sizing: border-box;
 }
-.user-content ul ul,
-.user-content ul ol,
-.user-content ol > li > ul{
+.main ul ul,
+.main ul ol,
+.main ol > li > ul{
 	padding-bottom: 0;
 	padding-left: 20px;
 }
-.user-content ul ul > li:before,
-.user-content ul ul > li:first-child:before,
-.user-content ol ul ul > li:before,
-.user-content ol ul ul > li:first-child:before{
+.main ul ul > li:before,
+.main ul ul > li:first-child:before,
+.main ol ul ul > li:before,
+.main ol ul ul > li:first-child:before{
 	height: 0;
 	width: 10px;
 	border-width: 2px 0;
 	border-radius: 0;
-	top: 23px;
+	top: 27px;
 }
-.user-content ul ul li:first-child,
-.user-content ul ol li:first-child,
-.user-content ol ol li:first-child,
-.user-content ol ul li:first-child{ padding-top: 14px; }
-.user-content ul ul ul > li:before,
-.user-content ul ul ul > li:first-child:before,
-.user-content ul ol ul > li:before,
-.user-content ul ol ul > li:first-child:before{
+.main ul ul li:first-child,
+.main ul ol li:first-child,
+.main ol ol li:first-child,
+.main ol ul li:first-child{ padding-top: 14px; }
+.main ul ul ul > li:before,
+.main ul ul ul > li:first-child:before,
+.main ul ol ul > li:before,
+.main ul ol ul > li:first-child:before{
 	height: 8px;
 	width: 8px;
-	top: 21px;
+	top: 25px;
 	border-width: 4px;
 	border-radius: 50%;
 }
@@ -409,50 +411,6 @@ table th{
 .tbl tfoot td,
 .tbl tr td:first-child{ background: #f2f2f2; }
 /*table styling end*/
-
-/*blockquote*/
-.blockquote{ padding: 0 0 30px; }
-.user-content blockquote{
-	display: block;
-	margin: 0;
-	background-color: #f5f5f5;
-	border-left: 4px solid #006ad2;
-	padding: 18px 32px 28px 42px;
-}
-.user-content blockquote q{
-	display: block;
-	margin: 0;
-	padding: 0 0 10px;
-	font: italic 18px/24px 'Times New Roman', Times, serif;
-	letter-spacing:0.05em;
-	color: #808080;
-}
-.user-content blockquote q:before,
-.user-content blockquote q:after{
-	content: '';
-	display: block;
-	font-size: 24px;
-	line-height: 28px;
-}
-.user-content blockquote q:before{
-	content: '«';
-	padding-left: 17%;
-	padding-bottom: 10px;
-}
-.user-content blockquote q:after{
-	content: '»';
-	text-align: right;
-	padding-right: 18.5%;
-	padding-top: 8px;
-}
-.user-content blockquote cite{
-	text-align: right;
-	display: block;
-	margin-left: auto;
-	font: italic 20px/24px 'Times New Roman', Times, serif;
-	color: #333;
-}
-/*blockquote end*/
 
 /*content img*/
 .imgc{
@@ -581,27 +539,27 @@ textarea.error .placeholder{ color: #d32e2e; opacity: 1; }
 
 /*form checkbox and radiobutton*/
 .checkbox-list,
-.user-content .checkbox-list,
+.main .checkbox-list,
 .radio-list,
-.user-content .radio-list{
+.main .radio-list{
 	padding: 0;
 	margin: 0;
 	list-style: none;
 	line-height: 24px;
 }
 .checkbox-list li,
-.user-content .checkbox-list li,
-.user-content .checkbox-list li:first-child,
+.main .checkbox-list li,
+.main .checkbox-list li:first-child,
 .radio-list li,
-.user-content .radio-list li,
-.user-content .radio-list li:first-child{
+.main .radio-list li,
+.main .radio-list li:first-child{
 	position: relative;
 	padding: 0 0 20px;
 }
 .checkbox-list li:before,
-.user-content .checkbox-list li:before,
+.main .checkbox-list li:before,
 .radio-list li:before,
-.user-content .radio-list li:before{ content: none; }
+.main .radio-list li:before{ content: none; }
 
 input[type="checkbox"] + label,
 input[type="radio"] + label,
@@ -1594,7 +1552,8 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 }
 .slick-arrow.slick-disabled:before{ opacity: 1; }
 
-.slick-dots{
+.slick-dots,
+.main .slick-dots{
 	padding: 0;
 	line-height: 0;
 	bottom: auto;
@@ -1602,15 +1561,15 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	margin-top: 40px;
 }
 .slick-dots li,
-.user-content .slick-dots li,
-.user-content .slick-dots li:first-child{
+.main .slick-dots li,
+.main .slick-dots li:first-child{
 	vertical-align: top;
 	padding: 4px 10px;
 	width: auto;
 	height: auto;
 	margin: 0;
 }
-.user-content .slick-dots li:before{ content: none; }
+.main .slick-dots li:before{ content: none; }
 .slick-dots li button{
 	width: 8px;
 	height: 8px;
@@ -2165,12 +2124,23 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	margin-right: 80px;
 	width: calc(600px - 10px);
 }
-.set__list{
+.set__list,
+.main .set__list {
 	display: table;
 	width: 100%;
 	table-layout: fixed;
+	padding: 0;
+	margin: 0;
 }
-.set__list li{ display: table-cell; }
+.set__list li,
+.main .set__list li,
+.main .set__list li:first-child {
+	display: table-cell;
+	position: relative;
+	padding: 0;
+}
+.main .set__list li:before,
+.main .set__list li:first-child:before{ content: normal; }
 .set__list a{
 	display: block;
 	overflow: hidden;
@@ -2820,15 +2790,23 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	color: #45b0e3;
 	font-size: 0.9em;
 	padding-top: 1.25em;
+	padding-bottom: 0;
 }
-.section-aside blockquote ul li{ padding-top: 1.25em; }
-.section-aside blockquote ul li:first-child{ padding-top: 0; }
-.section-aside blockquote ul li:before{
+.section-aside blockquote ul li { padding: 1.25em 0 0; }
+.section-aside blockquote ul li:first-child { padding-top: 0; }
+.section-aside blockquote ul li:before,
+.section-aside blockquote ul li:first-child:before{
 	content: '–';
 	position: relative;
 	display: inline-block;
 	color: #fff;
 	margin: 0 4px 0 0;
+	background: none;
+	border: none;
+	top: auto;
+	left: auto;
+	width: auto;
+	height: auto;
 }
 /*section aside end*/
 
@@ -2970,7 +2948,9 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	font-size: 0;
 	letter-spacing: -4px;
 }
-.benefits__list li{
+.benefits__list li,
+.main .benefits__list li,
+.main .benefits__list li:first-child{
 	display: inline-block;
 	vertical-align: top;
 	width: 49.98%;
@@ -2982,6 +2962,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	line-height: 1.7;
 	letter-spacing: normal;
 }
+.main .benefits__list li:before{ content: none; }
 .benefits__list li:after{
 	content: '';
 	position: absolute;
@@ -3158,11 +3139,19 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	transition: fill 0.2s;
 }
 
-.history-periods{ line-height: 1; }
-.history-periods li{
+.history-periods,
+.main .history-periods {
+	line-height: 1;
+	margin: 0;
+	padding: 0;
+}
+.history-periods li,
+.main .history-periods li,
+.main .history-periods li:first-child{
 	position: relative;
 	font-family: 'PT Serif', serif;
 	font-size: 2.8rem;
+	padding: 0;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-touch-callout: none;
@@ -3173,13 +3162,16 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 }
 .active-section .history-periods li.active{ font-weight: 700; }
 
-.history-periods li:before{
+.history-periods li:before,
+.main .history-periods li:before,
+.main .history-periods li:first-child:before{
 	content: " ";
 	position: absolute;
 	left: 0;
 	top: 50%;
 	height: 0;
 	width: 0;
+	border-radius: 0;
 	pointer-events: none;
 	border: solid transparent;
 	border-color: rgba(255, 255, 255, 0);
@@ -3197,7 +3189,9 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	-webkit-transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
 	transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
 }
-.active-section .history-periods li.active:before{
+.active-section .history-periods li.active:before,
+.main .active-section .history-periods li.active:before,
+.main .active-section .history-periods li.active:first-child:before{
 	opacity: 1;
 	-webkit-transform: translate(0, 0);
 	-ms-transform: translate(0, 0);
@@ -3926,16 +3920,26 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	vertical-align: middle;
 	height: 100%;
 }
-.products-filter__list{
+.products-filter__list,
+.main .products-filter__list{
 	display: inline-block;
 	vertical-align: middle;
 	max-width: calc(100% - 5px);
 	border: 0 solid rgba(255, 255, 255, 0.11);
 	box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.12);
+	padding: 0;
+	margin: 0;
 }
-.products-filter__list li{
+.products-filter__list li,
+.main .products-filter__list li,
+.main .products-filter__list li:first-child{
 	float: left;
 	width: 200px;
+	padding: 0;
+}
+.main .products-filter__list li:before,
+.main .products-filter__list li:first-child:before{
+	content: none;
 }
 .products-filter__list a{
 	display: block;
@@ -4274,7 +4278,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	margin: 0;
 	padding: 0 0 0.4em;
 	font-family: 'PT Serif', serif;
-	font-size: 1.2rem;
+	font-size: 1.1rem;
 	line-height: 1.4;
 	font-weight: normal;
 	letter-spacing: 0.05em;
@@ -4876,12 +4880,22 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	float: left;
 	height: 100%;
 	width: 75%;
+	margin: 0;
+	padding: 0;
 }
-.add-menu__item{
+.add-menu__item,
+.main .add-menu__item,
+.main .add-menu__item:first-child{
 	float: left;
 	position: relative;
 	height: 100%;
 	width: 33.3%;
+	padding: 0;
+	margin: 0;
+}
+.main .add-menu__item:before,
+.main .add-menu__item:first-child:before{
+	content: none;
 }
 .add-menu__inner{
 	position: absolute;
@@ -4955,18 +4969,28 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	line-height: 1.25;
 	color: #fff;
 }
-.add-menu__content ul li{
-	position: relative;
-	padding-bottom: 1em;
-	padding-left: 12px;
+.add-menu__content ul,
+.main .add-menu__content ul{
+	padding: 0;
+	margin: 0;
 }
-.add-menu__content ul li:before{
+.add-menu__content ul li,
+.main .add-menu__content ul li,
+.main .add-menu__content ul li:first-child{
+	position: relative;
+	padding: 0 0 1em 12px;
+}
+.add-menu__content ul li:before,
+.main .add-menu__content ul li:before,
+.main .add-menu__content ul li:first-child:before{
 	content: '–';
 	position: absolute;
 	left: 0;
 	top: 0;
 	height: 0;
 	width: 0;
+	border: none;
+	background: none;
 }
 /*add menu end*/
 /*footer*/
