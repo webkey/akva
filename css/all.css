@@ -2359,7 +2359,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 .card-caption{ border-width: 1px 1px 0; }
 .card-info{ border-width: 0 1px 1px; }
 .card-feature__full .card-caption,
-.card-feature__full .card-info{ border-color: rgba(255, 255, 255, 0.15); }
+.card-feature__full .card-info{ border-color: #565656; }
 
 .card-info{ width: 100%; }
 .card-info:after{
@@ -2371,8 +2371,9 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	float: left;
 	width: 40%;
 	padding: 12px 30px;
-	border: 0 solid rgba(255, 255, 255, 0.15);
-	border-top-width: 1px;
+	border: solid #565656;
+	border-width: 1px 0 0;
+	box-shadow: 1px 1px 0 #565656;
 	font-size: 0;
 	line-height: 0;
 	letter-spacing: -4px;
@@ -4014,6 +4015,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	text-align: center;
 	padding: 10px 20px;
 	line-height: 1;
+	display: none;
 }
 .lang a{
 	display: inline-block;
