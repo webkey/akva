@@ -1,3 +1,77 @@
+$(function () {
+	function setCookie(name, value, options) {
+		// https://learn.javascript.ru/cookie
+		options = options || {};
+
+		var expires = options.expires;
+
+		if (typeof expires == "number" && expires) {
+			var d = new Date();
+			d.setTime(d.getTime() + expires * 1000);
+			expires = options.expires = d;
+		}
+		if (expires && expires.toUTCString) {
+			options.expires = expires.toUTCString();
+		}
+
+		value = encodeURIComponent(value);
+
+		var updatedCookie = name + "=" + value;
+
+		for (var propName in options) {
+			updatedCookie += "; " + propName;
+			var propValue = options[propName];
+			if (propValue !== true) {
+				updatedCookie += "=" + propValue;
+			}
+		}
+
+		document.cookie = updatedCookie;
+	}
+
+	function getCookie(name) {
+		// https://learn.javascript.ru/cookie
+		var matches = document.cookie.match(new RegExp(
+			"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+		));
+		return matches ? decodeURIComponent(matches[1]) : undefined;
+	}
+
+	var proofYearsOld = getCookie('proofYearsOld');
+	var noProof = false;
+
+	if (proofYearsOld) {
+		$('.proof-js').hide();
+	}
+
+	$('body').on('click', '.proof__yes_js', function (e) {
+		e.preventDefault();
+
+		// if (noProof) { return; }
+
+		var expiresValue = ($('.proof__remember_js').prop("checked")) ? 86400 : 0;
+		// 86400c -- one day
+		setCookie('proofYearsOld', true, {
+			expires: expiresValue
+		});
+
+		setTimeout(function () {
+			$('html').addClass('hide-proof');
+		}, 700)
+	});
+
+	$('body').on('click', '.proof__no_js', function (e) {
+		e.preventDefault();
+
+		noProof = true;
+
+		var $proofMgsJs = $('.proof__mgs_js');
+		$('html').addClass('no-proof');
+		$proofMgsJs.html($proofMgsJs.data('text-no'));
+	});
+
+});
+
 /**
  *! resize only width
  * */

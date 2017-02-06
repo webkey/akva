@@ -5412,6 +5412,209 @@ li.active .side__circle:before{
 .modal__close span{ display: none; }
 /*modal window end*/
 
+/*proof*/
+.hide-proof{
+	overflow: hidden;
+}
+.proof {
+	width: 100%;
+	height: 100%;
+	padding: 82px;
+	text-align: center;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 9999;
+	overflow: hidden;
+	background: #1a212a url(../img/bg-proof.jpg) no-repeat;
+	-webkit-background-size: cover;
+	background-size: cover;
+	-webkit-transition-property: transform, opacity, visibility;
+	transition-property: transform, opacity, visibility;
+	-webkit-transition-duration: 0.4s;
+	transition-duration: 0.4s;
+}
+.hide-proof .proof{
+	-webkit-transform: translate(0, 110%);
+	-ms-transform: translate(0, 110%);
+	transform: translate(0, 110%);
+	-webkit-transition-delay: 0s, 0.4s, 0.4s;
+	transition-delay: 0s, 0.4s, 0.4s;
+}
+@media only screen and (max-width: 990px) {
+	.proof {
+		width:100%;
+		position: relative;
+		left: auto;
+		top: auto;
+		bottom: auto;
+		right: auto;
+		padding: 0;
+		margin: 0;
+		height: auto;
+		background-size: cover
+	}
+}
+.proof:before{
+	content: '';
+	position: absolute;
+	left: 50px;
+	right: 50px;
+	bottom: 50px;
+	top: 50px;
+	border: 1px solid rgba(255, 255, 255, 0.4);
+}
+.proof:after{
+	content: '';
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+}
+[class*="proof__corners"]{
+	position: absolute;
+	left: 80px;
+	right: 80px;
+	height: 10px;
+}
+.proof__corners_top{ top: 80px; }
+.proof__corners_bottom{ bottom: 80px; }
+[class*="proof__corners"]:before,
+[class*="proof__corners"]:after{
+	content: '';
+	position: absolute;
+	height: 10px;
+	width: 10px;
+	border: solid rgba(255, 255, 255, 0.4);
+}
+.proof__corners_top:before{
+	left: 0;
+	top: 0;
+	border-width: 2px 0 0 2px;
+}
+.proof__corners_top:after{
+	right: 0;
+	top: 0;
+	border-width: 2px 2px 0 0;
+}
+.proof__corners_bottom:before{
+	bottom: 0;
+	left: 0;
+	border-width: 0 0 2px 2px;
+}
+.proof__corners_bottom:after{
+	bottom: 0;
+	right: 0;
+	border-width: 0 2px 2px 0;
+}
+.proof__wrap{
+	position: relative;
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+.proof__align{
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+.proof__layout{
+	max-width: 720px;
+	padding: 20px 40px;
+	text-align: center;
+	margin: 0 auto;
+}
+.proof__logo {
+	display: block;
+	background: url(../img/logo-proof.png) no-repeat;
+	-webkit-background-size: contain;
+	background-size: contain;
+	width: 132px;
+	height: 121px;
+	margin: 0 auto 40px;
+	text-indent: -9999px;
+	overflow: hidden;
+}
+.proof__text {
+	font-size: 1.6rem;
+	line-height: 1.5;
+	letter-spacing: 0.05em;
+	color: #fff;
+	position: relative;
+	padding: 0 0 50px;
+	margin: 0 0 40px;
+}
+.proof__text:after{
+	content: '';
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	height: 0;
+	width: 100px;
+	max-width: 35%;
+	-webkit-transform: translate(-50%, 0);
+	-ms-transform: translate(-50%, 0);
+	transform: translate(-50%, 0);
+	border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+.proof__mgs{
+	font-family: 'PT Serif', serif;
+	font-size: 4.0rem;
+	line-height: 1.25;
+	color: #fff;
+	text-transform: uppercase;
+	padding: 0;
+	margin: 0 0 40px;
+}
+.proof__buttons { margin-bottom: 40px; }
+.proof__buttons [class*="btn-"]{
+	min-width: 150px;
+	margin: 0 20px;
+	font-size: 1.6rem;
+	line-height: 1.5;
+	padding: 13px 20px;
+}
+.proof__remember,
+.proof__remember label{
+	font-size: 1.6rem;
+	line-height: 1.8;
+	letter-spacing: 0.05em;
+	color: #fff;
+}
+.proof__remember input[type="checkbox"] + label>span,
+.proof__remember input[type="checkbox"] + span {
+	padding: 0 0 0 2.8em;
+}
+.proof__remember input[type="checkbox"] + label:after,
+.proof__remember input[type="checkbox"] + span>i:after{
+
+}
+.proof__remember input[type="checkbox"] + label:before,
+.proof__remember .check-label>span>i:before{
+	width: 1.8em;
+	height: 1.8em;
+	border: 2px solid #034f9c;
+	margin-top: -0.9em;
+}
+.proof__remember input[type="checkbox"] + label>span:before,
+.proof__remember input[type="checkbox"] + label>span:after,
+.proof__remember input[type="checkbox"] + span:before,
+.proof__remember input[type="checkbox"] + span:after{
+	height: 4px;
+	border-radius: 0;
+	background: #fff;
+}
+.proof__remember input[type="checkbox"]:checked + label>span:before,
+.proof__remember input[type="checkbox"]:checked + span:before{
+	width: 9px;
+	margin: -5px 0 0 4px;
+}
+.proof__remember input[type="checkbox"]:checked + label>span:after,
+.proof__remember input[type="checkbox"]:checked + span:after {
+	width: 13px;
+	margin: 0 0 0 -4px;
+}
+/*proof end*/
+
 .browserupgrade {
 	margin: 0.2em 0;
 	background: #ccc;
