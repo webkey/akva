@@ -1,4 +1,7 @@
 $(function () {
+	// external js:
+	// 1) TweetMax (widgets.js);
+
 	function setCookie(name, value, options) {
 		// https://learn.javascript.ru/cookie
 		options = options || {};
@@ -37,39 +40,159 @@ $(function () {
 		return matches ? decodeURIComponent(matches[1]) : undefined;
 	}
 
-	var proofYearsOld = getCookie('proofYearsOld');
-	var noProof = false;
+	var $proof = $('.proof-js');
 
-	if (proofYearsOld) {
-		$('.proof-js').hide();
-	}
+	if ($proof.length) {
+		var proofYearsOld = getCookie('proofYearsOld');
+		var noProof = false;
 
-	$('body').on('click', '.proof__yes_js', function (e) {
-		e.preventDefault();
+		if (proofYearsOld) {
+			$proof.fadeOut(0, function () {
+				$proof.remove();
+			});
+		}
 
-		// if (noProof) { return; }
+		$('body').on('click', '.proof__yes_js', function (e) {
+			e.preventDefault();
 
-		var expiresValue = ($('.proof__remember_js').prop("checked")) ? 86400 : 0;
-		// 86400c -- one day
-		setCookie('proofYearsOld', true, {
-			expires: expiresValue
+			// if (noProof) { return; }
+
+			var expiresValue = ($('.proof__remember_js').prop("checked")) ? 86400 : 0;
+			// 86400c -- one day
+			setCookie('proofYearsOld', true, {
+				expires: expiresValue
+			});
+
+			// setTimeout(function () {
+			// 	$('html').addClass('hide-proof');
+			// }, 700)
+
+
+
+			TweenMax.to($proof, 0.4, {
+				// yPercent: 110,
+				autoAlpha: 0,
+				delay: 0.2,
+
+				onComplete: function () {
+					$('html').addClass('hide-proof');
+					setTimeout(function () {
+						$proof.remove();
+						$('html').removeClass('hide-proof');
+					}, 5000)
+				}
+			});
+
 		});
 
-		setTimeout(function () {
-			$('html').addClass('hide-proof');
-		}, 700)
-	});
+		$('body').on('click', '.proof__no_js', function (e) {
+			e.preventDefault();
 
-	$('body').on('click', '.proof__no_js', function (e) {
-		e.preventDefault();
+			noProof = true;
 
-		noProof = true;
+			var $proofMgsJs = $('.proof__mgs_js');
+			$('html').addClass('no-proof');
+			$proofMgsJs.html($proofMgsJs.data('text-no'));
+		});
+	}
 
-		var $proofMgsJs = $('.proof__mgs_js');
-		$('html').addClass('no-proof');
-		$proofMgsJs.html($proofMgsJs.data('text-no'));
-	});
+	/*evaporation effect*/
+	(function() {
 
+		if (!$('#proof-page').length) {
+			return;
+		}
+
+		var width, height, largeHeader, canvas, ctx, circles, target, animateHeader = true;
+
+		// Main
+		initHeader();
+		addListeners();
+
+		function initHeader() {
+			width = window.innerWidth;
+			height = window.innerHeight;
+			target = {x: 0, y: height};
+
+			largeHeader = document.getElementById('proof-page');
+			largeHeader.style.height = height+'px';
+
+			canvas = document.getElementById('evaporation-canvas');
+			canvas.width = width;
+			canvas.height = height;
+			ctx = canvas.getContext('2d');
+
+			// create particles
+			circles = [];
+			for(var x = 0; x < width*0.5; x++) {
+				var c = new Circle();
+				circles.push(c);
+			}
+			animate();
+		}
+
+		// Event handling
+		function addListeners() {
+			window.addEventListener('scroll', scrollCheck);
+			window.addEventListener('resize', resize);
+		}
+
+		function scrollCheck() {
+			if(document.body.scrollTop > height) animateHeader = false;
+			else animateHeader = true;
+		}
+
+		function resize() {
+			width = window.innerWidth;
+			height = window.innerHeight;
+			largeHeader.style.height = height+'px';
+			canvas.width = width;
+			canvas.height = height;
+		}
+
+		function animate() {
+			if(animateHeader) {
+				ctx.clearRect(0,0,width,height);
+				for(var i in circles) {
+					circles[i].draw();
+				}
+			}
+			requestAnimationFrame(animate);
+		}
+
+		// Canvas manipulation
+		function Circle() {
+			var _this = this;
+
+			// constructor
+			(function() {
+				_this.pos = {};
+				init();
+				console.log(_this);
+			})();
+
+			function init() {
+				_this.pos.x = Math.random()*width;
+				_this.pos.y = height+Math.random()*100;
+				_this.alpha = 0.1+Math.random()*0.3;
+				_this.scale = 0.1+Math.random()*0.3;
+				_this.velocity = Math.random();
+			}
+
+			this.draw = function() {
+				if(_this.alpha <= 0) {
+					init();
+				}
+				_this.pos.y -= _this.velocity;
+				_this.alpha -= 0.0005;
+				ctx.beginPath();
+				ctx.arc(_this.pos.x, _this.pos.y, _this.scale*10, 0, 2 * Math.PI, false);
+				ctx.fillStyle = 'rgba(255,255,255,'+ _this.alpha+')';
+				ctx.fill();
+			};
+		}
+
+	})();
 });
 
 /**
