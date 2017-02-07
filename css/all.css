@@ -4742,6 +4742,35 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	font-style: normal;
 }
 
+/*logo*/
+.guide__title .logo{
+	display: block;
+	width: 100px;
+	height: 37px;
+	margin: 0 auto;
+	font-size: 1px;
+}
+.guide__title .logo > span{
+	display: block;
+	overflow: hidden;
+	background: url(../img/logo.svg) no-repeat 50% 50%;
+	-webkit-background-size: contain;
+	background-size: contain;
+	height: 14em;
+	margin-bottom: 8em;
+	text-indent: -9999px;
+}
+.guide__title .logo > i{
+	display: block;
+	overflow: hidden;
+	background: url(../img/logo-text.svg) no-repeat 50% 50%;
+	-webkit-background-size: contain;
+	background-size: contain;
+	height: 7em;
+	text-indent: -9999px;
+}
+/*logo end*/
+
 .guide__content{
 	position: absolute;
 	width: 100%;
