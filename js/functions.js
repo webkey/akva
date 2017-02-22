@@ -95,7 +95,9 @@ $(function () {
 			var expiresValue = ($('.proof__remember_js').prop("checked")) ? 86400 : 0;
 			// 86400c -- one day
 			setCookie('proofYearsOld', true, {
-				expires: expiresValue
+				expires: expiresValue,
+				// domain: ".akvadiv.by",
+				path: "/"
 			});
 
 			// setTimeout(function () {
