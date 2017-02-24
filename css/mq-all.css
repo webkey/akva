@@ -90,7 +90,7 @@
 	/*SIDEBAR end*/
 
 	/*guide*/
-	.guide{ height: calc(100% - 100px); }
+	.guide{ height: calc(100% - 100px - 60px); }
 	/*guide end*/
 
 	/*ASIDE*/
@@ -323,6 +323,11 @@
 		transform: translate(-60px, -30px);
 	}
 	/*brief end*/
+
+	.main.main .dangers,
+	.main.contacts .dangers{
+		right: 260px;
+	}
 }
 
 @media only screen and (max-width: 1279px){
@@ -660,7 +665,10 @@
 		padding-top: 30px;
 		z-index: 10;
 	}
-	.card{ overflow: hidden; }
+	.card{
+		overflow: hidden;
+		height: auto;
+	}
 
 	.card-figure,
 	.card-arrows,
@@ -761,7 +769,7 @@
 	.active .card-feature__full {
 		display: block;
 		position: relative;
-		min-height: 100vh;
+		min-height: calc(100vh - 120px);
 		padding: 40px 0;
 	}
 	.full-info .card-feature__short { display: block; }
@@ -808,7 +816,8 @@
 		height: 100px;
 		font-size: 30px;
 	}
-	.main.products-card .dangers br{ display: block; }
+	.main.main .dangers,
+	.main.contacts .dangers{ right: 0; }
 	/*dangers end*/
 }
 
@@ -1121,7 +1130,10 @@
 	/*FOOTER end*/
 
 	/*dangers*/
-	.dangers{ height: 120px; }
+	.main.index .dangers,
+	.main.products-card .dangers{
+		height: 120px;
+	}
 	/*dangers end*/
 }
 
@@ -1412,7 +1424,10 @@
 	.card-arrow{ margin: 0; }
 	.card-arrow > span{ background: #fff; }
 	.card-arrow > span svg path{ fill: #024383; }
-	.active .card-feature__full { padding-bottom: 90px; }
+	.active .card-feature__full{
+		padding-bottom: 90px;
+		min-height: calc(100vh - 100px - 50px);
+	}
 	.touchevents .overlay-panel{ display: block; }
 	/*product card end*/
 
@@ -1750,18 +1765,16 @@
 
 	/*dangers*/
 	.dangers{
-		height: 100px;
 		font-size: 22px;
+	}
+	.main.index .dangers,
+	.main.products-card .dangers{
+		height: 100px;
 	}
 	.main.products-card .dangers,
 	.main.catalog .dangers{
-		height: 90px;
 		text-align: left;
-		font-size: 24px;
-	}
-	.main.products-card .dangers br,
-	.main.catalog .dangers br{
-		display: none;
+		font-size: 23px;
 	}
 	.main.products-card .dangers__holder,
 	.main.catalog .dangers__holder{
