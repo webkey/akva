@@ -2713,6 +2713,185 @@ function dangerBottom(){
 	}
 }
 /*danger to bottom end*/
+/**!
+ * map init
+ * */
+var styleMap = [{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#d3d3d3"}]},{"featureType":"transit","stylers":[{"color":"#808080"},{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"visibility":"on"},{"color":"#b3b3b3"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"road.local","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#ffffff"},{"weight":1.8}]},{"featureType":"road.local","elementType":"geometry.stroke","stylers":[{"color":"#d7d7d7"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#ebebeb"}]},{"featureType":"administrative","elementType":"geometry","stylers":[{"color":"#a7a7a7"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#efefef"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#696969"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"visibility":"on"},{"color":"#737373"}]},{"featureType":"poi","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road.arterial","elementType":"geometry.stroke","stylers":[{"color":"#d6d6d6"}]},{"featureType":"road","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"color":"#dadada"}]}];
+
+var pinMap = 'img/map-pin.png';
+
+var localObjects = [
+	[
+		{lat: 54.3301056, lng: 26.6545505}, //coordinates of marker
+		{latBias: 0.0020, lngBias: -0.05}, //bias coordinates for center map
+		pinMap, //image pin
+		12,
+		{
+			title: 'Минскводоканал',
+			address: '<b>Адрес:</b> 220088 Беларусь, Минск, ул. Пулихова д.15',
+			phone: '<b>Приёмная:</b> <div>+375 17 327 13 23</div>',
+			works: '<b>Эл. почта:</b> <div><span>Пн-Пт:</span> 10<sup>00</sup> – 20<sup>00</sup></div> <div><span>Сб-Вс:</span> 10<sup>00</sup> – 18<sup>00</sup></div>'
+		}
+	]
+];
+
+function mapsInit(){
+	if (!$('[id*="-map"]').length) {return;}
+
+	function mapCenter(index){
+		var localObject = localObjects[index];
+
+		return{
+			lat: localObject[0].lat + localObject[1].latBias,
+			lng: localObject[0].lng + localObject[1].lngBias
+		};
+	}
+
+	var mapOptions = {
+		zoom: localObjects[0][3],
+		center: mapCenter(0),
+		styles: styleMap,
+		mapTypeControl: false,
+		scaleControl: false,
+		scrollwheel: false
+	};
+
+	var markers = [],
+		elementById = [
+			document.getElementById('contacts-map'),
+			document.getElementById('shops-map')
+		];
+
+	if($(elementById[0]).length){
+		var map0 = new google.maps.Map(elementById[0], mapOptions);
+		addMarker(0,map0);
+
+		/*aligned after resize*/
+		var resizeTimer0;
+		$(window).on('resize', function () {
+			clearTimeout(resizeTimer1);
+			resizeTimer0 = setTimeout(function () {
+				moveToLocation(0,map0);
+			}, 500);
+		});
+	}
+
+	if($(elementById[1]).length){
+		var map1 = new google.maps.Map(elementById[1], mapOptions);
+		addMarker(0,map1);
+		addMarker(1,map1);
+		addMarker(2,map1);
+
+		/*aligned after resize*/
+		var resizeTimer1;
+		$(window).on('resize', function () {
+			clearTimeout(resizeTimer1);
+			resizeTimer1 = setTimeout(function () {
+				moveToLocation(0,map1);
+			}, 500);
+		});
+	}
+
+	/*change location*/
+	$('.contacts__biz a').on('click', function(e) {
+		var index = $(this).data('location');
+		deleteMarkers();
+		moveToLocation(index,map3);
+		addMarker(index,map3);
+		e.preventDefault();
+	});
+
+	/*move to location*/
+	function moveToLocation(index, map){
+		var object = localObjects[index];
+		var center = new google.maps.LatLng(mapCenter(index));
+		map.panTo(center);
+		map.setZoom(object[3]);
+	}
+
+	var infoWindow = new google.maps.InfoWindow({
+		maxWidth: 220
+	});
+
+	function addMarker(index,map) {
+		var object = localObjects[index];
+
+		var marker = new google.maps.Marker({
+			position: object[0],
+			//animation: google.maps.Animation.DROP,
+			map: map,
+			icon: object[2],
+			title: object[4].title
+		});
+
+		markers.push(marker);
+
+		function onMarkerClick() {
+			var marker = this;
+
+			infoWindow.setContent(
+				'<div class="map-popup">' +
+				'<h4>'+object[4].title+'</h4>' +
+				'<div class="map-popup__list">' +
+				'<div class="map-popup__row">'+object[4].address+'</div>' +
+				'<div class="map-popup__row">'+object[4].phone+'</div>' +
+				'<div class="map-popup__row">'+object[4].works+'</div>' +
+				'</div>' +
+				'</div>'
+			);
+
+			infoWindow.close();
+
+			infoWindow.open(map, marker);
+		}
+
+		map.addListener('click', function () {
+			infoWindow.close();
+		});
+
+		marker.addListener('click', onMarkerClick);
+	}
+
+	function setMapOnAll(map) {
+		for (var i = 0; i < markers.length; i++) {
+			markers[i].setMap(map);
+		}
+	}
+
+	function deleteMarkers() {
+		setMapOnAll(null);
+		//markers = [];
+	}
+}
+/*map init end*/
+
+/**
+ * !map info switcher
+ * */
+function mapInfoSwitcher() {
+	var isClose = false;
+	var closeClass = 'is-close';
+	var animateSpeed = 300;
+
+	$('.cont-btn-js').on('click', function () {
+		var $thisBtn = $(this);
+
+		if(!isClose) {
+			isClose = true;
+
+			$thisBtn.addClass(closeClass)
+			.parent().addClass(closeClass)
+			.find('.cont-text-js').addClass(closeClass).stop().slideUp(animateSpeed);
+		} else {
+			isClose = false
+
+			$thisBtn.removeClass(closeClass)
+			.parent().removeClass(closeClass)
+			.find('.cont-text-js').removeClass(closeClass).stop().slideDown(animateSpeed);
+		}
+	})
+}
+/*map info switcher end*/
 
 /**
  *!  ready/load/resize document
@@ -2743,6 +2922,8 @@ jQuery(document).ready(function(){
 	toggleInfo();
 	behaviorCardProductsElements();
 	dangerBottom();
+	mapsInit();
+	mapInfoSwitcher();
 
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();
