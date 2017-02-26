@@ -2693,8 +2693,8 @@ function behaviorCardProductsElements() {
 }
 /*behaviors card product elements end*/
 
-/**!
- * footer at bottom
+/**
+ * !danger to bottom
  * */
 function dangerBottom(){
 	var $dangers = $('.dangers');
@@ -2712,7 +2712,7 @@ function dangerBottom(){
 		})
 	}
 }
-/*footer at bottom end*/
+/*danger to bottom end*/
 
 /**
  *!  ready/load/resize document

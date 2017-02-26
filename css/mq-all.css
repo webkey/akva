@@ -324,7 +324,7 @@
 	}
 	/*brief end*/
 
-	.main.main .dangers,
+	.main.about .dangers,
 	.main.contacts .dangers{
 		right: 260px;
 	}
@@ -816,7 +816,7 @@
 		height: 100px;
 		font-size: 30px;
 	}
-	.main.main .dangers,
+	.main.about .dangers,
 	.main.contacts .dangers{ right: 0; }
 	/*dangers end*/
 }
@@ -1293,17 +1293,17 @@
 	/*guide end*/
 
 	/*about*/
-	.section__title,
-	.section__body,
-	.section__foot,
-	.brief{
+	.about .section__title,
+	.about .section__body,
+	.about .section__foot,
+	.about .brief{
 		visibility: visible;
 		opacity: 1;
 		-webkit-transform: translate(0, 0);
 		-ms-transform: translate(0, 0);
 		transform: translate(0, 0);
 	}
-	.section-aside{
+	.about .section-aside{
 		opacity: 1;
 		visibility: visible;
 	}
@@ -1318,7 +1318,7 @@
 		top: 50px;
 		left: 0;
 	}
-	.section-aside__align{
+	.about .section-aside__align{
 		opacity: 1;
 		visibility: visible;
 	}

@@ -1550,12 +1550,6 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	position: relative;
 	min-height: 100vh;
 }
-.index .main__holder{
-	overflow: visible;
-	position: relative;
-	min-height: 0;
-}
-.about .main__holder{ position: relative; }
 .main header{
 	position: relative;
 	height: 100vh;
@@ -2710,8 +2704,6 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 .section__body,
 .section__foot,
 .brief{
-	visibility: hidden;
-	opacity: 0;
 	-webkit-transform: translate(0, 30px);
 	-ms-transform: translate(0, 30px);
 	transform: translate(0, 30px);
@@ -2721,6 +2713,13 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	transition-duration: 0.33s;
 	-webkit-transition-timing-function: ease-out;
 	transition-timing-function: ease-out;
+}
+.about .section__title,
+.about .section__body,
+.about .section__foot,
+.about .brief{
+	visibility: hidden;
+	opacity: 0;
 }
 .animate-section .section__title,
 .no-js .section__title,
@@ -2757,12 +2756,14 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	letter-spacing: -4px;
 	text-align: center;
 	color: #fff;
-	visibility: hidden;
-	opacity: 0;
 	background: #02274d no-repeat 50% 50%;
 	-webkit-background-size: cover;
 	background-size: cover;
 	z-index: 2;
+}
+.about .section-aside{
+	visibility: hidden;
+	opacity: 0;
 }
 .no-touchevents .section-aside{ right: 17px; }
 .no-js .section-aside{
@@ -2799,7 +2800,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	-webkit-transition-duration: 0.33s;
 	transition-duration: 0.33s;
 }
-.section-aside__align{ opacity: 0; }
+.about .section-aside__align{ opacity: 0; }
 .no-js .section-aside__align{ opacity: 1; }
 .active-section .section-aside{
 	visibility: visible;
@@ -3797,15 +3798,15 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	-webkit-transition-timing-function: cubic-bezier(0.54, 0.07, 0.01, 1.08);
 	transition-timing-function: cubic-bezier(0.54, 0.07, 0.01, 1.08);
 }
-.section-aside .blockquote:before,
-.section-aside blockquote:before{
+.about .section-aside .blockquote:before,
+.about .section-aside blockquote:before{
 	opacity: 0;
 	-webkit-transform: translate(-200%, 0) scale(0.5, 1);
 	-ms-transform: translate(-200%, 0) scale(0.5, 1);
 	transform: translate(-200%, 0) scale(0.5, 1);
 }
-.section-aside .blockquote:after,
-.section-aside blockquote:after{
+.about .section-aside .blockquote:after,
+.about .section-aside blockquote:after{
 	opacity: 0;
 	-webkit-transform: translate(200%, 0) scale(0.5, 1);
 	-ms-transform: translate(200%, 0) scale(0.5, 1);
@@ -3820,14 +3821,14 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	-ms-transform: translate(0, 0) scale(1, 1);
 	transform: translate(0, 0) scale(1, 1);
 }
-.section-aside blockquote .q:before,
-.section-aside blockquote .q:after{
+.about .section-aside blockquote .q:before,
+.about .section-aside blockquote .q:after{
 	opacity: 0;
 	-webkit-transition-duration: 0.6s;
 	transition-duration: 0.6s;
 }
-.active-section blockquote .q:before,
-.active-section blockquote .q:after{
+.active-section .section-aside blockquote .q:before,
+.active-section .section-aside blockquote .q:after{
 	opacity: 1;
 	-webkit-transition-delay: 0.3s;
 	transition-delay: 0.3s;
@@ -5375,7 +5376,7 @@ li.active .side__circle:before{
 	z-index: 9999;
 	will-change: transform;
 }
-.main.main .dangers,
+.main.about .dangers,
 .main.contacts .dangers{
 	right: 320px;
 }
