@@ -4,7 +4,7 @@
 <!--[if gt IE 9]><!--> <html class="no-js" lang="ru"> <!--<![endif]-->
 <head>
 	<meta charset="UTF-8">
-	<title>Контакты</title>
+	<title>Магазины</title>
 	<!--Mobile optimized-->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="apple-mobile-web-app-capable" content="yes">
@@ -43,181 +43,79 @@
 <div class="wrapper max-wrap">
 	<div class="main contacts visible">
 		<div class="main__holder">
-			<section class="section section-contacts">
+			<section class="section section-shops">
 				<div class="section__holder">
 					<div class="section__title">
 						<div class="text-layout">
-							<h1>Контакты</h1>
+							<h1>Магазины</h1>
 						</div>
 					</div>
 					<div class="section__body">
-						<!--contacts branches-->
-						<div class="cont-branches">
-							<div class="text-layout">
-								<div class="cont-branches__list">
-									<div class="cont-branches__box">
-										<div class="cont-branches__title">Приёмная</div>
-										<div class="cont-branches__content">
-											<ul>
-												<li><a href="tel:+375176720098">+375 (17) 672-00-98</a></li>
-												<li><a href="mailto:info@akvadiv.by">info@akvadiv.by</a></li>
-											</ul>
-										</div>
-									</div>
-									<div class="cont-branches__box">
-										<div class="cont-branches__title">Отдел продаж</div>
-										<div class="cont-branches__content">
-											<ul>
-												<li><a href="tel:+375175062529">+375 (17) 506-25-29</a></li>
-												<li><a href="mailto:info@akvadiv.by">info@akvadiv.by</a></li>
-											</ul>
-										</div>
-									</div>
-									<div class="cont-branches__box">
-										<div class="cont-branches__title">Отдел ВЭД</div>
-										<div class="cont-branches__content">
-											<ul>
-												<li><a href="tel:+375175062517">+375 (17) 506-25-17</a></li>
-												<li><a href="mailto:info@akvadiv.by">info@akvadiv.by</a></li>
-											</ul>
-										</div>
-									</div>
-									<div class="cont-branches__box">
-										<div class="cont-branches__title">Региональные продажи</div>
-										<div class="cont-branches__content">
-											<ul>
-												<li><a href="tel:+375176503798">+375 (17) 650-37-98</a></li>
-												<li><a href="tel:+375176503799">+375 (17) 650-37-99</a></li>
-												<li><a href="mailto:info@akvadiv.by">info@akvadiv.by</a></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div>
+						<div class="text-layout">
+							<p class="text__description">Первыми наградами завод был отмечен еще в девятнадцатом веке на российских выставках в Санкт-Петербурге и Москве. За прошедшие годы продукция завоевала большое количество наград на различных международных выставках.</p>
 						</div>
-						<!--contacts branches end-->
 
 						<!--contacts map-->
 						<script>
-							var contactsMapObjects = [
+							var shopsMapObjects = [
 								[
-									{lat: 54.3301056, lng: 26.6545505}, //coordinates of marker
-									{latRelative: 0.0020, lngRelative: -0.05}, //bias coordinates for center map
+									{lat: 53.822648, lng: 27.5180388}, //coordinates of marker
 									'img/map-pin.png', //image pin
-									12
+									{
+										title: 'Ул. Набережная',
+										address: '<b>Адрес</b> <div>Минский район, а.г. Сеница, ул. Набережная, д. 48А</div>',
+										phone: '<b>Приёмная</b> <div><a href="tel:+375176720098">+375 176 72-00-98</a></div> <div><a href="tel:+375176720098">+375 176 72-00-98</a></div>'
+									}
+								], [
+									{lat: 53.9200091, lng: 27.571899}, //coordinates of marker
+									'img/map-pin.png', //image pin
+									{
+										title: 'Ул. В.Хоружей, д. 17',
+										address: '<b>Адрес</b> <div>г. Минск, ул. В.Хоружей, д. 17</div>',
+										phone: '<b>Приёмная</b> <div><a href="tel:+375176720098">+375 176 72-00-98</a></div>'
+									}
+								], [
+									{lat: 54.3301056, lng: 26.6545505}, //coordinates of marker
+									'img/map-pin.png', //image pin
+									{
+										title: 'Ул. Великий Гостинец',
+										address: '<b>Адрес</b> <div>г. Молодечно, ул. Великий Гостинец, д. 62-65</div>',
+										phone: '<b>Приёмная</b> <div><a href="tel:+375176720098">+375 176 72-00-98</a></div>'
+									}
 								]
 							];
 						</script>
-						<div class="contacts-map-container">
-							<div class="cont-info__wrap">
-								<div class="text-layout cont-info__holder">
-									<div class="cont-info">
-										<div class="cont-info__container cont-text-js">222315, Республика Беларусь, Минская обл., Молодечненский р-н, п/о Лебедево, д. Малиновщина, ул. Центральная, д. 22.</div>
-										<div class="cont-switcher cont-btn-js">
-											<div><span>Свернуть</span><i></i></div>
+						<div class="shops-map-container">
+							<div class="shops-info__wrap">
+								<div class="text-layout shops-info__holder">
+									<div class="shops-info shops-info-js">
+										<div class="shops-switcher shops-info-btn-js">
+											<div><span>Все магазины</span><i></i></div>
+										</div>
+										<div class="shops-info__container shops-info__container-js">
+											<div class="shops-info__item shops-info__item-js">Все магазины</div>
+											<div class="shops-info__item shops-info__item-js" data-location="0">Минский район, а.г. Сеница, ул. Набережная, д. 48А</div>
+											<div class="shops-info__item shops-info__item-js" data-location="1">г. Минск, ул. В.Хоружей, д. 17</div>
+											<div class="shops-info__item shops-info__item-js" data-location="2">г. Молодечно, ул. Великий Гостинец, д. 62-65</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="contacts-map" id="contacts-map"></div>
+							<div class="shops-map" id="shops-map" data-lat="54.1402819" data-lng="26.2517268" data-zoom="9"></div>
 						</div>
 						<!--contacts map end-->
-
-						<!--callback form-->
-						<div class="callback-form light-form">
-							<div class="text-layout">
-								<h2>Форма обратной связи</h2>
-								<p class="text__description">Задайте интересующий Вас вопрос и наш специалист свяжется с Вами в самое ближайшее время.</p>
-								<form action="#" method="get">
-									<div class="form-row">
-										<div class="input-wrap js-field-effects">
-											<div class="label-holder"><label for="cf-field-01">Имя <span class="form-mark">*</span></label></div>
-											<input type="text" id="cf-field-01"/>
-											<span class="error-note">Поле обязательное для заполнения</span>
-										</div>
-										<div class="input-wrap js-field-effects">
-											<div class="label-holder"><label for="cf-field-02">Компания <span class="form-mark">*</span></label></div>
-											<input type="text" id="cf-field-02"/>
-											<span class="error-note">Поле обязательное для заполнения</span>
-										</div>
-									</div>
-									<div class="form-row">
-										<div class="input-wrap js-field-effects">
-											<div class="label-holder"><label for="cf-field-03">Телефон <span class="form-mark">*</span></label></div>
-											<input type="text" id="cf-field-03"/>
-											<span class="error-note">Поле обязательное для заполнения</span>
-										</div>
-										<div class="input-wrap js-field-effects">
-											<div class="label-holder"><label for="cf-field-04">Электронная почта <span class="form-mark">*</span></label></div>
-											<input type="email" id="cf-field-04" />
-											<span class="error-note">Поле обязательное для заполнения</span>
-										</div>
-									</div>
-									<div class="input-wrap js-field-effects">
-										<div class="label-holder hide-text"><label for="cf-field-05">Сообщение: <span class="form-mark">*</span></label></div>
-										<textarea id="cf-field-05"></textarea>
-										<span class="error-note">Поле обязательное для заполнения</span>
-									</div>
-									<div class="form-footer">
-										<div class="form-buttons">
-											<button class="btn-default btn-submit" data-label="Отправить">Отправить</button>
-										</div>
-										<div class="form-note">
-											<div class="form-note__item"><span class="form-mark">*</span> Поля обязательны для заполнения</div>
-										</div>
-									</div>
-								</form>
-							</div>
+					</div>
+				</div>
+				<div class="section-aside section-aside__shops">
+					<div class="section-aside__align">
+						<div class="blockquote">
+							<blockquote>
+								<div class="q">Завод в конце 2010 года наладил производство водки Sobieski по лицензии французской компании Belvedere S.A.</div>
+							</blockquote>
 						</div>
-						<!--callback form end-->
 					</div>
 				</div>
 			</section>
-			<!--panel-->
-			<div class="panel">
-				<div class="panel__overlay"></div>
-				<div class="panel__slider">
-					<div class="panel__frame section-aside__slider-js">
-						<!--contacts gallery-->
-						<div class="swiper-container contacts-gallery">
-							<div class="swiper-wrapper">
-								<div class="swiper-slide contacts-gallery__item">
-									<div class="swiper-zoom-container">
-										<img src="img/empty.png" data-src="img/img-contacts-01.jpg" class="swiper-lazy">
-										<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-									</div>
-								</div>
-								<div class="swiper-slide contacts-gallery__item">
-									<div class="swiper-zoom-container">
-										<img src="img/empty.png" data-src="img/img-contacts-02.jpg" class="swiper-lazy">
-										<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-									</div>
-								</div>
-								<div class="swiper-slide contacts-gallery__item">
-									<div class="swiper-zoom-container">
-										<img src="img/empty.png" data-src="img/img-contacts-03.jpg" class="swiper-lazy">
-										<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-									</div>
-								</div>
-								<div class="swiper-slide contacts-gallery__item">
-									<div class="swiper-zoom-container">
-										<img src="img/empty.png" data-src="img/img-contacts-04.jpg" class="swiper-lazy">
-										<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!--contacts gallery end-->
-						<!-- Add Pagination -->
-						<div class="swiper-pagination swiper-pagination-white"></div>
-						<!-- Add Navigation -->
-						<div class="swiper-button-prev"></div>
-						<div class="swiper-button-next"></div>
-					</div>
-					<span class="panel__switcher section-aside__switcher-js"><i>&nbsp;</i></span>
-				</div>
-			</div>
-			<!--panel end-->
 			<!--dangers-->
 			<div class="dangers">
 				<div class="max-wrap">

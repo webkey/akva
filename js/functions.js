@@ -7,7 +7,7 @@ var prevWidth = -1;
 $(window).resize(function () {
 	var currentWidth = $('body').outerWidth();
 	resizeByWidth = prevWidth != currentWidth;
-	if(resizeByWidth){
+	if (resizeByWidth) {
 		$(window).trigger('resizeByWidth');
 		prevWidth = currentWidth;
 	}
@@ -28,10 +28,115 @@ var TABLET = device.tablet();
 /**
  *! placeholder
  *  */
-function placeholderInit(){
+function placeholderInit() {
 	$('[placeholder]').placeholder();
 }
 /*placeholder end*/
+
+/**
+ * !toggle class for input on events
+ * */
+
+function inputToggleFocusClass() {
+	var $fieldWrap = $('.input-wrap');
+
+	if ($fieldWrap.length) {
+		var $inputsAll = $fieldWrap.find("input, textarea, select");
+		var _classFocus = 'input--focus';
+
+		$inputsAll.focus(function () {
+			var $thisField = $(this);
+
+			$thisField
+				.closest($fieldWrap)
+				.addClass(_classFocus);
+
+		}).blur(function () {
+			var $thisField = $(this);
+
+			$thisField
+				.closest($fieldWrap)
+				.removeClass(_classFocus);
+		});
+	}
+}
+
+function inputHasValueClass() {
+	var $fieldWrap = $('.input-wrap');
+
+	if ($fieldWrap.length) {
+		var $inputsAll = $fieldWrap.find('input[type="email"], input[type="search"], :text, textarea, select');
+		var _classHasValue = 'has--value';
+
+		function switchHasValue() {
+			var $currentField = $(this);
+			var $currentFieldWrap = $currentField.closest($fieldWrap);
+
+			$currentFieldWrap.removeClass(_classHasValue);
+
+			//first element of the select must have a value empty ("")
+			if ($currentField.val() != '') {
+				$currentFieldWrap.addClass(_classHasValue);
+			}
+		}
+
+		$.each($inputsAll, function () {
+			switchHasValue.call(this);
+		});
+
+		$inputsAll.on('change', function () {
+			switchHasValue.call(this);
+		});
+	}
+}
+
+function inputFilledClass() {
+	var $fieldWrap = $('.js-field-effects');
+
+	if ($fieldWrap.length) {
+		var $inputsAll = $fieldWrap.find('input[type="email"], input[type="search"], :text, textarea, select');
+		var _classFilled = 'input--filled';
+
+		$inputsAll.focus(function () {
+			var $thisField = $(this);
+
+			$thisField
+				.closest($fieldWrap)
+				.addClass(_classFilled);
+
+		}).blur(function () {
+			var $thisField = $(this);
+
+			if ($thisField.val() == '') {
+				$thisField
+					.closest($fieldWrap)
+					.removeClass(_classFilled);
+			}
+		});
+
+		function switchHasValue() {
+			var $currentField = $(this);
+			var $currentFieldWrap = $currentField.closest($fieldWrap);
+
+			$currentFieldWrap.removeClass(_classFilled);
+
+			//first element of the select must have a value empty ("")
+			if ($currentField.val() != '') {
+				$currentFieldWrap.addClass(_classFilled);
+			}
+		}
+
+		$.each($inputsAll, function () {
+			switchHasValue.call(this);
+		});
+
+		$inputsAll.on('change', function () {
+			switchHasValue.call(this);
+		});
+	}
+}
+
+/*toggle class for input on events end*/
 
 $(function () {
 	// external js:
@@ -105,7 +210,6 @@ $(function () {
 			// }, 700)
 
 
-
 			TweenMax.to($proof, 0.4, {
 				// yPercent: 110,
 				autoAlpha: 0,
@@ -134,7 +238,7 @@ $(function () {
 	}
 
 	/*evaporation effect*/
-	(function() {
+	(function () {
 
 		if (!$('#proof-page').length) {
 			return;
@@ -152,7 +256,7 @@ $(function () {
 			target = {x: 0, y: height};
 
 			largeHeader = document.getElementById('proof-page');
-			largeHeader.style.height = height+'px';
+			largeHeader.style.height = height + 'px';
 
 			canvas = document.getElementById('evaporation-canvas');
 			canvas.width = width;
@@ -161,7 +265,7 @@ $(function () {
 
 			// create particles
 			circles = [];
-			for(var x = 0; x < width*0.5; x++) {
+			for (var x = 0; x < width * 0.5; x++) {
 				var c = new Circle();
 				circles.push(c);
 			}
@@ -175,22 +279,22 @@ $(function () {
 		}
 
 		function scrollCheck() {
-			if(document.body.scrollTop > height) animateHeader = false;
+			if (document.body.scrollTop > height) animateHeader = false;
 			else animateHeader = true;
 		}
 
 		function resize() {
 			width = window.innerWidth;
 			height = window.innerHeight;
-			largeHeader.style.height = height+'px';
+			largeHeader.style.height = height + 'px';
 			canvas.width = width;
 			canvas.height = height;
 		}
 
 		function animate() {
-			if(animateHeader) {
-				ctx.clearRect(0,0,width,height);
-				for(var i in circles) {
+			if (animateHeader) {
+				ctx.clearRect(0, 0, width, height);
+				for (var i in circles) {
 					circles[i].draw();
 				}
 			}
@@ -202,29 +306,29 @@ $(function () {
 			var _this = this;
 
 			// constructor
-			(function() {
+			(function () {
 				_this.pos = {};
 				init();
 				// console.log(_this);
 			})();
 
 			function init() {
-				_this.pos.x = Math.random()*width;
-				_this.pos.y = height+Math.random()*100;
-				_this.alpha = 0.1+Math.random()*0.3;
-				_this.scale = 0.1+Math.random()*0.3;
+				_this.pos.x = Math.random() * width;
+				_this.pos.y = height + Math.random() * 100;
+				_this.alpha = 0.1 + Math.random() * 0.3;
+				_this.scale = 0.1 + Math.random() * 0.3;
 				_this.velocity = Math.random();
 			}
 
-			this.draw = function() {
-				if(_this.alpha <= 0) {
+			this.draw = function () {
+				if (_this.alpha <= 0) {
 					init();
 				}
 				_this.pos.y -= _this.velocity;
 				_this.alpha -= 0.0005;
 				ctx.beginPath();
-				ctx.arc(_this.pos.x, _this.pos.y, _this.scale*10, 0, 2 * Math.PI, false);
-				ctx.fillStyle = 'rgba(255,255,255,'+ _this.alpha+')';
+				ctx.arc(_this.pos.x, _this.pos.y, _this.scale * 10, 0, 2 * Math.PI, false);
+				ctx.fillStyle = 'rgba(255,255,255,' + _this.alpha + ')';
 				ctx.fill();
 			};
 		}
@@ -232,20 +336,20 @@ $(function () {
 	})();
 });
 
-/**!
- *  multiselect init
+/**
+ * !multiselect init
  * */
 /*! add ui position add class */
-function addPositionClass(position, feedback, obj){
+function addPositionClass(position, feedback, obj) {
 	removePositionClass(obj);
-	obj.css( position );
+	obj.css(position);
 	obj
-		.addClass( feedback.vertical )
-		.addClass( feedback.horizontal );
+		.addClass(feedback.vertical)
+		.addClass(feedback.horizontal);
 }
 
 /*! add ui position remove class */
-function removePositionClass(obj){
+function removePositionClass(obj) {
 	obj.removeClass('top');
 	obj.removeClass('bottom');
 	obj.removeClass('center');
@@ -253,13 +357,13 @@ function removePositionClass(obj){
 	obj.removeClass('right');
 }
 
-function customSelect(select){
-	if ( select.length ) {
+function customSelect(select) {
+	if (select.length) {
 		selectArray = [];
-		select.each(function(selectIndex, selectItem){
+		select.each(function (selectIndex, selectItem) {
 			var placeholderText = $(selectItem).attr('data-placeholder');
 			var flag = true;
-			if ( placeholderText === undefined ) {
+			if (placeholderText === undefined) {
 				placeholderText = $(selectItem).find(':selected').html();
 				flag = false;
 			}
@@ -275,7 +379,7 @@ function customSelect(select){
 				noneSelectedText: placeholderText,
 				show: ['fade', 100],
 				hide: ['fade', 100],
-				create: function(event){
+				create: function (event) {
 					var select = $(this);
 					var button = $(this).multiselect('getButton');
 					var widget = $(this).multiselect('widget');
@@ -285,7 +389,7 @@ function customSelect(select){
 					widget.find('.ui-multiselect-checkboxes li:last')
 						.addClass('last')
 						.siblings().removeClass('last');
-					if ( flag ) {
+					if (flag) {
 						$(selectItem).multiselect('uncheckAll');
 						$(selectItem)
 							.multiselect('widget')
@@ -295,14 +399,14 @@ function customSelect(select){
 							.removeAttr('checked');
 					}
 				},
-				selectedText: function(number, total, checked){
+				selectedText: function (number, total, checked) {
 					var checkedText = checked[0].title;
 					return checkedText;
 				},
 				position: {
 					my: 'left top',
 					at: 'left bottom',
-					using: function( position, feedback ) {
+					using: function (position, feedback) {
 						addPositionClass(position, feedback, $(this));
 					}
 				}
@@ -312,16 +416,16 @@ function customSelect(select){
 	}
 }
 
-function selectResize(){
-	if ( selectArray.length ) {
-		$.each(selectArray, function(i, el){
+function selectResize() {
+	if (selectArray.length) {
+		$.each(selectArray, function (i, el) {
 			var checked = $(el).multiselect('getChecked');
 			var flag = true;
-			if ( !checked.length ) {
+			if (!checked.length) {
 				flag = false
 			}
 			$(el).multiselect('refresh');
-			if ( !flag ) {
+			if (!flag) {
 				$(el).multiselect('uncheckAll');
 				$(el)
 					.multiselect('widget')
@@ -351,7 +455,7 @@ function printShow() {
  *! parallax on mousemove
  * */
 (function () {
-	var ParallaxJs = function (setting){
+	var ParallaxJs = function (setting) {
 		var options = $.extend({
 			parallaxElement: null,
 			parallaxArea: null,
@@ -370,13 +474,15 @@ function printShow() {
 	};
 
 	// from http://www.sberry.me/articles/javascript-event-throttling-debouncing
-	ParallaxJs.prototype.throttle = function(fn, delay) {
+	ParallaxJs.prototype.throttle = function (fn, delay) {
 		var allowSample = true;
 
-		return function(e) {
+		return function (e) {
 			if (allowSample) {
 				allowSample = false;
-				setTimeout(function() { allowSample = true; }, delay);
+				setTimeout(function () {
+					allowSample = true;
+				}, delay);
 				fn(e);
 			}
 		};
@@ -397,9 +503,9 @@ function printShow() {
 		//parallaxElement.style.WebkitTransition = '-webkit-transform 0.4s';
 		//parallaxElement.style.transition = 'transform 0.4s';
 
-		area.addEventListener('mousemove', self.throttle(function(ev) {
+		area.addEventListener('mousemove', self.throttle(function (ev) {
 			var offsetLeftArea = area.getBoundingClientRect().left;
-			var transX = - (120 + ev.clientX - offsetLeftArea - area.offsetWidth / 2) / delta;
+			var transX = -(120 + ev.clientX - offsetLeftArea - area.offsetWidth / 2) / delta;
 			// var transX = 50/(win.width) * ev.clientX - 0;
 			// xVal = -1/(win.height/2)*ev.clientY + 1,
 			// yVal = 1/(win.width/2)*ev.clientX - 1,
@@ -542,7 +648,7 @@ function mainSlider() {
 			msGoToNextSlide($currentSlider, length);
 		}
 
-		switchSlide($currentSlider,$tab,index);
+		switchSlide($currentSlider, $tab, index);
 
 		return index;
 	});
@@ -551,7 +657,7 @@ function mainSlider() {
 		var $currentSlider = $(event.target);
 		index = slideIndex;
 
-		switchSlide($currentSlider,$tab,index, bool);
+		switchSlide($currentSlider, $tab, index, bool);
 
 		return index;
 	});
@@ -564,12 +670,12 @@ function mainSlider() {
 			alert('Hashtag invalid. Selected first element');
 
 			index = initIndex;
-			switchSlide($currentSlider,$tab,index);
+			switchSlide($currentSlider, $tab, index);
 
 			return index;
 		}
 
-		switchSlide($currentSlider,$tab,index);
+		switchSlide($currentSlider, $tab, index);
 
 		return index;
 	});
@@ -618,7 +724,7 @@ function mainSlider() {
 		});
 
 		//detect the 'popstate' event - e.g. user clicking the back button
-		$(window).on('popstate', function() {
+		$(window).on('popstate', function () {
 			var tag = window.location.hash.substring(1);
 
 			if (tag === "") {
@@ -633,13 +739,13 @@ function mainSlider() {
 		});
 	}
 
-	function switchSlide(slider,tab,index, bool) {
+	function switchSlide(slider, tab, index, bool) {
 		var length = slider.find(descript).length;
 
 		// if property "index" length class added
 		// else class removed
-		if (Array.isArray(tab)){
-			for(var i = 0; i < tab.length; i++) {
+		if (Array.isArray(tab)) {
+			for (var i = 0; i < tab.length; i++) {
 
 				indexNext = (index < length - 1) ? index + 1 : 0;
 				indexPrev = (index >= 0) ? index - 1 : length - 1;
@@ -662,7 +768,7 @@ function mainSlider() {
 				.siblings().removeClass(activeClass);
 		}
 
-		slidesCounter(slider,index,length);
+		slidesCounter(slider, index, length);
 
 		var tag = $(descript).eq(index).data('tag');
 
@@ -730,7 +836,7 @@ function mainSlider() {
 /**
  *! info bar toggle
  * */
-function classToggle() {
+function infobarToggle() {
 	var $html = $('html');
 	var activeClassSidebar = "sidebar-show";
 	var activeClassInfoBar = "info-bar-show";
@@ -797,7 +903,7 @@ function classToggle() {
 			item: 'li',
 			drop: 'ul',
 			alwaysForTouch: false // always add hover class for touch devices
-		},settings || {});
+		}, settings || {});
 
 		var self = this;
 		self.options = options;
@@ -834,29 +940,31 @@ function classToggle() {
 
 		if (Modernizr.touchevents) {
 
-			$container.on('click', ''+item+'', function (e) {
+			$container.on('click', '' + item + '', function (e) {
 				var $currentAnchor = $(this);
 				var currentItem = $currentAnchor.closest($item);
 
-				if (currentItem.has(self.$drop).length && !self._alwaysForTouch){ return; }
-
-				e.stopPropagation();
-
-				if (currentItem.hasClass(_hover)){
-					currentItem.removeClass(_hover).find('.'+_hover+'').removeClass(_hover);
+				if (currentItem.has(self.$drop).length && !self._alwaysForTouch) {
 					return;
 				}
 
-				$('.'+_hover+'').not($currentAnchor.parents('.'+_hover+''))
+				e.stopPropagation();
+
+				if (currentItem.hasClass(_hover)) {
+					currentItem.removeClass(_hover).find('.' + _hover + '').removeClass(_hover);
+					return;
+				}
+
+				$('.' + _hover + '').not($currentAnchor.parents('.' + _hover + ''))
 					.removeClass(_hover)
-					.find('.'+_hover+'')
+					.find('.' + _hover + '')
 					.removeClass(_hover);
 				currentItem.addClass(_hover);
 
 				e.preventDefault();
 			});
 
-			$container.on('click', ''+self.options.drop+'', function (e) {
+			$container.on('click', '' + self.options.drop + '', function (e) {
 				e.stopPropagation();
 			});
 
@@ -865,7 +973,7 @@ function classToggle() {
 			});
 
 		} else {
-			$container.on('mouseenter', ''+item+'', function () {
+			$container.on('mouseenter', '' + item + '', function () {
 
 				var currentItem = $(this);
 
@@ -879,7 +987,7 @@ function classToggle() {
 					currentItem.prev().addClass(_hoverPrev);
 				}, 50));
 
-			}).on('mouseleave', ''+ item+'', function () {
+			}).on('mouseleave', '' + item + '', function () {
 
 				var currentItem = $(this);
 
@@ -900,7 +1008,7 @@ function classToggle() {
 
 	HoverClass.prototype.removeClassHover = function () {
 		var self = this;
-		self.$item.removeClass(self.modifiers.hover );
+		self.$item.removeClass(self.modifiers.hover);
 	};
 
 	window.HoverClass = HoverClass;
@@ -911,8 +1019,8 @@ function classToggle() {
 /**
  *! toggle hover class
  * */
-function hoverClassInit(){
-	if($('.add-menu').length){
+function hoverClassInit() {
+	if ($('.add-menu').length) {
 		new HoverClass({
 			container: '.add-menu',
 			item: '.add-menu__item',
@@ -924,7 +1032,7 @@ function hoverClassInit(){
 
 /**
  * toggle sub navigation
-* */
+ * */
 function toggleSubNav() {
 	var $mainNav = $('.main-nav'),
 		$mainNavItem = $('.main-nav a'),
@@ -981,7 +1089,7 @@ function toggleSubNav() {
 
 			if (!submenuId) return;
 
-			$currentItem = $mainNav.find('[data-submenu-id=' + submenuId +']');
+			$currentItem = $mainNav.find('[data-submenu-id=' + submenuId + ']');
 
 			clearTimeout(timeout);
 
@@ -1087,7 +1195,7 @@ function subNavState() {
 		var heightLayout = window.innerHeight - 109;
 		var $subNavItem = $subNavList.find('a');
 
-		if ( arguments[0] === false ) {
+		if (arguments[0] === false) {
 
 			$subNavItem.css('height', 'auto');
 
@@ -1201,7 +1309,7 @@ function secondNav() {
 		timeoutSetAnimate,
 		timeoutPosition;
 
-	self.initialize = function() {
+	self.initialize = function () {
 		findNavItems();
 		setScroll();
 		setActions();
@@ -1219,8 +1327,10 @@ function secondNav() {
 
 		prevScroll = scrollTop;
 
-		tweenScroll.to($scrollArea, dur, {scrollTo: {
-			y: section.position().top},
+		tweenScroll.to($scrollArea, dur, {
+			scrollTo: {
+				y: section.position().top
+			},
 			ease: Power2.easeInOut,
 			onComplete: function () {
 				sectionIsAnimated = false;
@@ -1228,8 +1338,8 @@ function secondNav() {
 		});
 	}
 
-	var setActions = function() {
-		$(nav).find('ul').on('click', "a", function(e) {
+	var setActions = function () {
+		$(nav).find('ul').on('click', "a", function (e) {
 			e.preventDefault();
 
 			var $thisItem = $(this);
@@ -1244,7 +1354,7 @@ function secondNav() {
 		})
 	};
 
-	var setScroll = function() {
+	var setScroll = function () {
 		var $initialNavItem, $whileSection, $activeSection, $currentSection, $animateSection;
 
 		$initialNavItem = $(nav).find('li').eq(0);
@@ -1257,7 +1367,7 @@ function secondNav() {
 
 		var $nextSection = sectionArr[1];
 
-		$scrollArea.on('scroll', function() {
+		$scrollArea.on('scroll', function () {
 
 			if (window.innerWidth < 767) return;
 
@@ -1295,11 +1405,11 @@ function secondNav() {
 					}
 				}
 
-				if (sectionOffset >= -(scrollAreaHeight/2)) {
+				if (sectionOffset >= -(scrollAreaHeight / 2)) {
 					$activeSection = $currentSection;
 				}
 
-				if ( sectionOffset > -1 ) {
+				if (sectionOffset > -1) {
 					$whileSection = $currentSection;
 					$nextSection = sectionArr[i + 1];
 				}
@@ -1374,10 +1484,10 @@ function secondNav() {
 		});
 	};
 
-	var findNavItems = function() {
+	var findNavItems = function () {
 		sectionArr = [];
 
-		$section.each(function() {
+		$section.each(function () {
 			var $this = $(this);
 
 			if ($this.attr("data-side-nav")) {
@@ -1409,7 +1519,7 @@ function secondNav() {
 		});
 	};
 
-	var createNavigation = function() {
+	var createNavigation = function () {
 		var navTpl = '<nav class="side"><a class="btn-side"><i></i></a><ul></ul></nav>';
 
 		$('body').append(navTpl);
@@ -1463,7 +1573,7 @@ var secondaryNav;
 		self.$switcherNavAnchor = $(options.switcherNavAnchor);
 		self.$bgImg = $(options.bgImg);
 		self.$photosSlider = $(options.photosSlider);
-		self.$showPhotosBtn= $(options.showPhotosBtn);
+		self.$showPhotosBtn = $(options.showPhotosBtn);
 		self.btnIsVisible = true;
 		self.bgImgShow = false;
 
@@ -1490,10 +1600,10 @@ var secondaryNav;
 		self.periodsFixed();
 	};
 
-	HistorySlider.prototype.initSwitcher = function() {
+	HistorySlider.prototype.initSwitcher = function () {
 		var self = this;
 
-		if(self.options.photosSlider) {
+		if (self.options.photosSlider) {
 			self.countSlides();
 		}
 		self.switchClass();
@@ -1503,10 +1613,10 @@ var secondaryNav;
 	};
 
 	// toggle content
-	HistorySlider.prototype.toggleSwitcher = function() {
+	HistorySlider.prototype.toggleSwitcher = function () {
 		var self = this;
 
-		$(document).on('click', ''+ this.options.switcherNavAnchor +'', function (e) {
+		$(document).on('click', '' + this.options.switcherNavAnchor + '', function (e) {
 			e.preventDefault();
 			var initIndex = self.currentSwitcher;
 
@@ -1540,7 +1650,7 @@ var secondaryNav;
 	};
 
 	// preparation element before animation
-	HistorySlider.prototype.preparationAnimation = function() {
+	HistorySlider.prototype.preparationAnimation = function () {
 		var self = this;
 
 		var $content = self.$switcher;
@@ -1563,7 +1673,7 @@ var secondaryNav;
 		});
 	};
 
-	HistorySlider.prototype.switchClass = function() {
+	HistorySlider.prototype.switchClass = function () {
 		var self = this;
 		var $content = self.$switcher;
 
@@ -1602,7 +1712,7 @@ var secondaryNav;
 	};
 
 	// show active content and hide other
-	HistorySlider.prototype.toggleContent = function() {
+	HistorySlider.prototype.toggleContent = function () {
 
 		var self = this;
 
@@ -1626,7 +1736,7 @@ var secondaryNav;
 			'z-index': -1
 		});
 
-		if ( arguments[0] === false ) return;
+		if (arguments[0] === false) return;
 
 		$currentPanel.css('z-index', 2);
 
@@ -1636,7 +1746,7 @@ var secondaryNav;
 	};
 
 	// change container's height
-	HistorySlider.prototype.changeHeightContainer = function() {
+	HistorySlider.prototype.changeHeightContainer = function () {
 		var self = this;
 
 		var $content = self.$switcher,
@@ -1648,7 +1758,7 @@ var secondaryNav;
 		var $activePanels = $curPanel.eq(initIndex);
 		var $activeContainer = $activePanels.closest($content);
 
-		if ( arguments[0] === false ) {
+		if (arguments[0] === false) {
 			TweenMax.to($activeContainer, animationSpeed, {
 				'height': 0
 			});
@@ -1674,7 +1784,7 @@ var secondaryNav;
 	};
 
 	/*images view toggle*/
-	HistorySlider.prototype.imagesSliderInit = function() {
+	HistorySlider.prototype.imagesSliderInit = function () {
 		var self = this;
 		var $photosSlider = self.$photosSlider;
 
@@ -1799,7 +1909,7 @@ var secondaryNav;
 						'height': $currentImageSlider.find('img').outerHeight(),
 						autoAlpha: 1,
 						onComplete: function () {
-							TweenMax.to($currentImageSlider, self.animationSpeed, { yPercent: 0});
+							TweenMax.to($currentImageSlider, self.animationSpeed, {yPercent: 0});
 						}
 					});
 
@@ -1914,8 +2024,10 @@ var secondaryNav;
 		var self = this;
 
 		if (!$scrollArea.is(':animated')) {
-			TweenMax.to($scrollArea, 0.3, {scrollTo: {
-				y: self.$section.position().top},
+			TweenMax.to($scrollArea, 0.3, {
+				scrollTo: {
+					y: self.$section.position().top
+				},
 				ease: Power2.easeInOut
 			});
 		}
@@ -1925,8 +2037,8 @@ var secondaryNav;
 
 }(jQuery));
 
-function historySwitcher(){
-	if($('.history-sliders-js').length){
+function historySwitcher() {
+	if ($('.history-sliders-js').length) {
 
 		new HistorySlider({
 			section: '.section-history-js',
@@ -1941,7 +2053,7 @@ function historySwitcher(){
 		});
 	}
 
-	if($('.awards-sliders-js').length){
+	if ($('.awards-sliders-js').length) {
 
 		new HistorySlider({
 			section: '.section-awards-js',
@@ -1956,8 +2068,6 @@ function historySwitcher(){
 		});
 	}
 }
-
-
 /*history end*/
 
 /**
@@ -1993,9 +2103,9 @@ function tabSwitcher() {
 
 	var $container = $('.foreign__panels-js');
 
-	if ( !$container.length ) return false;
+	if (!$container.length) return false;
 
-	if($main.length){
+	if ($main.length) {
 		var $anchor = $('.foreign__anchor-js'),
 			$content = $('.foreign__panel-js'),
 			activeClass = 'active',
@@ -2086,7 +2196,7 @@ function tabSwitcher() {
 						'z-index': -1
 					});
 
-					if ( arguments[0] === false ) return;
+					if (arguments[0] === false) return;
 
 					var $initialContent = $currentContent.filter('[data-id="' + initialDataAtr + '"]');
 
@@ -2106,7 +2216,7 @@ function tabSwitcher() {
 					var $currentContent = $(this);
 					var $currentContainer = $currentContent.closest($thisContainer);
 
-					if ( arguments[0] === false ) {
+					if (arguments[0] === false) {
 						TweenMax.to($currentContainer, animationHeightSpeed, {
 							'height': 0
 						});
@@ -2132,7 +2242,7 @@ function tabSwitcher() {
 			}
 
 			// toggle class active
-			function toggleActiveClass(){
+			function toggleActiveClass() {
 				$thisAnchor.removeClass(activeClass);
 				$thisContent.removeClass(activeClass);
 
@@ -2301,14 +2411,14 @@ function modalWindowInit() {
 	var $body = $('body');
 
 	// modal video
-	$('.modal-video').on('click', function() {
+	$('.modal-video').on('click', function () {
 		var href = $(this).attr('href');
 		var data = '<div class="modal"><div class="modal__overlay"></div><div class="modal__wrap"><div class="modal__align"><div class="modal__container modal__container__video"><div class="modal__video__wrap"><iframe src="' + href + '" frameborder="0" allowfullscreen></iframe></div></div></div><a class="modal__close" >Close</a></div></div>';
 
 		$body.addClass('body--no-scroll');
 		$body.append(data);
 		modalIsOpen = true;
-		$('.modal').addClass('modal--video').show(0, function() {
+		$('.modal').addClass('modal--video').show(0, function () {
 			$('.modal').addClass('modal--active');
 		});
 
@@ -2332,22 +2442,22 @@ function modalWindowInit() {
 	}
 
 	// modal img
-	$body.on('click', '.modal-img', function() {
+	$body.on('click', '.modal-img', function () {
 		return showImgModal.call(this);
 	});
 
 	// modal img in slider
-	$body.on('click', '.images-gallery .slick-current a', function() {
+	$body.on('click', '.images-gallery .slick-current a', function () {
 		return showImgModal.call(this);
 	});
 
 	// modal close on click to btn close
-	$body.on('click', '.modal__close, .modal__wrap', function() {
+	$body.on('click', '.modal__close, .modal__wrap', function () {
 		closeModalWindow();
 	});
 
 	// modal close on click to "Esc" key
-	$(document).keyup(function(e) {
+	$(document).keyup(function (e) {
 		if (modalIsOpen && e.keyCode == 27) {
 			closeModalWindow();
 		}
@@ -2363,7 +2473,7 @@ function modalWindowInit() {
 	}
 
 	// modal no close
-	$body.on('click', '.modal__video__wrap', function(e) {
+	$body.on('click', '.modal__video__wrap', function (e) {
 		e.stopPropagation();
 	});
 }
@@ -2441,9 +2551,9 @@ function filtersProducts() {
 
 	function getHashFilter() {
 		// get filter=filterName
-		var matches = location.hash.match( /filter=([^&]+)/i );
+		var matches = location.hash.match(/filter=([^&]+)/i);
 		var hashFilter = matches && matches[1];
-		return hashFilter && decodeURIComponent( hashFilter );
+		return hashFilter && decodeURIComponent(hashFilter);
 	}
 
 	// init Isotope
@@ -2451,19 +2561,19 @@ function filtersProducts() {
 
 	// bind filter button click
 	var $filterButtonGroup = $('.filter-js');
-	$filterButtonGroup.on( 'click', 'a', function(e) {
+	$filterButtonGroup.on('click', 'a', function (e) {
 		e.preventDefault();
 
-		var filterAttr = $( this ).attr('data-filter');
+		var filterAttr = $(this).attr('data-filter');
 		// set filter in hash
-		location.hash = 'filter=' + encodeURIComponent( filterAttr );
+		location.hash = 'filter=' + encodeURIComponent(filterAttr);
 	});
 
 	var isIsotopeInit = false;
 
 	function onHashchange() {
 		var hashFilter = getHashFilter();
-		if ( !hashFilter && isIsotopeInit ) {
+		if (!hashFilter && isIsotopeInit) {
 			return;
 		}
 		isIsotopeInit = true;
@@ -2488,22 +2598,22 @@ function filtersProducts() {
 		});
 
 		// set selected class on button
-		if ( hashFilter ) {
+		if (hashFilter) {
 			$filterButtonGroup.find('a').removeClass('selected');
 			$filterButtonGroup.find('[data-filter="' + hashFilter + '"]').addClass('selected');
 		}
 	}
 
 	// layout Isotope after each image loads
-	$grid.imagesLoaded().progress( function() {
+	$grid.imagesLoaded().progress(function () {
 		$grid.isotope('layout');
 	});
 
-	$grid.on( 'arrangeComplete', function() {
+	$grid.on('arrangeComplete', function () {
 		$('.main').trigger('changeSize'); // triggered function of change size the container for reinit events load images ( jQuery Unveil (widgets.js))
 	});
 
-	$(window).on( 'hashchange', onHashchange );
+	$(window).on('hashchange', onHashchange);
 
 	// trigger event handler to init Isotope
 	onHashchange();
@@ -2525,10 +2635,14 @@ function toggleInfo() {
 		e.preventDefault();
 
 		if ($(window).innerWidth() < 1200) {
-			var elementHeight = Math.max.apply(Math,$('.card-feature__short .card-caption__title').map(function(){return $(this).outerHeight(true);}).get());
+			var elementHeight = Math.max.apply(Math, $('.card-feature__short .card-caption__title').map(function () {
+				return $(this).outerHeight(true);
+			}).get());
 
-			TweenMax.to($('.main'), 0.6, {scrollTo: {
-				y: $(window).height() - elementHeight},
+			TweenMax.to($('.main'), 0.6, {
+				scrollTo: {
+					y: $(window).height() - elementHeight
+				},
 				ease: Power2.easeInOut
 			});
 
@@ -2575,7 +2689,7 @@ function behaviorCardProductsElements() {
 		}
 	});
 
-	if ($('.card').length ) {
+	if ($('.card').length) {
 		$('.ms-js').on('showedPrevSliderItem showedNextSliderItem', function () {
 			if (window.innerWidth < viewport && $('.info-js').hasClass('full-info')) {
 				if (DESKTOP) {
@@ -2627,8 +2741,8 @@ function behaviorCardProductsElements() {
 		var scrollTop = $('.main').scrollTop();
 		var windowHeight = $(window).height();
 
-		var alphaValue = (1 - ( scrollTop/windowHeight) ).toFixed(5);
-		var scaleValue = (1 - ( scrollTop * 0.3/windowHeight)).toFixed(5);
+		var alphaValue = (1 - ( scrollTop / windowHeight) ).toFixed(5);
+		var scaleValue = (1 - ( scrollTop * 0.3 / windowHeight)).toFixed(5);
 
 		alpha = (alphaValue > 0.3) ? alphaValue : 0.3;
 		scale = (scaleValue > 0.8) ? scaleValue : 0.8;
@@ -2696,9 +2810,9 @@ function behaviorCardProductsElements() {
 /**
  * !danger to bottom
  * */
-function dangerBottom(){
+function dangerBottom() {
 	var $dangers = $('.dangers');
-	if($dangers.length){
+	if ($dangers.length) {
 		var $tplSpacer = $('<div class="dangers-spacer" />');
 		$tplSpacer.insertBefore($dangers);
 		$(window).on('load resizeByWidth', function () {
@@ -2713,42 +2827,87 @@ function dangerBottom(){
 	}
 }
 /*danger to bottom end*/
-/**!
- * map init
+/**
+ *! map init
  * */
-var styleMap = [{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#d3d3d3"}]},{"featureType":"transit","stylers":[{"color":"#808080"},{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"visibility":"on"},{"color":"#b3b3b3"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"road.local","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#ffffff"},{"weight":1.8}]},{"featureType":"road.local","elementType":"geometry.stroke","stylers":[{"color":"#d7d7d7"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#ebebeb"}]},{"featureType":"administrative","elementType":"geometry","stylers":[{"color":"#a7a7a7"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#efefef"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#696969"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"visibility":"on"},{"color":"#737373"}]},{"featureType":"poi","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road.arterial","elementType":"geometry.stroke","stylers":[{"color":"#d6d6d6"}]},{"featureType":"road","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"color":"#dadada"}]}];
+var styleMap = [{
+	"featureType": "water",
+	"elementType": "geometry.fill",
+	"stylers": [{"color": "#d3d3d3"}]
+}, {"featureType": "transit", "stylers": [{"color": "#808080"}, {"visibility": "off"}]}, {
+	"featureType": "road.highway",
+	"elementType": "geometry.stroke",
+	"stylers": [{"visibility": "on"}, {"color": "#b3b3b3"}]
+}, {
+	"featureType": "road.highway",
+	"elementType": "geometry.fill",
+	"stylers": [{"color": "#ffffff"}]
+}, {
+	"featureType": "road.local",
+	"elementType": "geometry.fill",
+	"stylers": [{"visibility": "on"}, {"color": "#ffffff"}, {"weight": 1.8}]
+}, {
+	"featureType": "road.local",
+	"elementType": "geometry.stroke",
+	"stylers": [{"color": "#d7d7d7"}]
+}, {
+	"featureType": "poi",
+	"elementType": "geometry.fill",
+	"stylers": [{"visibility": "on"}, {"color": "#ebebeb"}]
+}, {
+	"featureType": "administrative",
+	"elementType": "geometry",
+	"stylers": [{"color": "#a7a7a7"}]
+}, {
+	"featureType": "road.arterial",
+	"elementType": "geometry.fill",
+	"stylers": [{"color": "#ffffff"}]
+}, {
+	"featureType": "road.arterial",
+	"elementType": "geometry.fill",
+	"stylers": [{"color": "#ffffff"}]
+}, {
+	"featureType": "landscape",
+	"elementType": "geometry.fill",
+	"stylers": [{"visibility": "on"}, {"color": "#efefef"}]
+}, {
+	"featureType": "road",
+	"elementType": "labels.text.fill",
+	"stylers": [{"color": "#696969"}]
+}, {
+	"featureType": "administrative",
+	"elementType": "labels.text.fill",
+	"stylers": [{"visibility": "on"}, {"color": "#737373"}]
+}, {"featureType": "poi", "elementType": "labels.icon", "stylers": [{"visibility": "on"}]}, {
+	"featureType": "poi",
+	"elementType": "labels",
+	"stylers": [{"visibility": "on"}]
+}, {
+	"featureType": "road.arterial",
+	"elementType": "geometry.stroke",
+	"stylers": [{"color": "#d6d6d6"}]
+}, {"featureType": "road", "elementType": "labels.icon", "stylers": [{"visibility": "off"}]}, {}, {
+	"featureType": "poi",
+	"elementType": "geometry.fill",
+	"stylers": [{"color": "#dadada"}]
+}];
 
-var pinMap = 'img/map-pin.png';
+function contactsMapInit() {
+	if (!$('[id*="contacts-map"]').length) {
+		return;
+	}
 
-var localObjects = [
-	[
-		{lat: 54.3301056, lng: 26.6545505}, //coordinates of marker
-		{latBias: 0.0020, lngBias: -0.05}, //bias coordinates for center map
-		pinMap, //image pin
-		12,
-		{
-			title: 'Минскводоканал',
-			address: '<b>Адрес:</b> 220088 Беларусь, Минск, ул. Пулихова д.15',
-			phone: '<b>Приёмная:</b> <div>+375 17 327 13 23</div>',
-			works: '<b>Эл. почта:</b> <div><span>Пн-Пт:</span> 10<sup>00</sup> – 20<sup>00</sup></div> <div><span>Сб-Вс:</span> 10<sup>00</sup> – 18<sup>00</sup></div>'
-		}
-	]
-];
+	function mapCenter(index) {
+		var localObject = contactsMapObjects[index];
 
-function mapsInit(){
-	if (!$('[id*="-map"]').length) {return;}
-
-	function mapCenter(index){
-		var localObject = localObjects[index];
-
-		return{
-			lat: localObject[0].lat + localObject[1].latBias,
-			lng: localObject[0].lng + localObject[1].lngBias
+		return {
+			lat: localObject[0].lat + localObject[1].latRelative,
+			lng: localObject[0].lng + localObject[1].lngRelative
 		};
 	}
 
 	var mapOptions = {
-		zoom: localObjects[0][3],
+		zoom: contactsMapObjects[0][3],
 		center: mapCenter(0),
 		styles: styleMap,
 		mapTypeControl: false,
@@ -2758,70 +2917,144 @@ function mapsInit(){
 
 	var markers = [],
 		elementById = [
-			document.getElementById('contacts-map'),
-			document.getElementById('shops-map')
+			document.getElementById('contacts-map')
 		];
 
-	if($(elementById[0]).length){
+	if ($(elementById[0]).length) {
 		var map0 = new google.maps.Map(elementById[0], mapOptions);
-		addMarker(0,map0);
+		addMarker(0, map0);
 
 		/*aligned after resize*/
 		var resizeTimer0;
-		$(window).on('resize', function () {
-			clearTimeout(resizeTimer1);
+		$(window).on('resize alignContactsMap', function () {
+			clearTimeout(resizeTimer0);
 			resizeTimer0 = setTimeout(function () {
-				moveToLocation(0,map0);
+				moveToLocation(0, map0);
 			}, 500);
 		});
 	}
-
-	if($(elementById[1]).length){
-		var map1 = new google.maps.Map(elementById[1], mapOptions);
-		addMarker(0,map1);
-		addMarker(1,map1);
-		addMarker(2,map1);
-
-		/*aligned after resize*/
-		var resizeTimer1;
-		$(window).on('resize', function () {
-			clearTimeout(resizeTimer1);
-			resizeTimer1 = setTimeout(function () {
-				moveToLocation(0,map1);
-			}, 500);
-		});
-	}
-
-	/*change location*/
-	$('.contacts__biz a').on('click', function(e) {
-		var index = $(this).data('location');
-		deleteMarkers();
-		moveToLocation(index,map3);
-		addMarker(index,map3);
-		e.preventDefault();
-	});
 
 	/*move to location*/
-	function moveToLocation(index, map){
-		var object = localObjects[index];
+	function moveToLocation(index, map) {
+		var object = contactsMapObjects[index];
 		var center = new google.maps.LatLng(mapCenter(index));
 		map.panTo(center);
 		map.setZoom(object[3]);
 	}
 
-	var infoWindow = new google.maps.InfoWindow({
-		maxWidth: 220
+	function addMarker(index, map) {
+		var object = contactsMapObjects[index];
+
+		var marker = new google.maps.Marker({
+			position: object[0],
+			map: map,
+			icon: object[2]
+		});
+
+		markers.push(marker);
+
+		function onMarkerClick() {
+			$(elementById[0]).parent().find('.cont-btn-js').trigger('click'); // open custom info window
+		}
+
+		marker.addListener('click', onMarkerClick);
+	}
+}
+
+function shopsMapInit() {
+	var $shopsMap = $('[id*="shops-map"]');
+
+	if (!$shopsMap.length) {
+		return;
+	}
+
+	function mapCenter() {
+		return {
+			lat: $shopsMap.data('lat'),
+			lng: $shopsMap.data('lng')
+		};
+	}
+
+	var mapOptions = {
+		zoom: $shopsMap.data('zoom'),
+		center: mapCenter(),
+		styles: styleMap,
+		mapTypeControl: false,
+		scaleControl: false,
+		scrollwheel: false
+	};
+
+	var markers = [],
+		elementById = [
+			document.getElementById('shops-map')
+		];
+
+	if ($(elementById[0]).length) {
+		var map = new google.maps.Map(elementById[0], mapOptions);
+		addMarker(0, map);
+		addMarker(1, map);
+		addMarker(2, map);
+
+		/*aligned after resize*/
+		// var resizeTimer1;
+		// $(window).on('resize', function () {
+		// 	clearTimeout(resizeTimer1);
+		// 	resizeTimer1 = setTimeout(function () {
+		// 		moveToLocation(0, map);
+		// 	}, 500);
+		// });
+	}
+
+	/*change location*/
+	$('.shops-info__item-js').on('click', function (e) {
+		e.preventDefault();
+
+		var index = $(this).data('location');
+
+		deleteMarkers();
+		if (index === undefined) {
+			addMarker(0, map);
+			addMarker(1, map);
+			addMarker(2, map);
+			showAllMarkers();
+			return;
+		}
+
+		moveToLocation(index, map);
+		addMarker(index, map);
 	});
 
-	function addMarker(index,map) {
-		var object = localObjects[index];
+	/*move to location*/
+	function moveToLocation(index, map) {
+		var object = shopsMapObjects[index];
+		var center = new google.maps.LatLng({
+			lat: object[0].lat + 0.0050,
+			lng: object[0].lng -0.08
+		});
+		map.panTo(center);
+		map.setZoom(12);
+	}
+
+	/*show all markers*/
+	function showAllMarkers() {
+		var center = new google.maps.LatLng(mapCenter());
+		map.panTo(center);
+		map.setZoom($shopsMap.data('zoom'));
+	}
+
+	var infoWindow = new google.maps.InfoWindow({
+		maxWidth: 300
+	});
+
+	function addMarker(index, map) {
+		var object = shopsMapObjects[index];
 
 		var marker = new google.maps.Marker({
 			position: object[0],
 			//animation: google.maps.Animation.DROP,
 			map: map,
-			icon: object[2],
-			title: object[4].title
+			icon: object[1],
+			title: object[2].title
 		});
 
 		markers.push(marker);
@@ -2831,11 +3064,10 @@ function mapsInit(){
 
 			infoWindow.setContent(
 				'<div class="map-popup">' +
-				'<h4>'+object[4].title+'</h4>' +
+				'<h4>' + object[2].title + '</h4>' +
 				'<div class="map-popup__list">' +
-				'<div class="map-popup__row">'+object[4].address+'</div>' +
-				'<div class="map-popup__row">'+object[4].phone+'</div>' +
-				'<div class="map-popup__row">'+object[4].works+'</div>' +
+				'<div class="map-popup__row">' + object[2].address + '</div>' +
+				'<div class="map-popup__row">' + object[2].phone + '</div>' +
 				'</div>' +
 				'</div>'
 			);
@@ -2866,45 +3098,220 @@ function mapsInit(){
 /*map init end*/
 
 /**
- * !map info switcher
+ * !contacts map info switcher
  * */
-function mapInfoSwitcher() {
+function contactsMapInfoSwitcher() {
 	var isClose = false;
 	var closeClass = 'is-close';
-	var animateSpeed = 300;
+	var animateSpeed = 150;
+	var openText = 'Свернуть';
+	var closeText = 'Развернуть';
 
-	$('.cont-btn-js').on('click', function () {
+	$('.cont-btn-js').on('click', function (e) {
+		e.preventDefault();
+
 		var $thisBtn = $(this);
 
-		if(!isClose) {
+		if (!isClose) {
 			isClose = true;
 
 			$thisBtn.addClass(closeClass)
-			.parent().addClass(closeClass)
-			.find('.cont-text-js').addClass(closeClass).stop().slideUp(animateSpeed);
+				.parent().addClass(closeClass)
+				.find('.cont-text-js').addClass(closeClass).stop().slideUp(animateSpeed)
+				.end().find('span').html(closeText);
 		} else {
-			isClose = false
+			isClose = false;
 
 			$thisBtn.removeClass(closeClass)
-			.parent().removeClass(closeClass)
-			.find('.cont-text-js').removeClass(closeClass).stop().slideDown(animateSpeed);
+				.parent().removeClass(closeClass)
+				.find('.cont-text-js').removeClass(closeClass).stop().slideDown(animateSpeed)
+				.end().find('span').html(openText);
+
+			$(window).trigger('alignContactsMap'); // align map after closed map info
 		}
+	})
+}
+/*contacts map info switcher end*/
+
+/**
+ * !shops map info switcher
+ * */
+function shopsMapInfoSwitcher() {
+	var $dropList = $('.shops-info__container-js');
+	var isClose = true;
+	var openClass = 'is-open';
+	var animateSpeed = 150;
+
+	$('.shops-info-btn-js').on('click', function (e) {
+		e.preventDefault();
+
+		var $thisBtn = $(this);
+
+		if (isClose) {
+			isClose = false;
+
+			$thisBtn.addClass(openClass)
+				.parent().addClass(openClass)
+				.find($dropList).addClass(openClass).stop().fadeIn(animateSpeed);
+		} else {
+			isClose = true;
+
+			$thisBtn.removeClass(openClass)
+				.parent().removeClass(openClass)
+				.find($dropList).removeClass(openClass).stop().fadeOut(animateSpeed);
+
+			$(window).trigger('alignContactsMap'); // align map after closed map info
+		}
+	});
+
+	$('.shops-info__item-js').on('click', function () {
+		var $thisItem = $(this);
+		var $thisBtn = $thisItem.closest('.shops-info-js').find('.shops-info-btn-js');
+		$thisBtn.find('span').html($thisItem.html());
+
+		isClose = true;
+
+		$thisBtn.removeClass(openClass)
+			.parent().removeClass(openClass)
+			.find($dropList).removeClass(openClass).stop().fadeOut(animateSpeed);
 	})
 }
 /*map info switcher end*/
 
 /**
+ * !contacts gallery
+ * */
+function contactsGallery() {
+	var swiper = new Swiper('.swiper-container', {
+		zoom: false,
+		pagination: '.swiper-pagination',
+		nextButton: '.swiper-button-next',
+		prevButton: '.swiper-button-prev',
+		paginationClickable: true,
+		// Disable preloading of all images
+		preloadImages: false,
+		// Enable lazy loading
+		lazyLoading: true,
+		loop: true
+	});
+}
+/*contacts gallery end*/
+
+/**
+ *! panel slider toggle
+ * */
+function togglePanelsSlider() {
+	var $html = $('html');
+	var $btnSwitcher = $('.section-aside__switcher-js');
+	var openClassPanels = 'panel-slider-is-open';
+	var panelIsOpen = false;
+	var overlay = '.panel__overlay';
+
+	// info bar toggle
+	$btnSwitcher.on('click', function (e) {
+		e.preventDefault();
+
+		$html.toggleClass(openClassPanels, !panelIsOpen);
+		panelIsOpen = !panelIsOpen;
+	});
+
+	// overlay toggle
+	$html.on('click', overlay, function (e) {
+		e.preventDefault();
+
+		$html.removeClass(openClassPanels);
+		panelIsOpen = false;
+	});
+
+	// $(document).on('click', function (e) {
+	// 	if (openClassPanels && !$(e.target).hasClass('section-aside__switcher-js') && !$(e.target).hasClass('section-aside__slider-js')) {
+	// 		$html.removeClass(openClassPanels);
+	// 		panelIsOpen = false;
+	// 	}
+	// })
+}
+/*panel slider toggle end*/
+
+/**
+ * !check availability scroll of main content
+ * */
+function checkScroll() {
+	$(window).on('load resize', function () {
+		$('html').toggleClass('page-has-scroll', $('.main__holder').outerHeight() > $('.main').outerHeight());
+	})
+}
+/*check availability scroll of main content end*/
+
+/**
+ * !form success for example
+ * */
+function formSuccessExample() {
+	var $form = $('.callback-form form');
+
+	if ($form.length) {
+
+		$form.submit(function (event) {
+			var $thisForm = $(this);
+
+			if ($thisForm.parent().hasClass('success-form')) return;
+
+			event.preventDefault();
+
+			testValidateForm($thisForm);
+		});
+
+		// $(':text, input[type="email"], textarea', $form).on('keyup change', function () {
+		// 	var $form = $(this).closest('form');
+		// 	if ($form.parent().hasClass('error-form')) {
+		// 		testValidateForm($form);
+		// 	}
+		// })
+
+	}
+
+	function testValidateForm(form) {
+		var $thisFormWrap = form.parent();
+
+		var $inputs = $(':text, input[type="email"], input[type="password"], textarea', form);
+
+		var inputsLength = $inputs.length;
+		var inputsHasValueLength = $inputs.filter(function () {
+			return $(this).val().length;
+		}).length;
+
+		$thisFormWrap.toggleClass('error-form', inputsLength !== inputsHasValueLength);
+		$thisFormWrap.toggleClass('success-form', inputsLength === inputsHasValueLength);
+
+		$.each($inputs, function () {
+			var $thisInput = $(this);
+			var thisInputVal = $thisInput.val();
+			var $thisInputWrap = $thisInput.parent();
+
+			$thisInput.toggleClass('error', !thisInputVal.length);
+			$thisInput.toggleClass('success', !!thisInputVal.length);
+
+			$thisInputWrap.toggleClass('error', !thisInputVal.length);
+			$thisInputWrap.toggleClass('success', !!thisInputVal.length);
+		});
+	}
+}
+/* form success for example end */
+
+/**
  *!  ready/load/resize document
  * */
 
-jQuery(document).ready(function(){
+jQuery(document).ready(function () {
 	placeholderInit();
+	// inputToggleFocusClass();
+	inputHasValueClass();
+	inputFilledClass();
 	if (!Modernizr.touchevents) {
 		customSelect($('select.cselect'));
 	}
 	printShow();
 	mainSlider();
-	classToggle();
+	infobarToggle();
 	parallaxMainSlider();
 	hoverClassInit();
 	toggleSubNav();
@@ -2922,8 +3329,14 @@ jQuery(document).ready(function(){
 	toggleInfo();
 	behaviorCardProductsElements();
 	dangerBottom();
-	mapsInit();
-	mapInfoSwitcher();
+	contactsMapInit();
+	shopsMapInit();
+	contactsMapInfoSwitcher();
+	shopsMapInfoSwitcher();
+	contactsGallery();
+	togglePanelsSlider();
+	checkScroll();
+	formSuccessExample();
 
 	if ($('.main').hasClass('about')) {
 		secondaryNav = new secondNav();
