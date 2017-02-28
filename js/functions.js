@@ -2300,53 +2300,61 @@ function imagesGalleryInit() {
 	if ($imagesGallery.length) {
 		// createBottomSpacer($imagesGallery);
 
-		$('.images-gallery__list', $imagesGallery).on('init', function (event, slick) {
-			// setTimeout(function () {
-			// 	spacerGetHeight($imagesGallery.parent().find('.section-bottom-spacer'), $imagesGallery);
-			// }, 200)
-		}).slick({
-			slidesToShow: 4,
-			slidesToScroll: 4,
-			centerMode: true,
-			variableWidth: true,
-			infinite: true,
-			speed: 300,
-			lazyLoad: 'ondemand',
-			// autoplay: true,
-			// autoplaySpeed: 8000,
-			dots: false,
-			arrows: true,
-			// initialSlide: 0,
-			responsive: [
-				{
-					breakpoint: 1920,
-					settings: {
-						slidesToShow: 4,
-						slidesToScroll: 4
+		$('.images-gallery__list', $imagesGallery).each(function () {
+			var $currentSlider = $(this);
+			var dur = 200;
+
+			var $sliderWrap = $currentSlider.closest($imagesGallery),
+				$slideTitle = $sliderWrap.find('.images-description__item');
+
+			$currentSlider.slick({
+				slidesToShow: 4,
+				slidesToScroll: 4,
+				centerMode: true,
+				variableWidth: true,
+				infinite: true,
+				speed: dur,
+				lazyLoad: 'ondemand',
+				// autoplay: true,
+				// autoplaySpeed: 8000,
+				dots: false,
+				arrows: true,
+				// initialSlide: 0,
+				responsive: [
+					{
+						breakpoint: 1920,
+						settings: {
+							slidesToShow: 4,
+							slidesToScroll: 4
+						}
+					},
+					{
+						breakpoint: 1550,
+						settings: {
+							slidesToShow: 3,
+							slidesToScroll: 3
+						}
+					},
+					{
+						breakpoint: 1270,
+						settings: {
+							slidesToShow: 2,
+							slidesToScroll: 2
+						}
+					},
+					{
+						breakpoint: 990,
+						settings: {
+							slidesToShow: 2,
+							slidesToScroll: 2
+						}
 					}
-				},
-				{
-					breakpoint: 1550,
-					settings: {
-						slidesToShow: 3,
-						slidesToScroll: 3
-					}
-				},
-				{
-					breakpoint: 1270,
-					settings: {
-						slidesToShow: 2,
-						slidesToScroll: 2
-					}
-				},
-				{
-					breakpoint: 990,
-					settings: {
-						slidesToShow: 2,
-						slidesToScroll: 2
-					}
-				}
-			]
+				]
+			}).on('beforeChange', function (event, slick, currentSlide, nextSlider) {
+				$slideTitle.hide();
+				$slideTitle.eq(nextSlider).fadeIn(dur);
+			});
+
 		});
 
 		$('body').on('click', '.images-gallery__item a', function (e) {
@@ -2900,9 +2908,16 @@ function contactsMapInit() {
 	function mapCenter(index) {
 		var localObject = contactsMapObjects[index];
 
+		var latRelative = localObject[1].latRelative;
+		var lngRelative = localObject[1].lngRelative;
+
+		if (window.innerWidth < 480) {
+			lngRelative = 0
+		}
+
 		return {
-			lat: localObject[0].lat + localObject[1].latRelative,
-			lng: localObject[0].lng + localObject[1].lngRelative
+			lat: localObject[0].lat + latRelative,
+			lng: localObject[0].lng + lngRelative
 		};
 	}
 
@@ -3028,8 +3043,10 @@ function shopsMapInit() {
 	function moveToLocation(index, map) {
 		var object = shopsMapObjects[index];
 		var center = new google.maps.LatLng({
-			lat: object[0].lat + 0.0050,
-			lng: object[0].lng -0.08
+			// lat: object[0].lat + 0.0050, // not center of map
+			// lng: object[0].lng -0.08 // not center of map
+			lat: object[0].lat,
+			lng: object[0].lng
 		});
 		map.panTo(center);
 		map.setZoom(12);

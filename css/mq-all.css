@@ -169,7 +169,7 @@
 	/*benefits section end*/
 
 	/*technologies section*/
-	.images-gallery__inner img{ max-height: 350px; }
+	.images-gallery__inner img{ height: 360px; }
 	/*technologies section end*/
 
 	/*production section*/
@@ -324,6 +324,29 @@
 		transform: translate(-60px, -30px);
 	}
 	/*brief end*/
+
+	/*panel slider*/
+	.panel, .panel__slider{ width: 260px; }
+	.panel-slider-is-open .panel__slider { width: 920px; }
+	/*panel slider end*/
+
+	/*contacts gallery*/
+	.contacts-gallery{ width: 920px; }
+	/*contacts gallery end*/
+
+	/*light form*/
+	.light-form .form-row {
+		margin-left: -30px;
+		margin-right: -30px;
+	}
+	.light-form .form-row .input-wrap {
+		padding: 0 30px;
+	}
+	.light-form .form-row .label-holder {
+		left: 30px;
+		right: 30px;
+	}
+	/*light form end*/
 
 	.main.about .dangers,
 	.main.contacts .dangers{
@@ -482,6 +505,10 @@
 	}
 	/*product card end*/
 
+	/*contacts branches*/
+	.cont-branches__box{ width: 49.98%; }
+	/*contacts branches end*/
+
 	/*SIDEBAR*/
 	/*main navigation*/
 	/*.main-nav a { padding: 7em 0 1.8em; }
@@ -530,7 +557,7 @@
 		top: 0;
 		width: 220px;
 	}
-	.no-touchevents .section-aside{ right: 0; }
+	.no-touchevents.page-has-scroll .section-aside{ right: 0; }
 	.section-aside blockquote .q { font-size: 1.6rem; }
 	.section-aside blockquote .q:before,
 	.section-aside blockquote .q:after { font-size: 8rem; }
@@ -800,6 +827,69 @@
 	/*--for device end--*/
 	/*product card end*/
 
+	/*images description*/
+	.images-description {
+		position: relative;
+		left: auto;
+		top: auto;
+		height: auto;
+		background: #f3f3f3;
+	}
+	.images-description__frame{
+		position: relative;
+		top: auto;
+		height: auto;
+		width: auto;
+		padding: 12px 0 16px;
+		color: #262626;
+		background: none;
+		-webkit-transform: translate(0, 0);
+		-ms-transform: translate(0, 0);
+		transform: translate(0, 0);
+	}
+	.images-description__content .foot{
+		height: auto;
+	}
+	.images-description__content h3{
+		font-size: 2rem;
+		color: #262626;
+	}
+	/*images description end*/
+
+	/*panel slider*/
+	.panel, .panel__slider{ width: 220px; }
+	.panel-slider-is-open .panel__slider { width: 760px; }
+	.panel__switcher {
+		width: 50px;
+		height: 50px;
+		top: 50px;
+		margin-left: -25px;
+	}
+	/*panel slider end*/
+
+	/*contacts gallery*/
+	.contacts-gallery{ width: 760px; }
+	/*contacts gallery end*/
+
+	/*contact map*/
+	.cont-info__container{
+		padding: 20px 30px;
+		max-height: calc(537px - 56px);
+	}
+	.cont-switcher{ padding: 15px 30px; }
+	/*contact map end*/
+
+	/*shops section*/
+	.section-aside__shops {
+		position: fixed;
+		right: 0;
+	}
+	.no-touchevents.page-has-scroll .section-aside__shops{ right: 17px; }
+	.shops-info__container{ max-height: calc(537px - 56px); }
+	.shops-switcher{ padding: 15px 30px; }
+	.shops-info__item{ padding: 10px 30px; }
+	/*shops section end*/
+
 	/*SIDEBAR*/
 	/*main navigation*/
 	.main-nav a { padding: 4.8em 0 1.2em; }
@@ -816,8 +906,8 @@
 		height: 100px;
 		font-size: 30px;
 	}
-	.main.about .dangers,
-	.main.contacts .dangers{ right: 0; }
+	.main.about .dangers{ right: 0; }
+	.main.contacts .dangers{ right: 220px; }
 	/*dangers end*/
 }
 
@@ -1084,6 +1174,39 @@
 		/*window's width - sidebar's width*/
 	}
 	/*sub navigation end*/
+
+	.panel{
+		position: relative;
+		left: auto !important;
+		top: auto !important;
+		right: auto !important;
+		width: 100%;
+		height: auto;
+	}
+	.panel__overlay{ display: none; }
+	.panel__switcher{ display: none; }
+	.panel__slider{
+		position: relative;
+		top: auto;
+		left: auto;
+		right: auto;
+		width: auto;
+	}
+	.contacts-gallery{
+		width: auto;
+		position: relative;
+		left: auto;
+		top: auto;
+		-webkit-transform: translate(0, 0);
+		-ms-transform: translate(0, 0);
+		transform: translate(0, 0);
+	}
+	.contacts-gallery__item:before{
+		content: '';
+		display: block;
+		height: 0;
+		padding-top: 75%;
+	}
 	/*MAIN end*/
 
 	/*guide*/
@@ -1133,6 +1256,9 @@
 	.main.index .dangers,
 	.main.products-card .dangers{
 		height: 120px;
+	}
+	.main.contacts .dangers {
+		right: 0;
 	}
 	/*dangers end*/
 }
@@ -1341,7 +1467,7 @@
 	/*water section end*/
 
 	/*technologies section*/
-	.images-gallery__inner img { max-height: 200px; }
+	.images-gallery__inner img { height: 200px; }
 	/*technologies section end*/
 
 	/*production section*/
@@ -1743,6 +1869,79 @@
 		background: #fff;
 	}
 	/*sub navigation end*/
+
+	.cont-branches__box { width: 100%; }
+	.cont-branches__title {
+		padding: 0 0 15px;
+		margin-bottom: 30px;
+	}
+	.cont-branches__box {
+		padding: 0 15px 30px;
+	}
+
+	.contacts-map-container,
+	.shops-map-container{
+		height: auto;
+		margin-bottom: 30px;
+	}
+	.contacts-map,
+	.shops-map{
+		position: relative;
+		height: 460px;
+		left: auto;
+		top: auto;
+	}
+	.cont-info__wrap, .shops-info__wrap{ height: auto; }
+	.cont-info__holder, .shops-info__holder{ padding: 0; }
+	.cont-info,
+	.shops-info{
+		position: relative;
+		left: auto;
+		top: auto;
+		width: auto;
+		background: #fff;
+		max-width: none;
+	}
+	.cont-info__container{
+		border: none;
+		max-height: none;
+	}
+	.cont-switcher{ display: none; }
+
+	.shops-switcher{ font-size: 14px; }
+	.shops-info__container{
+		max-height: 460px;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		width: 100%;
+	}
+	.shops-info__container,
+	.cont-info__container{
+		font-size: 16px;
+		line-height: 24px;
+	}
+
+	/*map popup*/
+	.map-popup{ padding: 5px; }
+	.map-popup h4{
+		padding-bottom: 10px;
+		font-size: 18px;
+		line-height: 24px;
+	}
+	.map-popup__list{
+		font-size: 14px;
+		line-height: 24px;
+	}
+	.map-popup__row{
+		padding-bottom: 6px;
+	}
+	.map-popup__row > b{
+		font-size: 16px;
+	}
+	/*map popup end*/
+
+	.callback-form { margin-bottom: 30px; }
 	/*MAIN end*/
 
 	/*SIDEBAR*/

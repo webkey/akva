@@ -911,13 +911,6 @@ input[type="radio"]:disabled + span > i:after{ background: #b9b9b9; }
 	font-size: 18px;
 	letter-spacing: normal;
 }
-@media only screen and (max-width: 639px){
-	.form-row .input-wrap{
-		display: block;
-		width: auto;
-		margin-bottom: 28px;
-	}
-}
 .label-holder{ padding: 0 0 10px; }
 .label-holder,
 label{
@@ -1399,6 +1392,21 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 }
 .light-form .input--filled .label-holder:after{
 	width: 100%;
+}
+
+
+@media only screen and (max-width: 639px){
+	.form-row .input-wrap,
+	.light-form .form-row .input-wrap{
+		display: block;
+		width: auto;
+	}
+	.form-row .input-wrap{
+		margin-bottom: 28px;
+	}
+	.light-form .form-row .input-wrap{
+		margin-bottom: 46px;
+	}
 }
 /*light form end*/
 
@@ -2960,11 +2968,26 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	background-size: cover;
 	z-index: 2;
 }
+.no-touchevents.page-has-scroll .section-aside{ right: 17px }
+.panel{
+	position: fixed;
+	right: 0;
+	top: 0;
+	height: 100%;
+	width: 320px;
+	z-index: 10200;
+}
+.no-touchevents.page-has-scroll .panel{ right: 17px }
+@media only screen and (min-width: 1920px){
+	.section-aside,
+	.panel{ right: calc(100vw - 1920px); }
+	.no-touchevents.page-has-scroll .section-aside,
+	.no-touchevents.page-has-scroll .panel{ right: calc(100vw - 1920px + 17px) }
+}
 .about .section-aside{
 	visibility: hidden;
 	opacity: 0;
 }
-.no-touchevents.page-has-scroll .section-aside{ right: 17px; }
 .no-js .section-aside{
 	position: absolute;
 	opacity: 1;
@@ -3581,7 +3604,10 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 /*history section end*/
 
 /*technologies section*/
-.images-gallery{ padding: 30px 0; }
+.images-gallery{
+	padding: 30px 0;
+	position: relative;
+}
 .images-gallery__list{ margin: 0; }
 .images-gallery__inner{
 	display: block;
@@ -3598,7 +3624,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	opacity: 1;
 	cursor: url('../img/cursor-zoom-in.png'), pointer !important;
 }
-.images-gallery__inner img{ max-height: 400px; }
+.images-gallery__inner img{ height: 400px; }
 .images-gallery__inner:after{
 	content: '';
 	position: absolute;
@@ -3627,6 +3653,71 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	transform: scale(1, 1);
 }
 .section-aside__tech{ background-image: url(../img/bg-section-aside__tech.jpg); }
+
+/*images description*/
+.images-description {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	height: 0;
+	width: 100%;
+}
+.images-description__frame{
+	overflow: hidden;
+	position: absolute;
+	top: 50%;
+	height: 300px;
+	width: 480px;
+	max-width: 100%;
+	padding: 25px 30px;
+	color: #fff;
+	background: rgba(1, 26, 51, 0.5);
+	-webkit-transform: translate(0, -50%);
+	-ms-transform: translate(0, -50%);
+	transform: translate(0, -50%);
+}
+
+.images-description__item {
+	height: 100%;
+	display: none;
+}
+
+.images-description__item:first-child {
+	display: block;
+}
+
+.images-description__content {
+	display: table;
+	height: 100%;
+}
+.images-description__content .head{
+	display: table-row-group;
+}
+.images-description__content .head .cell{
+	padding-bottom: 20px;
+}
+.images-description__content .foot{
+	display: table-footer-group;
+	height: 1%;
+}
+.images-description__content .cell{ display: table-cell; }
+.images-description__content h3{
+	font-family: 'PT Serif', serif;
+	font-weight: 400;
+	font-size: 2.4rem;
+	line-height: 1.7;
+	color: #fff;
+}
+.images-description__content p{ padding-bottom: 1em; }
+
+.images-description__content .cell > h3:last-child,
+.images-description__content .cell > p:last-child,
+.images-description__content .cell > ul:last-child,
+.images-description__content .cell > ol:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+/*images description end*/
 /*technologies section end*/
 
 /*production section*/
@@ -4258,16 +4349,19 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 
 /*contacts branches*/
 .cont-branches{
-	padding: 0 0 80px;
+	padding: 0 0 30px;
 	font-size: 0;
 	line-height: 0;
 	letter-spacing: -4px;
+}
+.cont-branches__list{
+	margin: 0 -15px;
 }
 .cont-branches__box{
 	display: inline-block;
 	vertical-align: top;
 	width: 24.98%;
-	padding-bottom: 30px;
+	padding: 0 15px 50px;
 	font-size: 1.8rem;
 	line-height: 1.4;
 	letter-spacing: normal;
@@ -4360,6 +4454,9 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	font-size: 18px;
 	line-height: 36px;
 	border-bottom: 1px solid #d9d9d9;
+	overflow-x: hidden;
+	overflow-y: auto;
+	max-height: calc(537px - 66px);
 }
 
 .cont-switcher{
@@ -4439,18 +4536,6 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	margin: -1px 0 0 -11px;
 }
 /*contacts info end*/
-
-/*section panel*/
-.panel{
-	position: fixed;
-	right: 0;
-	top: 0;
-	height: 100%;
-	width: 320px;
-	z-index: 10200;
-}
-.no-touchevents .panel{ right: 17px; }
-/*section panel end*/
 
 /*panel slider*/
 .panel__slider{
@@ -4573,6 +4658,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	-webkit-transform: translate(-50%, 0);
 	-ms-transform: translate(-50%, 0);
 	transform: translate(-50%, 0);
+	background: #024383;
 }
 .contacts-gallery__item {
 	overflow: hidden;
@@ -4668,7 +4754,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	top: 0;
 	width: 480px;
 	background: #fff;
-	max-width: 50%;
+	max-width: 70%;
 }
 
 .shops-switcher{
@@ -4765,6 +4851,7 @@ div.select-alt .ui-multiselect-checkboxes label.ui-state-active{
 	overflow-x: hidden;
 	overflow-y: auto;
 	max-height: calc(537px - 66px); /*height of map - height of btn switcher*/
+	background: #fff;
 }
 .shops-info__item{
 	padding: 12px 50px;
@@ -6277,6 +6364,8 @@ li.active .side__circle:before{
 }
 .modal__close{
 	position: absolute;
+	text-indent: -9999px;
+	overflow: hidden;
 	font-size: 1px;
 	line-height: 1;
 	width: 40px;
