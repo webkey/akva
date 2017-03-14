@@ -3303,7 +3303,7 @@ function simpleAccordInit() {
 		})
 	}
 
-	var $simpleAccordionHand = $('.simple-accordion-head-js');
+	var $simpleAccordionHand = $('.simple-accordion-js').children('a');
 
 	if ($simpleAccordionHand.length) {
 		$simpleAccordionHand.each(function () {
