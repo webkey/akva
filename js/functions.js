@@ -3287,6 +3287,36 @@ function popupInitial(){
 /*popup initial end*/
 
 /**
+ * !simple accordion
+ * */
+function simpleAccordInit() {
+	function simpleAccordion($hand, $panel, animateSpeed) {
+		if ($panel.hasClass('is-open')) {
+			$panel.toggle().prev().addClass('active');
+		}
+
+		$hand.on('click', function (e) {
+			e.preventDefault();
+
+			$(this).toggleClass('active');
+			$panel.stop().slideToggle(animateSpeed);
+		})
+	}
+
+	var $simpleAccordionHand = $('.simple-accordion-head-js');
+
+	if ($simpleAccordionHand.length) {
+		$simpleAccordionHand.each(function () {
+			var $thisHand = $(this);
+
+			simpleAccordion($thisHand, $thisHand.next(), 200);
+		})
+	}
+}
+/*simple accordion end*/
+
+
+/**
  * !form success for example
  * */
 function formSuccessExample() {
@@ -3381,6 +3411,7 @@ jQuery(document).ready(function () {
 	togglePanelsSlider();
 	checkScroll();
 	popupInitial();
+	simpleAccordInit();
 	formSuccessExample();
 
 	if ($('.main').hasClass('about')) {

@@ -6712,6 +6712,93 @@ li.active .side__circle:before{
 .no-proof .proof__buttons{ display: none; }
 /*proof end*/
 
+/*accordion*/
+.simple-accordion{
+	margin-bottom: 3rem;
+}
+.simple-accordion > a{
+	display: block;
+	padding: 16px 30px;
+	background-color: #2cb3f3;
+	font-family: 'PT Serif', serif;
+	font-size: 1.8rem;
+	line-height: 1.5;
+	font-weight: normal;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	text-decoration: none;
+	color: #fff;
+	position: relative;
+	border-top: 5px solid #fff;
+	-webkit-transition-property: background-color;
+	transition-property: background-color;
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
+}
+.no-touchevents .simple-accordion > a:hover{
+	background-color: #1c92ca;
+}
+.simple-accordion > a i{
+	position: absolute;
+	right: 30px;
+	top: 50%;
+	width: 14px;
+	height: 8px;
+	margin-top: -4px;
+	z-index: 2;
+	pointer-events: none;
+	-webkit-transition-property: -webkit-transform;
+	transition-property: transform;
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
+}
+.simple-accordion > a.active i{
+	-webkit-transform: rotate(0.5turn);
+	-ms-transform: rotate(0.5turn);
+	transform: rotate(0.5turn);
+}
+.simple-accordion > a i:before,
+.simple-accordion > a i:after{
+	content: '';
+	position: absolute;
+	bottom: 0;
+	height: 2px;
+	width: 10px;
+	border-radius: 2px;
+	background: #fff;
+}
+.simple-accordion > a i:before{
+	right: 50%;
+	-webkit-transform-origin: right bottom;-ms-transform-origin: right bottom;transform-origin: right bottom;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+.simple-accordion > a i:after{
+	left: 50%;
+	-webkit-transform-origin: left bottom;-ms-transform-origin: left bottom;transform-origin: left bottom;
+	-webkit-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+.simple-accordion > a > span{
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	-ms-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	position: relative;
+	margin-right: 25px;
+}
+.simple-accordion > a + div{
+	padding: 28px 30px;
+	display: none;
+}
+.simple-accordion > a + div > *:last-child{
+	padding-bottom: 0;
+}
+/*accordion end*/
+
 .lg-text{
 	font-size: 18px;
 }
