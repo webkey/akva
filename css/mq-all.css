@@ -1771,6 +1771,20 @@
 	.history-slider td:first-child {
 		width: 130px;
 	}
+
+    /*accordion*/
+	.simple-accordion > a{
+		padding: 12px 15px;
+		font-size: 1.6rem;
+	}
+	.simple-accordion > a i{
+		right: 15px;
+	}
+	.simple-accordion > a + div {
+		padding: 12px 15px;
+		display: none;
+	}
+    /*accordion end*/
 }
 
 @media only screen and (max-width: 479px){
