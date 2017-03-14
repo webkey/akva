@@ -1754,6 +1754,23 @@
 		max-width: 100vw;
 		max-height: 100vh;
 	}
+
+	/*inline popup*/
+	.inline-popup,
+	.inline-popup_narrow{
+		max-width: none;
+		width: auto;
+	}
+	.inline-form__text-item{
+		padding: 4px 10px;
+		display: inline-block;
+		vertical-align: top;
+	}
+	/*inline popup end*/
+
+	.history-slider td:first-child {
+		width: 130px;
+	}
 }
 
 @media only screen and (max-width: 479px){

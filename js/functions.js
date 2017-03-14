@@ -3260,6 +3260,33 @@ function checkScroll() {
 /*check availability scroll of main content end*/
 
 /**
+ * !popup initial
+ * */
+function popupInitial(){
+
+	var $inlinePopupOpener = $('.inline-popup-open-js');
+	if ($inlinePopupOpener.length) {
+		$inlinePopupOpener.magnificPopup({
+			type: 'inline',
+
+			fixedContentPos: true,
+			fixedBgPos: true,
+
+			preloader: false,
+
+			overflowY: 'auto',
+
+			midClick: true,
+			// removalDelay: 300,
+			mainClass: 'my-mfp-slide-bottom',
+
+			closeBtnInside: true
+		});
+	}
+}
+/*popup initial end*/
+
+/**
  * !form success for example
  * */
 function formSuccessExample() {
@@ -3353,6 +3380,7 @@ jQuery(document).ready(function () {
 	contactsGallery();
 	togglePanelsSlider();
 	checkScroll();
+	popupInitial();
 	formSuccessExample();
 
 	if ($('.main').hasClass('about')) {

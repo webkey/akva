@@ -88,10 +88,10 @@
 				</div>
 
 				<div class="main-slider-img">
-					<div class="main-slider-img__item ms-img-js active" style="background-image: url(img/img-bottle-01.png)"></div>
-					<div class="main-slider-img__item ms-img-js" style="background-image: url(img/img-bottle-02.png)"></div>
-					<div class="main-slider-img__item ms-img-js" style="background-image: url(img/img-bottle-01.png)"></div>
-					<div class="main-slider-img__item ms-img-js" style="background-image: url(img/img-bottle-02.png)"></div>
+					<div class="main-slider-img__item ms-img-js active" style="background-image: url(img/img-bottle-01.png)"><a href="about.html"></a></div>
+					<div class="main-slider-img__item ms-img-js" style="background-image: url(img/img-bottle-02.png)"><a href="#"></a></div>
+					<div class="main-slider-img__item ms-img-js" style="background-image: url(img/img-bottle-01.png)"><a href="#"></a></div>
+					<div class="main-slider-img__item ms-img-js" style="background-image: url(img/img-bottle-02.png)"><a href="#"></a></div>
 				</div>
 
 				<div class="main-slider-caption">
@@ -370,6 +370,9 @@
 				</a>
 			</div>
 			<div class="info-bar__item">
+				<a href="#subs-popup" class="lg-text inline-popup-open-js"><span>Подписка на рассылку</span></a>
+			</div>
+			<div class="info-bar__item">
 				<div class="developer">
 					<span class="text-inner">Программирование <br> и дизайн сайта:</span> <a href="http://astronim.by/"><span class="developer_logo">Astronim*Support</span> </a>
 				</div>
@@ -444,6 +447,28 @@
 <!--SIDEBAR-->
 
 <div class="show-panels__overlay"></div>
+
+<!--subscription-->
+<div id="subs-popup" class="mfp-hide inline-popup inline-popup_narrow zoom-anim-dialog">
+	<div class="popup-form">
+		<div class="max-wrap-md">
+			<form action="#" method="get">
+				<p><b>Подписка на рассылку</b></p>
+				<div class="input-wrap">
+					<div class="label-holder">
+						<label for="subscription-form-email">Введите Ваш email</label>
+					</div>
+					<input type="text" id="subscription-form-email" />
+					<span class="error-note" style="display: none;">Упс, ошибка :(</span>
+				</div>
+				<div class="success-text" style="display: none;">Вы подписаны на рассылку!</div>
+				<div class="form-buttons align-center">
+					<input class="btn-default" type="submit" value="Подписаться">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 
 <!--JQuery library-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
