@@ -134,6 +134,10 @@
 		padding-top: 30px;
 		margin-right: 260px;
 	}
+	div.section:before,
+	section.section:before{
+		width: 260px;
+	}
 	.about .section__holder{ padding: 30px 0; }
 	.section__foot{ padding-bottom: 40px; }
 
@@ -262,7 +266,7 @@
 	.main-nav a svg{
 		width: 2.0em;
 		height: 2.0em;
-		margin-bottom: 0.9em;
+		margin-bottom: 1.3em;
 	}
 	/*main navigation end*/
 	.btn-info_sidebar a{
@@ -326,7 +330,8 @@
 	/*brief end*/
 
 	/*panel slider*/
-	.panel, .panel__slider{ width: 260px; }
+	.panel, .panel__slider,
+	.main.simple-page .section-aside{ width: 260px; }
 	.panel-slider-is-open .panel__slider { width: 920px; }
 	/*panel slider end*/
 
@@ -349,7 +354,8 @@
 	/*light form end*/
 
 	.main.about .dangers,
-	.main.contacts .dangers{
+	.main.contacts .dangers,
+	.main.simple-page .dangers{
 		right: 260px;
 	}
 }
@@ -543,9 +549,11 @@
 	}
 
 	/*about*/
-	.section:before { content: none; }
+	div.section:before,
+	section.section:before { content: none; }
 	/*section aside*/
-	.section:before { width: 220px; }
+	div.section:before,
+	section.section:before { width: 220px; }
 	.section__holder{
 		margin-right: 220px;
 	}
@@ -857,7 +865,7 @@
 	/*images description end*/
 
 	/*panel slider*/
-	.panel, .panel__slider{ width: 220px; }
+	.panel, .panel__slider, .main.simple-page .section-aside{ width: 220px; }
 	.panel-slider-is-open .panel__slider { width: 760px; }
 	.panel__switcher {
 		width: 50px;
@@ -887,6 +895,10 @@
 	.no-touchevents.page-has-scroll .section-aside__shops{ right: 17px; }
 	.shops-info__container{ max-height: calc(537px - 56px); }
 	.shops-switcher{ padding: 15px 30px; }
+	.shops-info {
+		height: 56px;
+		top: -56px;
+	}
 	.shops-info__item{ padding: 10px 30px; }
 	/*shops section end*/
 
@@ -896,7 +908,7 @@
 	.main-nav a svg {
 		width: 3em;
 		height: 3em;
-		margin-bottom: 1em;
+		margin-bottom: 1.2em;
 	}
 	/*main navigation end*/
 	/*SIDEBAR end*/
@@ -907,7 +919,7 @@
 		font-size: 30px;
 	}
 	.main.about .dangers{ right: 0; }
-	.main.contacts .dangers{ right: 220px; }
+	.main.contacts .dangers, .main.simple-page .dangers{ right: 220px; }
 	/*dangers end*/
 }
 
@@ -947,7 +959,7 @@
 	.btn-side{ display: block; }
 	/*section aside*/
 	.section-aside{ display: none; }
-	.section{ min-height: 200px; }
+	div.section, section.section{ min-height: 200px; }
 	.section__holder { margin-right: 0; }
 	/*section aside end*/
 	/*about end*/
@@ -1175,7 +1187,8 @@
 	}
 	/*sub navigation end*/
 
-	.panel{
+	.panel,
+	.main.simple-page .section-aside{
 		position: relative;
 		left: auto !important;
 		top: auto !important;
@@ -1257,7 +1270,8 @@
 	.main.products-card .dangers{
 		height: 120px;
 	}
-	.main.contacts .dangers {
+	.main.contacts .dangers,
+	.main.simple-page .dangers {
 		right: 0;
 	}
 	/*dangers end*/
@@ -1283,6 +1297,9 @@
 		width: 50px;
 		height: 50px;
 	}
+	.main__holder {
+		min-height: calc(100vh - 50px); /*100% экрана - высота хедера*/
+	}
 	/*MAIN BLOCKS end*/
 
 	/*HEADER*/
@@ -1292,8 +1309,9 @@
 	/*MAIN*/
 	/*main slider*/
 	.index .main-slider{
-		min-height: calc(100vh - 50px);
-		height: 480px;
+		min-height: 400px;
+		/*height: 480px;*/
+		height: calc(100vh - 50px);
 	}
 
 	.main-slider-caption .main-slider__counter,
@@ -1312,10 +1330,12 @@
 	.main-slider-caption {
 		right: auto;
 		left: 50%;
-		width: 11.4em;
-		margin-left: -5.9em;
-		height: calc(5em + 40px);
+		width: 16em;
+		margin-left: calc(-16em/2);
 		top: 50px;
+	}
+	.main-slider-caption, .main-slider-title__item {
+		max-height: calc(1.2em * 5 + 40px);
 	}
 	/*.main-slider-title__item,*/
 	.main-slider-img__item{
@@ -1639,10 +1659,28 @@
 		height: auto;
 		padding: 0;
 		box-shadow: none;
+		overflow: hidden;
 	}
 	.lang{
+		float: left;
 		text-align: left;
 		padding: 13px 20px;
+	}
+	.btn-site-map{
+		float: right;
+		padding: 13px 20px;
+	}
+	.btn-site-map a{
+		background: #fff;
+		height: auto;
+		padding: 4px;
+	}
+	.btn-site-map svg{
+		width: 19px;
+		height: 19px;
+	}
+	.btn-site-map path{
+		fill: #024383
 	}
 	.logo_sidebar{ display: none; }
 
@@ -1914,6 +1952,7 @@
 	.shops-map-container{
 		height: auto;
 		margin-bottom: 30px;
+		margin-top: 0;
 	}
 	.contacts-map,
 	.shops-map{

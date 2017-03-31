@@ -2308,8 +2308,8 @@ function imagesGalleryInit() {
 				$slideTitle = $sliderWrap.find('.images-description__item');
 
 			$currentSlider.slick({
-				slidesToShow: 4,
-				slidesToScroll: 4,
+				// slidesToShow: 4,
+				// slidesToScroll: 4,
 				centerMode: true,
 				variableWidth: true,
 				infinite: true,
@@ -2324,29 +2324,29 @@ function imagesGalleryInit() {
 					{
 						breakpoint: 1920,
 						settings: {
-							slidesToShow: 4,
-							slidesToScroll: 4
+							// slidesToShow: 4,
+							// slidesToScroll: 4
 						}
 					},
 					{
 						breakpoint: 1550,
 						settings: {
-							slidesToShow: 3,
-							slidesToScroll: 3
+							// slidesToShow: 3,
+							// slidesToScroll: 3
 						}
 					},
 					{
 						breakpoint: 1270,
 						settings: {
-							slidesToShow: 2,
-							slidesToScroll: 2
+							// slidesToShow: 2,
+							// slidesToScroll: 2
 						}
 					},
 					{
 						breakpoint: 990,
 						settings: {
-							slidesToShow: 2,
-							slidesToScroll: 2
+							// slidesToShow: 2,
+							// slidesToScroll: 2
 						}
 					}
 				]
@@ -2936,15 +2936,17 @@ function contactsMapInit() {
 		];
 
 	if ($(elementById[0]).length) {
-		var map0 = new google.maps.Map(elementById[0], mapOptions);
-		addMarker(0, map0);
+		var map = new google.maps.Map(elementById[0], mapOptions);
+		for (var i = 0; i < contactsMapObjects.length; i++) {
+			addMarker(i, map);
+		}
 
 		/*aligned after resize*/
 		var resizeTimer0;
 		$(window).on('resize alignContactsMap', function () {
 			clearTimeout(resizeTimer0);
 			resizeTimer0 = setTimeout(function () {
-				moveToLocation(0, map0);
+				moveToLocation(0, map);
 			}, 500);
 		});
 	}
@@ -3006,9 +3008,10 @@ function shopsMapInit() {
 
 	if ($(elementById[0]).length) {
 		var map = new google.maps.Map(elementById[0], mapOptions);
-		addMarker(0, map);
-		addMarker(1, map);
-		addMarker(2, map);
+
+		for (var i = 0; i < shopsMapObjects.length; i++) {
+			addMarker(i, map);
+		}
 
 		/*aligned after resize*/
 		// var resizeTimer1;
@@ -3028,9 +3031,9 @@ function shopsMapInit() {
 
 		deleteMarkers();
 		if (index === undefined) {
-			addMarker(0, map);
-			addMarker(1, map);
-			addMarker(2, map);
+			for (var i = 0; i < shopsMapObjects.length; i++) {
+				addMarker(i, map);
+			}
 			showAllMarkers();
 			return;
 		}
