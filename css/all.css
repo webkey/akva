@@ -1191,13 +1191,14 @@ div.cselect .ui-multiselect-checkboxes input[type="radio"] + span:after{ content
 	padding: 0 0 48px 30px;
 }
 .file{
-	font-size: 14px;
-	line-height: 18px;
+	font-size: 1.6rem;
+	line-height: 1.3;
 	padding: 0 0 0 53px;
 	position: relative;
 	min-height: 46px;
+	margin-bottom: 1.3em;
 }
-.file__title{ padding: 5px 0 7px; }
+.file__title{ padding: 0 0 4px; }
 .file__title a{
 	text-decoration: none;
 	margin: 0 0 0 -53px;
